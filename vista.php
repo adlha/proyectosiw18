@@ -10,27 +10,27 @@
 	}
 
 	function vmostrarmenu() {
-		echo file_get_contents("menu.html");
+		echo file_get_contents("home.html");
 	}
 
-	function vmostraraltapersona() {
-		echo file_get_contents("altapersona.html");
+	function vmostraraltagrupo() {
+		echo file_get_contents("altagrupos.html");
 	}
 
 	/***********************************************
-	Función que muestra el resultado de alta de persona
+	Función que muestra el resultado de alta de grupo
 	Recibe:
 		1 --> Se ha dado de alta correctamente
-		-1 --> No se ha podido dar de alta la persona
+		-1 --> No se ha podido dar de alta la grupo
 	***********************************************/
 	function vmostrarresultadoalta($resultado) {
 		if ($resultado == 1) {
 			//Alta correcta
-			mostrarmensaje("Alta de persona", "Se ha dado de alta 
+			mostrarmensaje("Alta de grupo", "Se ha dado de alta 
 correctamente.", "", "");
 		} else {
 			//Alta erronea
-			mostrarmensaje("Alta de persona", "Se ha producido un 
+			mostrarmensaje("Alta de grupo", "Se ha producido un 
 error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto 
 con el administrador.");
 		}
@@ -38,23 +38,23 @@ con el administrador.");
 	}
 
 	/***********************************************
-	Función que muestra el listado de personas
+	Función que muestra el listado de grupos
 	Recibe:
-		Listado de personas
+		Listado de grupos
 		-1 --> Se ha producido un error
 	***********************************************/
 	function vmostrarlistado($resultado, $tipo) {
 		if ($resultado == -1) {
-			mostrarmensaje("Listado de personas", "Se ha producido 
+			mostrarmensaje("Listado de grupos", "Se ha producido 
 un error en el listado", "Vuelva a intentarlo", "Póngase en contacto con el 
 administrador");
 		} else {
 			if ($tipo == "bym") {
 				$cadena = 
-file_get_contents("listadopersonasbym.html");	
+file_get_contents("listadogruposbym.html");	
 			} else {
 				$cadena = 
-file_get_contents("listadopersonas.html");	
+file_get_contents("listadogrupos.html");	
 			}
 			
 			$trozos = explode("##fila##", $cadena);
@@ -80,18 +80,18 @@ $datos["telefono"], $aux);
 		}
 	}
 
-	function vmostrarpersona($resultado, $tipo) {
+	function vmostrargrupo($resultado, $tipo) {
 		if ($resultado == -1) {
-			mostrarmensaje("Modificar persona", "Se ha producido un 
+			mostrarmensaje("Modificar grupo", "Se ha producido un 
 error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el 
 administrador");
 		} else {
 			if ($tipo == "modificar") {
 				$aux = 
-file_get_contents("modificarpersona.html");	
+file_get_contents("modificargrupo.html");	
 			} else {
 				$aux = 
-file_get_contents("eliminarpersona.html");
+file_get_contents("eliminargrupo.html");
 			}
 			
 			$datos = $resultado->fetch_assoc();
@@ -110,27 +110,27 @@ $aux);
 		}
 	}
 
-	function vmostrarresultadomodificarpersona($resultado) {
+	function vmostrarresultadomodificargrupo($resultado) {
 		if ($resultado == 1) {
 			//Alta correcta
-			mostrarmensaje("Modificación de persona", "Se ha 
+			mostrarmensaje("Modificación de grupo", "Se ha 
 modificado correctamente.", "", "");
 		} else {
 			//Alta erronea
-			mostrarmensaje("Modificacion de persona", "Se ha 
+			mostrarmensaje("Modificacion de grupo", "Se ha 
 producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase 
 en contacto con el administrador.");
 		}		
 	}
 
-	function vmostrarresultadoborrarpersona($resultado) {
+	function vmostrarresultadoborrargrupo($resultado) {
 		if ($resultado == 1) {
 			//Alta correcta
-			mostrarmensaje("Baja de persona", "Se ha dado de baja 
+			mostrarmensaje("Baja de grupo", "Se ha dado de baja 
 correctamente.", "", "");
 		} else {
 			//Alta erronea
-			mostrarmensaje("Baja de persona", "Se ha producido un 
+			mostrarmensaje("Baja de grupo", "Se ha producido un 
 error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto 
 con el administrador.");
 		}		

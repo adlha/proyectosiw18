@@ -20,21 +20,22 @@ mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
 	}
 
 	/***********************************************
-	Función que da de alta una persona
+	Función que da de alta un grupo
 	Devuelve:
 		1 --> Se ha dado de alta correctamente
-		-1 --> No se ha podido dar de alta la persona
+		-1 --> No se ha podido dar de alta al grupo
 	***********************************************/
-	function mvalidaraltapersona() {
+	function mvalidaraltagrupo() {
 		$bd = conectarbasedatos();
 
 		$nombre = cogerparametro("nombre");
-		$apellido1 = cogerparametro("apellido1");
-		$apellido2 = cogerparametro("apellido2");
-		$telefono = cogerparametro("telefono");
+		$descripcion = cogerparametro("descripcion");
+		$debut = cogerparametro("debut");
+		$categoria = cogerparametro("categoria");
 
-		$consulta = "insert into personas (nombre, apellido1, apellido2, 
-telefono) values ('$nombre','$apellido1','$apellido2', '$telefono')";
+		$consulta = "insert into grupos (nombre, descripcion, 
+debut, id_categoria) values ('$nombre','$descripcion','$debut', 
+'$categoria')";
 
 		if ($resultado = $bd->query($consulta)) {
 			return 1;
@@ -75,17 +76,24 @@ telefono) values ('$nombre','$apellido1','$apellido2', '$telefono')";
 		}		
 	}
 
-	function mmodificarpersona() {
+	/***********************************************
+	Función que modifica los datos de un grupo
+	Devuelve:
+		 1 --> Se ha modificado correctamente 
+		-1 --> Se ha producido un error
+	***********************************************/
+	function mmodificargrupo() {
 		$bd = conectarbasedatos();
 
-		$id = cogerparametro("idpersona");
+		$id = cogerparametro("id_grupo");
 		$nombre = cogerparametro("nombre");
-		$apellido1 = cogerparametro("apellido1");
-		$apellido2 = cogerparametro("apellido2");
-		$telefono = cogerparametro("telefono");
+		$apellido1 = cogerparametro("descripcion");
+		$apellido2 = cogerparametro("debut");
+		$telefono = cogerparametro("categoria");
 
-		$consulta = "update personas set nombre = '$nombre', apellido1 = 
-'$apellido1', apellido2 = '$apellido2', telefono = '$telefono' where id = $id";
+		$consulta = "update personas set nombre = '$nombre', 
+descripcion = '$descripcion', debut = '$debut', id_categoria = '$id_categoria' 
+where id_grupo = $id";
 
 		if ($resultado = $bd->query($consulta)) {
 			return 1;

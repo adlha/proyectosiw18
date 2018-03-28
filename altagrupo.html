@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Alta grupo</title>
+</head>
+<body>
+	<form action="index.php">
+
+		Nombre : <input type="text" name="nombre"><br>
+		Descripción : <input type="text" name="descripcion"><br>
+		Año de debut : <input type="text" name="debut"><br>
+		Categoría :  <select name="categoria">
+                    ##option##
+                    <option value="##idcategoria##">##nombrecategoria##</option>
+                    ##option##
+                    </select><br>
+		
+		<input type="hidden" name="accion" value="alta">
+		<input type="hidden" name="id" value="2">
+
+		<input type="submit" value="Enviar">
+	</form>
+</body>
+</html>

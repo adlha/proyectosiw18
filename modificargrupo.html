@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Modificar grupo</title>
+</head>
+<body>
+	<form action="index.php">
+
+		Nombre : <input type="text" 
+name="nombre" value="##nombre##"><br>
+		Descripción : <input type="text" name="descripcion" 
+value="##descripcion##"><br>
+		Año de debut : <input type="text" name="debut" 
+value="##debut##"><br>
+		Categoría : <select name="categoria">
+		##option##
+		<option value="##idcategoria##">##nombrecategoria##</option>
+		##option##
+		</select><br>
+		
+		<input type="hidden" name="accion" value="bym">
+		<input type="hidden" name="id" value="3">
+		<input type="hidden" name="idgrupo" value="##id##">
+
+		<input type="submit" value="Enviar"><br>
+		<a href="listadogrupos.html">Volver</a>
+	</form>
+</body>
+</html>

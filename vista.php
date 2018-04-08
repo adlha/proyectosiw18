@@ -14,24 +14,64 @@
 	}
 
 	function vmostraraltagrupo() {
-		echo file_get_contents("altagrupos.html");
+		echo file_get_contents("altagrupo.html");
+	}
+
+	function vmostraraltacategoria() {
+		echo file_get_contents("altacategoria.html");
+	}
+
+	function vmostraraltausuario() {
+		echo file_get_contents("altausuario.html");
 	}
 
 	/***********************************************
-	Función que muestra el resultado de alta de grupo
+	Función que muestra el resultado de alta 
 	Recibe:
 		1 --> Se ha dado de alta correctamente
-		-1 --> No se ha podido dar de alta la grupo
+		-1 --> No se ha podido dar de alta
 	***********************************************/
-	function vmostrarresultadoalta($resultado) {
+	function vmostrarresultadoalta($resultado, $tipo) {
 		if ($resultado == 1) {
 			//Alta correcta
-			mostrarmensaje("Alta de grupo", "Se ha dado de alta correctamente.", "", "");
+			mostrarmensaje("Alta de $tipo", "Se ha dado de alta correctamente.", "", "");
 		} else {
 			//Alta erronea
-			mostrarmensaje("Alta de grupo", "Se ha producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto con el administrador.");
+			mostrarmensaje("Alta de $tipo", "Se ha producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto con el administrador.");
 		}
 
+	}
+
+	/***********************************************
+	Función que muestra el resultado de modificación
+	Recibe:
+		1 --> Se ha modificado correctamente
+		-1 --> No se ha podido modificar
+	***********************************************/
+	function vmostrarresultadomodificar($resultado, $tipo) {
+		if ($resultado == 1) {
+			//Alta correcta
+			mostrarmensaje("Modificación de $tipo", "Se ha modificado correctamente.", "", "");
+		} else {
+			//Alta erronea
+			mostrarmensaje("Modificacion de $tipo", "Se ha producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto con el administrador.");
+		}		
+	}
+
+	/***********************************************
+	Función que muestra el resultado de eliminar
+	Recibe:
+		1 --> Se ha eliminado correctamente
+		-1 --> No se ha podido eliminar
+	***********************************************/
+	function vmostrarresultadoborrar($resultado, $tipo) {
+		if ($resultado == 1) {
+			//Alta correcta
+			mostrarmensaje("Baja de $tipo", "Se ha dado de baja correctamente.", "", "");
+		} else {
+			//Alta erronea
+			mostrarmensaje("Baja de $tipo", "Se ha producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto con el administrador.");
+		}		
 	}
 
 	/***********************************************
@@ -40,16 +80,11 @@
 		Listado de grupos
 		-1 --> Se ha producido un error
 	***********************************************/
-	function vmostrarlistado($resultado, $tipo) {
+	function vmostrarlistadogrupos($resultado) {
 		if ($resultado == -1) {
 			mostrarmensaje("Listado de grupos", "Se ha producido un error en el listado", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
-			if ($tipo == "bym") {
-				$cadena = file_get_contents("listadogruposbym.html");	
-			} else {
-				$cadena = file_get_contents("listadogrupos.html");	
-			}
-			
+			$cadena = file_get_contents("listadogrupos.html");	
 			$trozos = explode("##fila##", $cadena);
 
 			$aux = "";
@@ -58,9 +93,9 @@
 				$aux = $trozos[1];
 				$aux = str_replace("##id##", $datos["id"], $aux);
 				$aux = str_replace("##nombre##", $datos["nombre"], $aux);
-				$aux = str_replace("##apellido1##", $datos["apellido1"], $aux);
-				$aux = str_replace("##apellido2##", $datos["apellido2"], $aux);
-				$aux = str_replace("##telefono##", $datos["telefono"], $aux);
+				$aux = str_replace("##descripcion##", $datos["descripcion"], $aux);
+				$aux = str_replace("##debut##", $datos["debut"], $aux);
+				$aux = str_replace("##categoria##", $datos["categoria"], $aux);
 				$cuerpo .= $aux;
 			}
 
@@ -68,6 +103,13 @@
 		}
 	}
 
+	/***********************************************
+	Función que muestra los datos de un grupo para 
+	modificar o eliminar
+	Recibe:
+		Datos del grupo
+		-1 --> Se ha producido un error
+	***********************************************/
 	function vmostrargrupo($resultado, $tipo) {
 		if ($resultado == -1) {
 			mostrarmensaje("Modificar grupo", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
@@ -82,33 +124,119 @@
 
 			$aux = str_replace("##id##", $datos["id"], $aux);
 			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
-			$aux = str_replace("##apellido1##", $datos["apellido1"], $aux);
-			$aux = str_replace("##apellido2##", $datos["apellido2"], $aux);
-			$aux = str_replace("##telefono##", $datos["telefono"], $aux);
+			$aux = str_replace("##descripcion##", $datos["descripcion"], $aux);
+			$aux = str_replace("##debut##", $datos["debut"], $aux);
+			$aux = str_replace("##categoria##", $datos["categoria"], $aux);
 
 			echo $aux;
 		}
 	}
 
-	function vmostrarresultadomodificargrupo($resultado) {
-		if ($resultado == 1) {
-			//Alta correcta
-			mostrarmensaje("Modificación de grupo", "Se ha modificado correctamente.", "", "");
+
+	/***********************************************
+	Función que muestra el listado de categorias
+	Recibe:
+		Listado de categorias
+		-1 --> Se ha producido un error
+	***********************************************/
+	function vmostrarlistadocategorias($resultado) {
+		if ($resultado == -1) {
+			mostrarmensaje("Listado de categorias", "Se ha producido un error en el listado", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
-			//Alta erronea
-			mostrarmensaje("Modificacion de grupo", "Se ha producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto con el administrador.");
-		}		
+			$cadena = file_get_contents("listadocategorias.html");	
+			$trozos = explode("##fila##", $cadena);
+
+			$aux = "";
+			$cuerpo = "";
+			while ($datos = $resultado->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux = str_replace("##id##", $datos["id"], $aux);
+				$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+				$cuerpo .= $aux;
+			}
+
+			echo $trozos[0] . $cuerpo . $trozos[2];
+		}
 	}
 
-	function vmostrarresultadoborrargrupo($resultado) {
-		if ($resultado == 1) {
-			//Alta correcta
-			mostrarmensaje("Baja de grupo", "Se ha dado de baja correctamente.", "", "");
+	/***********************************************
+	Función que muestra los datos de una categoría para 
+	modificar o eliminar
+	Recibe:
+		Datos de la categoría
+		-1 --> Se ha producido un error
+	***********************************************/
+	function vmostrarcategoria($resultado, $tipo) {
+		if ($resultado == -1) {
+			mostrarmensaje("Modificar categoría", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
-			//Alta erronea
-			mostrarmensaje("Baja de grupo", "Se ha producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto con el administrador.");
-		}		
+			if ($tipo == "modificar") {
+				$aux = file_get_contents("modificarcategoria.html");	
+			} else {
+				$aux = file_get_contents("eliminarcategoria.html");
+			}
+			
+			$datos = $resultado->fetch_assoc();
+
+			$aux = str_replace("##id##", $datos["id"], $aux);
+			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+
+			echo $aux;
+		}
 	}
 
 
+	/***********************************************
+	Función que muestra el listado de usuarios
+	Recibe:
+		Listado de usuarios
+		-1 --> Se ha producido un error
+	***********************************************/
+	function vmostrarlistadousuarios($resultado) {
+		if ($resultado == -1) {
+			mostrarmensaje("Listado de usuarios", "Se ha producido un error en el listado", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
+		} else {
+			$cadena = file_get_contents("listadousuarios.html");	
+			$trozos = explode("##fila##", $cadena);
+
+			$aux = "";
+			$cuerpo = "";
+			while ($datos = $resultado->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux = str_replace("##id##", $datos["id"], $aux);
+				$aux = str_replace("##nombreusuario##", $datos["nombreusuario"], $aux);
+				$aux = str_replace("##password##", $datos["password"], $aux);
+				$cuerpo .= $aux;
+			}
+
+			echo $trozos[0] . $cuerpo . $trozos[2];
+		}
+	}
+
+	/***********************************************
+	Función que muestra los datos de un usuario para 
+	modificar o eliminar
+	Recibe:
+		Datos del usuario
+		-1 --> Se ha producido un error
+	***********************************************/
+	function vmostrarusuario($resultado, $tipo) {
+		if ($resultado == -1) {
+			mostrarmensaje("Modificar usuario", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
+		} else {
+			if ($tipo == "modificar") {
+				$aux = file_get_contents("modificarusuario.html");	
+			} else {
+				$aux = file_get_contents("eliminarusuario.html");
+			}
+			
+			$datos = $resultado->fetch_assoc();
+
+			$aux = str_replace("##id##", $datos["id"], $aux);
+			$aux = str_replace("##nombreusuario##", $datos["nombreusuario"], $aux);
+			$aux = str_replace("##password##", $datos["password"], $aux);
+
+			echo $aux;
+		}
+	}
 ?>

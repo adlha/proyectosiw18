@@ -18,7 +18,7 @@ if ($accion == "alta") {
 			break;
 		case 2: 
 			//validar el alta de grupo
-			vmostrarresultadoalta(mvalidaraltagrupo());
+			vmostrarresultadoalta(mvalidaraltagrupo(), "grupo");
 			break;
 		case 3:
 			// Mostrar el formulario de alta de categoría
@@ -26,7 +26,7 @@ if ($accion == "alta") {
 			break;
 		case 4: 
 			// Validar el alta de la categoría
-			vmostrarresultadoalta(mvalidaraltacategoria());
+			vmostrarresultadoalta(mvalidaraltacategoria(), "categoria");
 			break;
 		case 5:
 			// Mostrar el formulario de alta de usuario
@@ -34,7 +34,7 @@ if ($accion == "alta") {
 			break;
 		case 6:
 			// Validar el alta de usuario
-			vmostrarresultadoalta(mvalidaraltausuario());
+			vmostrarresultadoalta(mvalidaraltausuario(), "usuario");
 			break;
 	}
 }
@@ -43,7 +43,7 @@ if ($accion == "lym") {
 	switch($id) {
 		case 1: 
 			// Mostrar listado de grupos
-			vmostrarlistado(mlistadogrupos());
+			vmostrarlistadogrupos(mlistadogrupos());
 			break;
 		case 2: 
 			// Mostrar grupo específico para modificar
@@ -51,7 +51,7 @@ if ($accion == "lym") {
 			break;
 		case 3: 
 			// Mostrar resultado de modificación de grupo
-			vmostrarresultadomodificargrupo(mmodificargrupo());
+			vmostrarresultadomodificar(mmodificargrupo(), "grupo");
 			break;
 		case 4:
 			// Mostrar grupo especifico para eliminar
@@ -59,11 +59,11 @@ if ($accion == "lym") {
 			break;
 		case 5: 
 			// Mostrar resultado de elminación de grupo
-			vmostrarresultadoborrargrupo(mborrargrupo());
+			vmostrarresultadoborrar(mborrargrupo(), "grupo");
 			break;
 		case 6: 
 			// Mostrar listado de categorías
-			vmostrarlistado(mlistadocategorias());
+			vmostrarlistadocategorias(mlistadocategorias());
 			break;
 		case 7:
 			// Mostrar categoria específico para modificar
@@ -71,7 +71,7 @@ if ($accion == "lym") {
 			break;
 		case 8: 
 			// Mostrar resultado de modificación de categoria
-			vmostrarresultadomodificarcategoria(mmodificarcategoria());
+			vmostrarresultadomodificar(mmodificarcategoria(), "categoría");
 			break;
 		case 9: 
 			// Mostrar categoria especifico para eliminar
@@ -79,8 +79,27 @@ if ($accion == "lym") {
 			break;
 		case 10: 
 			// Mostrar resultado de elminación de categoria
-			vmostrarresultadoborrarcategoria(mborrarcategoria());
+			vmostrarresultadoborrar(mborrarcategoria(), "categoría");
 			break;
+		case 11:
+			// Mostrar listado de usuarios
+			vmostrarlistadousuarios(mlistadousuarios());
+			break;
+		case 12:
+			// Mostrar usuario especifico para modificar
+			vmostrarusuario(mdatosusuario(), "modificar");
+			break;
+		case 13:
+			// Mostrar resultado modificación usuario
+			vmostrarresultadomodificar(mmodificarusuario(), "usuario");
+			break;
+		case 14:
+			// Mostrar usuario específico para eliminar
+			vmostrarusuario(mdatosusuario(), "eliminar");
+			break;
+		case 15:
+			// Mostrar resultado eliminar usuario
+			vmostrarresultadoborrar(mborrarusuario(), "usuario");
 	}
 }
 

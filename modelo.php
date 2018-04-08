@@ -44,15 +44,15 @@
 	}
 
 	/***********************************************
-	Función que obtiene el listado de personas
+	Función que obtiene el listado de grupos
 	Devuelve:
-	Listado de personas
-	-1 --> Se ha producido un error
+		Listado de grupos
+		-1 --> Se ha producido un error
 	***********************************************/
-	function mlistadopersonas() {
+	function mlistadogrupos() {
 		$bd = conectarbasedatos();
 
-		$consulta = "select * from personas";
+		$consulta = "select * from grupos";
 
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
@@ -61,12 +61,18 @@
 		}
 	}
 
-	function mdatospersona() {
+	/***********************************************
+	Función que obtiene los datos de un grupo
+	Devuelve:
+		Datos del grupo
+		-1 --> Se ha producido un error
+	***********************************************/
+	function mdatosgrupo() {
 		$bd = conectarbasedatos();
 
-		$id = cogerparametro("idpersona");
+		$id = cogerparametro("idgrupo");
 
-		$consulta = "select * from personas where id = $id";
+		$consulta = "select * from grupos where id_grupo = $id";
 
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
@@ -91,7 +97,7 @@
 		$apellido2 = cogerparametro("debut");
 		$telefono = cogerparametro("categoria");
 
-		$consulta = "update personas set nombre = '$nombre', 
+		$consulta = "update grupos set nombre = '$nombre', 
 		descripcion = '$descripcion', debut = '$debut', id_categoria = '$id_categoria' 
 		where id_grupo = $id";
 
@@ -102,12 +108,18 @@
 		}				
 	}
 
-	function mborrarpersona() {
+	/***********************************************
+	Función que borra un grupo de la base de datos
+	Devuelve:
+	 1 --> Se ha modificado correctamente 
+	-1 --> Se ha producido un error
+	***********************************************/
+	function mborrargrupo() {
 		$bd = conectarbasedatos();
 
-		$id = cogerparametro("idpersona");
+		$id = cogerparametro("idgrupo");
 
-		$consulta = "delete from personas where id = $id";
+		$consulta = "delete from grupos where id_grupo = $id";
 
 		if ($resultado = $bd->query($consulta)) {
 			return 1;
@@ -115,4 +127,185 @@
 			return -1;
 		}						
 	}
+
+	/***********************************************
+	Función que da de alta una categoría
+	Devuelve:
+	1 --> Se ha dado de alta correctamente
+	-1 --> No se ha podido dar de alta la categoría
+	***********************************************/
+	function mvalidaraltacategoría() {
+		$bd = conectarbasedatos();
+
+		$nombre = cogerparametro("nombre");
+
+		$consulta = "insert into categorias (nombre) values ('$nombre')";
+
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+
+	/***********************************************
+	Función que obtiene el listado de categorías
+	Devuelve:
+		Listado de categorías
+		-1 --> Se ha producido un error
+	***********************************************/
+	function mlistadocategorias() {
+		$bd = conectarbasedatos();
+
+		$consulta = "select * from categorias";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else  {
+			return -1;
+		}
+	}
+
+	/***********************************************
+	Función que obtiene los datos de una categoría
+	Devuelve:
+		Datos de la categoría
+		-1 --> Se ha producido un error
+	***********************************************/
+	function mdatoscategoria() {
+		$bd = conectarbasedatos();
+
+		$id = cogerparametro("idcategoria");
+
+		$consulta = "select * from categorias where id_categoria = $id";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else  {
+			return -1;
+		}		
+	}
+
+	/***********************************************
+	Función que modifica los datos de una categoria
+	Devuelve:
+	 1 --> Se ha modificado correctamente 
+	-1 --> Se ha producido un error
+	***********************************************/
+	function mmodificarcategoria() {
+		$bd = conectarbasedatos();
+
+		$id = cogerparametro("idcategoria");
+		$nombre = cogerparametro("nombre");
+
+		$consulta = "update categorias set nombre = '$nombre' where id_categoria = $id";
+
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else  {
+			return -1;
+		}				
+	}
+
+	/***********************************************
+	Función que borra una categoria de la base de datos
+	Devuelve:
+	 1 --> Se ha borrado correctamente 
+	-1 --> Se ha producido un error
+	***********************************************/
+	function mborrarcategoria() {
+		$bd = conectarbasedatos();
+
+		$id = cogerparametro("idcategoria");
+
+		$consulta = "delete from categorias where id_categoria = $id";
+
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else  {
+			return -1;
+		}						
+	}
+
+	/***********************************************
+	Función que obtiene el listado de usuarios
+	Devuelve:
+		Listado de usuarios
+		-1 --> Se ha producido un error
+	***********************************************/
+	function mlistadousuarios() {
+		$bd = conectarbasedatos();
+
+		$consulta = "select * from usuarios";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else  {
+			return -1;
+		}
+	}
+
+	/***********************************************
+	Función que obtiene los datos de un usuario
+	Devuelve:
+		Datos del usuario
+		-1 --> Se ha producido un error
+	***********************************************/
+	function mdatosusuario() {
+		$bd = conectarbasedatos();
+
+		$id = cogerparametro("idusuario");
+
+		$consulta = "select * from usuarios where id_usuario = $id";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else  {
+			return -1;
+		}		
+	}
+
+	/***********************************************
+	Función que modifica los datos de un usuario
+	Devuelve:
+	 1 --> Se ha modificado correctamente 
+	-1 --> Se ha producido un error
+	***********************************************/
+	function mmodificarusuario() {
+		$bd = conectarbasedatos();
+
+		$id = cogerparametro("idusuario");
+		$nombreusuario = cogerparametro("nombreusuario");
+		$password = cogerparametro("passwd");
+
+		$consulta = "update usuarios set nombre_usuario = '$nombreusuario', passwd = '$password' where id_usuario = $id";
+
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else  {
+			return -1;
+		}				
+	}
+
+	/***********************************************
+	Función que borra un usuario de la base de datos
+	Devuelve:
+	 1 --> Se ha borrado correctamente 
+	-1 --> Se ha producido un error
+	***********************************************/
+	function mborrarusuario() {
+		$bd = conectarbasedatos();
+
+		$id = cogerparametro("idusuario");
+
+		$consulta = "delete from usuarios where id_usuario = $id";
+
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else  {
+			return -1;
+		}						
+	}
+
+
 ?>

@@ -26,13 +26,10 @@
 	function vmostrarresultadoalta($resultado) {
 		if ($resultado == 1) {
 			//Alta correcta
-			mostrarmensaje("Alta de grupo", "Se ha dado de alta 
-correctamente.", "", "");
+			mostrarmensaje("Alta de grupo", "Se ha dado de alta correctamente.", "", "");
 		} else {
 			//Alta erronea
-			mostrarmensaje("Alta de grupo", "Se ha producido un 
-error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto 
-con el administrador.");
+			mostrarmensaje("Alta de grupo", "Se ha producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto con el administrador.");
 		}
 
 	}
@@ -45,16 +42,12 @@ con el administrador.");
 	***********************************************/
 	function vmostrarlistado($resultado, $tipo) {
 		if ($resultado == -1) {
-			mostrarmensaje("Listado de grupos", "Se ha producido 
-un error en el listado", "Vuelva a intentarlo", "Póngase en contacto con el 
-administrador");
+			mostrarmensaje("Listado de grupos", "Se ha producido un error en el listado", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
 			if ($tipo == "bym") {
-				$cadena = 
-file_get_contents("listadogruposbym.html");	
+				$cadena = file_get_contents("listadogruposbym.html");	
 			} else {
-				$cadena = 
-file_get_contents("listadogrupos.html");	
+				$cadena = file_get_contents("listadogrupos.html");	
 			}
 			
 			$trozos = explode("##fila##", $cadena);
@@ -63,16 +56,11 @@ file_get_contents("listadogrupos.html");
 			$cuerpo = "";
 			while ($datos = $resultado->fetch_assoc()) {
 				$aux = $trozos[1];
-				$aux = str_replace("##id##", $datos["id"], 
-$aux);
-				$aux = str_replace("##nombre##", 
-$datos["nombre"], $aux);
-				$aux = str_replace("##apellido1##", 
-$datos["apellido1"], $aux);
-				$aux = str_replace("##apellido2##", 
-$datos["apellido2"], $aux);
-				$aux = str_replace("##telefono##", 
-$datos["telefono"], $aux);
+				$aux = str_replace("##id##", $datos["id"], $aux);
+				$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+				$aux = str_replace("##apellido1##", $datos["apellido1"], $aux);
+				$aux = str_replace("##apellido2##", $datos["apellido2"], $aux);
+				$aux = str_replace("##telefono##", $datos["telefono"], $aux);
 				$cuerpo .= $aux;
 			}
 
@@ -82,29 +70,21 @@ $datos["telefono"], $aux);
 
 	function vmostrargrupo($resultado, $tipo) {
 		if ($resultado == -1) {
-			mostrarmensaje("Modificar grupo", "Se ha producido un 
-error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el 
-administrador");
+			mostrarmensaje("Modificar grupo", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
 			if ($tipo == "modificar") {
-				$aux = 
-file_get_contents("modificargrupo.html");	
+				$aux = file_get_contents("modificargrupo.html");	
 			} else {
-				$aux = 
-file_get_contents("eliminargrupo.html");
+				$aux = file_get_contents("eliminargrupo.html");
 			}
 			
 			$datos = $resultado->fetch_assoc();
 
 			$aux = str_replace("##id##", $datos["id"], $aux);
-			$aux = str_replace("##nombre##", $datos["nombre"], 
-$aux);
-			$aux = str_replace("##apellido1##", $datos["apellido1"], 
-$aux);
-			$aux = str_replace("##apellido2##", $datos["apellido2"], 
-$aux);
-			$aux = str_replace("##telefono##", $datos["telefono"], 
-$aux);
+			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+			$aux = str_replace("##apellido1##", $datos["apellido1"], $aux);
+			$aux = str_replace("##apellido2##", $datos["apellido2"], $aux);
+			$aux = str_replace("##telefono##", $datos["telefono"], $aux);
 
 			echo $aux;
 		}
@@ -113,26 +93,20 @@ $aux);
 	function vmostrarresultadomodificargrupo($resultado) {
 		if ($resultado == 1) {
 			//Alta correcta
-			mostrarmensaje("Modificación de grupo", "Se ha 
-modificado correctamente.", "", "");
+			mostrarmensaje("Modificación de grupo", "Se ha modificado correctamente.", "", "");
 		} else {
 			//Alta erronea
-			mostrarmensaje("Modificacion de grupo", "Se ha 
-producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase 
-en contacto con el administrador.");
+			mostrarmensaje("Modificacion de grupo", "Se ha producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto con el administrador.");
 		}		
 	}
 
 	function vmostrarresultadoborrargrupo($resultado) {
 		if ($resultado == 1) {
 			//Alta correcta
-			mostrarmensaje("Baja de grupo", "Se ha dado de baja 
-correctamente.", "", "");
+			mostrarmensaje("Baja de grupo", "Se ha dado de baja correctamente.", "", "");
 		} else {
 			//Alta erronea
-			mostrarmensaje("Baja de grupo", "Se ha producido un 
-error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto 
-con el administrador.");
+			mostrarmensaje("Baja de grupo", "Se ha producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto con el administrador.");
 		}		
 	}
 

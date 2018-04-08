@@ -2,8 +2,7 @@
 
 	function conectarbasedatos() {
 		//$mysql = mysqli_connect("localhost","root","","siw");
-		$mysql = 
-mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
+		$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
 		return $mysql;
 	}
 
@@ -22,8 +21,8 @@ mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
 	/***********************************************
 	Función que da de alta un grupo
 	Devuelve:
-		1 --> Se ha dado de alta correctamente
-		-1 --> No se ha podido dar de alta al grupo
+	1 --> Se ha dado de alta correctamente
+	-1 --> No se ha podido dar de alta al grupo
 	***********************************************/
 	function mvalidaraltagrupo() {
 		$bd = conectarbasedatos();
@@ -34,8 +33,8 @@ mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
 		$categoria = cogerparametro("categoria");
 
 		$consulta = "insert into grupos (nombre, descripcion, 
-debut, id_categoria) values ('$nombre','$descripcion','$debut', 
-'$categoria')";
+			debut, id_categoria) values ('$nombre','$descripcion','$debut', 
+			'$categoria')";
 
 		if ($resultado = $bd->query($consulta)) {
 			return 1;
@@ -47,8 +46,8 @@ debut, id_categoria) values ('$nombre','$descripcion','$debut',
 	/***********************************************
 	Función que obtiene el listado de personas
 	Devuelve:
-		Listado de personas
-		-1 --> Se ha producido un error
+	Listado de personas
+	-1 --> Se ha producido un error
 	***********************************************/
 	function mlistadopersonas() {
 		$bd = conectarbasedatos();
@@ -76,11 +75,12 @@ debut, id_categoria) values ('$nombre','$descripcion','$debut',
 		}		
 	}
 
-	/***********************************************
+
+	/***********************************************
 	Función que modifica los datos de un grupo
 	Devuelve:
-		 1 --> Se ha modificado correctamente 
-		-1 --> Se ha producido un error
+	 1 --> Se ha modificado correctamente 
+	-1 --> Se ha producido un error
 	***********************************************/
 	function mmodificargrupo() {
 		$bd = conectarbasedatos();
@@ -92,8 +92,8 @@ debut, id_categoria) values ('$nombre','$descripcion','$debut',
 		$telefono = cogerparametro("categoria");
 
 		$consulta = "update personas set nombre = '$nombre', 
-descripcion = '$descripcion', debut = '$debut', id_categoria = '$id_categoria' 
-where id_grupo = $id";
+		descripcion = '$descripcion', debut = '$debut', id_categoria = '$id_categoria' 
+		where id_grupo = $id";
 
 		if ($resultado = $bd->query($consulta)) {
 			return 1;

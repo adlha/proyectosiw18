@@ -306,6 +306,33 @@
 			return -1;
 		}						
 	}
+	/***********************************************
+	Función que comprueba si una solicitud de login
+	es correcta. En caso afirmativo se crea una sesión
+	con el ID y el nombre de usuario
+	 1 --> Login correcto 
+	-1 --> Login incorrecto
+	***********************************************/
+	function mlogin() {
+		$bd = conectarbasedatos();
 
+		$nombreusuario = cogerparametro("nombreusuario");
+		$password = cogerparametro("passwd");
+		
+
+		$consulta = "select id from usuarios where (nombre_usuario='$nombreusuario' and password='$password')";
+
+		$resultado = $bd->query($consulta)
+		
+		if ($resultado->num_rows>0) {
+                        session_start();
+                        $tupla=$resultado.fetch_assoc();
+                        $_SESSION["id_usuario"]=$tupla["id_usuario"];
+                        $_SESSION["nombre_usuario"]=$nombreusuario;
+                        return 1
+		} else {
+			return -1;
+		}
+	}
 
 ?>

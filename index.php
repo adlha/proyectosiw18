@@ -101,6 +101,9 @@ if ($accion == "lym") {
 			// Mostrar resultado eliminar usuario
 			vmostrarresultadoborrar(mborrarusuario(), "usuario");
 	}
+	if ($accion == "login"){
+        mlogin();
+	}
 }
 
 

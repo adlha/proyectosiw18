@@ -36,6 +36,12 @@ if ($accion == "alta") {
 			// Validar el alta de usuario
 			vmostrarresultadoalta(mvalidaraltausuario(), "usuario");
 			break;
+		case 7:
+			// Mostrar el formulario de alta de novedad
+			vmostraraltanovedad();
+		case 8:
+			// Validar el alta de usuario
+			vmostrarresultadoalta(mvalidaraltanovedad(), "novedad");
 	}
 }
 

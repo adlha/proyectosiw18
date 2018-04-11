@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Eliminar novedad</title>
+</head>
+<body>
+	<form action="index.php">
+
+		Titular : ##titular##<br>
+		Cuerpo : ##cuerpo##<br>
+		Grupos : 
+			<ol>
+				##element##
+					<li>##nombregrupo##</li>
+				##element##
+			</ol>		
+		<br>
+
+		
+		<input type="hidden" name="accion" value="lym">
+		<input type="hidden" name="id" value="17">
+		<input type="hidden" name="idnovedad" value="##id##">
+
+		<input type="submit" value="Borrar">
+		<a href="listadonovedades.html">Volver</a>
+	</form>
+</body>
+</html>

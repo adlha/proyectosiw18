@@ -24,6 +24,9 @@
 	function vmostraraltausuario() {
 		echo file_get_contents("altausuario.html");
 	}
+	function vmostraraltanovedad() {
+		echo file_get_contents("altanovedad.html");
+	}
 
 	/***********************************************
 	Función que muestra el resultado de alta 
@@ -239,4 +242,61 @@
 			echo $aux;
 		}
 	}
+
+	/***********************************************
+	Función que muestra el listado de novedades
+
+	Recibe:
+		Listado de novedades
+		-1 --> Se ha producido un error
+	***********************************************/
+	function vmostrarlistadonovedades($resultado){
+		if ($resultado == -1){
+			mostrarmensaje("Mostrar usuario", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
+		}else{
+			$cadena = file_get_contents("listadonovedades.html");	
+			$trozos = explode("##fila##", $cadena);
+
+			$aux = "";
+			$cuerpo = "";
+			while ($datos = $resultado->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux = str_replace("##titular##", $datos["titul0"], $aux);
+				$aux = str_replace("##link##", $datos["cuerpo"], $aux);
+				$cuerpo .= $aux;
+			}
+
+			echo $trozos[0] . $cuerpo . $trozos[2];
+		}
+	}	
+
+	/***********************************************
+
+	Función que muestra los datos de una novedad para 
+	modificar o eliminar
+	Recibe:
+		Datos de la novedad
+
+		-1 --> Se ha producido un error
+	***********************************************/
+	function vmostrarcategoria($resultado, $tipo) {
+		if ($resultado == -1) {
+			mostrarmensaje("Modificar novedad", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
+		} else {
+			if ($tipo == "modificar") {
+				$aux = file_get_contents("modificarnovedad.html");	
+			} else {
+				$aux = file_get_contents("eliminarnovedad.html");
+			}
+			
+			$datos = $resultado->fetch_assoc();
+
+			$aux = str_replace("##id##", $datos["id_novedad"], $aux);
+			$aux = str_replace("##titular##", $datos["titulo"], $aux);
+			$cuerpo=file_get_contents($datos["cuerpo"]);
+			$aux = str_replace("##cuerpo##",$cuerpo, $aux);
+			echo $aux;
+		}
+	}
+
 ?>

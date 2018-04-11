@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Alta novedad</title>
+</head>
+<body>
+	<form action="index.php">
+
+		Titular : <input type="text" name="titular"><br>
+		Cuerpo : <input type="text" name="cuerpo"><br>
+		Grupos :  <select name="grupos">
+                    ##option##
+                    <option value="##idgrupo##">##nombregrupo##</option>
+                    ##option##
+                    </select><br>
+		
+		<input type="hidden" name="accion" value="alta">
+		<input type="hidden" name="id" value="7">
+
+		<input type="submit" value="Enviar">
+	</form>
+	<a href="index.php">Volver</a>
+</body>
+</html>

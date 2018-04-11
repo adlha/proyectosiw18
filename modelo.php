@@ -306,6 +306,7 @@
 			return -1;
 		}						
 	}
+
 	/***********************************************
 	Función que comprueba si una solicitud de login
 	es correcta. En caso afirmativo se crea una sesión

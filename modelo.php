@@ -17,7 +17,31 @@
 
 		return $valor;
 	}
+        
+        /***********************************************
+	Función que da de alta un usuario
+	Devuelve:
+	1 --> Se ha dado de alta correctamente
+	-1 --> No se ha podido dar de alta al usuario
+	***********************************************/
+	function mvalidaraltausuario() {
+		$bd = conectarbasedatos();
 
+		$nombreusuario = cogerparametro("nombreusuario");
+		$password = md5(cogerparametro("passwd"));
+		$email = cogerparametro("email");
+		
+
+		$consulta = "insert into usuarios (nombre_usuario, password, 
+			email, foto_perfil) values ('$nombreusuario','$password','$email', '')";
+
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else {
+			return -1;
+		}
+	}
+        
 	/***********************************************
 	Función que da de alta un grupo
 	Devuelve:
@@ -37,8 +61,10 @@
 			'$categoria')";
 
 		if ($resultado = $bd->query($consulta)) {
+                        echo "ok";
 			return 1;
 		} else {
+                        echo "not ok";
 			return -1;
 		}
 	}
@@ -93,9 +119,9 @@
 
 		$id = cogerparametro("id_grupo");
 		$nombre = cogerparametro("nombre");
-		$apellido1 = cogerparametro("descripcion");
-		$apellido2 = cogerparametro("debut");
-		$telefono = cogerparametro("categoria");
+		$descripcion = cogerparametro("descripcion");
+		$debut = cogerparametro("debut");
+		$id_categoria = cogerparametro("categoria");
 
 		$consulta = "update grupos set nombre = '$nombre', 
 		descripcion = '$descripcion', debut = '$debut', id_categoria = '$id_categoria' 
@@ -134,7 +160,7 @@
 	1 --> Se ha dado de alta correctamente
 	-1 --> No se ha podido dar de alta la categoría
 	***********************************************/
-	function mvalidaraltacategoría() {
+	function mvalidaraltacategoria() {
 		$bd = conectarbasedatos();
 
 		$nombre = cogerparametro("nombre");
@@ -323,14 +349,14 @@
 
 		$consulta = "select id from usuarios where (nombre_usuario='$nombreusuario' and password='$password')";
 
-		$resultado = $bd->query($consulta)
+		$resultado = $bd->query($consulta);
 		
 		if ($resultado->num_rows>0) {
                         session_start();
                         $tupla=$resultado.fetch_assoc();
                         $_SESSION["id_usuario"]=$tupla["id_usuario"];
                         $_SESSION["nombre_usuario"]=$nombreusuario;
-                        return 1
+                        return 1;
 		} else {
 			return -1;
 		}

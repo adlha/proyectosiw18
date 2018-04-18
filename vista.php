@@ -13,8 +13,19 @@
 		echo file_get_contents("home.html");
 	}
 
-	function vmostraraltagrupo() {
-		echo file_get_contents("altagrupo.html");
+	function vmostraraltagrupo($resultado) {
+		$plantilla = file_get_contents("altagrupo.html");
+		$trozos = explode("##option##", $plantilla);
+
+			$aux = "";
+			$cuerpo = "";
+			while ($datos = $resultado->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux = str_replace("##nombrecategoria##", $datos["nombre"], $aux);
+				$cuerpo .= $aux;
+			}
+
+			echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
 	function vmostraraltacategoria() {
@@ -153,7 +164,7 @@
 			$cuerpo = "";
 			while ($datos = $resultado->fetch_assoc()) {
 				$aux = $trozos[1];
-				$aux = str_replace("##id##", $datos["id"], $aux);
+				$aux = str_replace("##id##", $datos["id_categoria"], $aux);
 				$aux = str_replace("##nombre##", $datos["nombre"], $aux);
 				$cuerpo .= $aux;
 			}
@@ -206,8 +217,8 @@
 			$cuerpo = "";
 			while ($datos = $resultado->fetch_assoc()) {
 				$aux = $trozos[1];
-				$aux = str_replace("##id##", $datos["id"], $aux);
-				$aux = str_replace("##nombreusuario##", $datos["nombreusuario"], $aux);
+				$aux = str_replace("##id##", $datos["id_usuario"], $aux);
+				$aux = str_replace("##nombreusuario##", $datos["nombre_usuario"], $aux);
 				$aux = str_replace("##password##", $datos["password"], $aux);
 				$cuerpo .= $aux;
 			}
@@ -279,7 +290,7 @@
 
 		-1 --> Se ha producido un error
 	***********************************************/
-	function vmostrarcategoria($resultado, $tipo) {
+	function vmostrarnovedad($resultado, $tipo) {
 		if ($resultado == -1) {
 			mostrarmensaje("Modificar novedad", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {

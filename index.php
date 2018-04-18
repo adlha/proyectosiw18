@@ -14,7 +14,7 @@ if ($accion == "alta") {
 	switch($id)  {
 		case 1: 
 			//Mostramos el formulario de alta de grupo
-			vmostraraltagrupo();
+			vmostraraltagrupo(mlistadocategorias());
 			break;
 		case 2: 
 			//validar el alta de grupo

@@ -323,14 +323,14 @@
 
 		$consulta = "select id from usuarios where (nombre_usuario='$nombreusuario' and password='$password')";
 
-		$resultado = $bd->query($consulta)
+		$resultado = $bd->query($consulta);
 		
 		if ($resultado->num_rows>0) {
                         session_start();
                         $tupla=$resultado.fetch_assoc();
                         $_SESSION["id_usuario"]=$tupla["id_usuario"];
                         $_SESSION["nombre_usuario"]=$nombreusuario;
-                        return 1
+                        return 1;
 		} else {
 			return -1;
 		}

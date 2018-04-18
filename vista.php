@@ -279,7 +279,7 @@
 
 		-1 --> Se ha producido un error
 	***********************************************/
-	function vmostrarcategoria($resultado, $tipo) {
+	function vmostrarnovedad($resultado, $tipo) {
 		if ($resultado == -1) {
 			mostrarmensaje("Modificar novedad", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {

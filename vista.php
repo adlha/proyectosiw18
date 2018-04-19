@@ -21,6 +21,7 @@
 			$cuerpo = "";
 			while ($datos = $resultado->fetch_assoc()) {
 				$aux = $trozos[1];
+				$aux = str_replace("##idcategoria##", $datos["id_categoria"], $aux);
 				$aux = str_replace("##nombrecategoria##", $datos["nombre"], $aux);
 				$cuerpo .= $aux;
 			}
@@ -105,7 +106,7 @@
 			$cuerpo = "";
 			while ($datos = $resultado->fetch_assoc()) {
 				$aux = $trozos[1];
-				$aux = str_replace("##id##", $datos["id"], $aux);
+				$aux = str_replace("##id##", $datos["id_grupo"], $aux);
 				$aux = str_replace("##nombre##", $datos["nombre"], $aux);
 				$aux = str_replace("##descripcion##", $datos["descripcion"], $aux);
 				$aux = str_replace("##debut##", $datos["debut"], $aux);
@@ -124,24 +125,33 @@
 		Datos del grupo
 		-1 --> Se ha producido un error
 	***********************************************/
-	function vmostrargrupo($resultado, $tipo) {
+	function vmostrargrupo($resultado, $categorias, $tipo) {
 		if ($resultado == -1) {
 			mostrarmensaje("Modificar grupo", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
+			$datos = $resultado->fetch_assoc();
 			if ($tipo == "modificar") {
-				$aux = file_get_contents("modificargrupo.html");	
+				$aux = file_get_contents("modificargrupo.html");
+				$trozos = explode("##fila##", $aux);
+				$cuerpo = "";
+				while ($categoria = $categorias->fetch_assoc()) {
+					$aux = $trozos[1];
+					if ($categoria["id_categoria"]==$datos["id_categoria"])
+						$aux=str_replace('<option value="##idcategoria##">', '<option value="##idcategoria##" selected>', $aux);
+					$aux = str_replace("##idcategoria##", $categoria["id_categoria"], $aux);
+					$aux = str_replace("##categoria##", $categoria["nombre"], $aux);
+					$cuerpo .= $aux;
+				}
+
+				$aux = $trozos[0] . $cuerpo . $trozos[2];
 			} else {
 				$aux = file_get_contents("eliminargrupo.html");
 			}
 			
-			$datos = $resultado->fetch_assoc();
-
-			$aux = str_replace("##id##", $datos["id"], $aux);
+			$aux = str_replace("##id##", $datos["id_grupo"], $aux);
 			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
 			$aux = str_replace("##descripcion##", $datos["descripcion"], $aux);
 			$aux = str_replace("##debut##", $datos["debut"], $aux);
-			$aux = str_replace("##categoria##", $datos["categoria"], $aux);
-
 			echo $aux;
 		}
 	}

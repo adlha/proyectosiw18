@@ -53,7 +53,7 @@ if ($accion == "lym") {
 			break;
 		case 2: 
 			// Mostrar grupo específico para modificar
-			vmostrargrupo(mdatosgrupos(), "modificar");
+			vmostrargrupo(mdatosgrupo(), mlistadocategorias(), "modificar");
 			break;
 		case 3: 
 			// Mostrar resultado de modificación de grupo
@@ -61,7 +61,7 @@ if ($accion == "lym") {
 			break;
 		case 4:
 			// Mostrar grupo especifico para eliminar
-			vmostrargrupo(mdatosgrupo(), "eliminar");
+			vmostrargrupo(mdatosgrupo(), mlistadocategorias(), "eliminar");
 			break;
 		case 5: 
 			// Mostrar resultado de elminación de grupo

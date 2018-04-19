@@ -56,10 +56,15 @@
 		$debut = cogerparametro("debut");
 		$categoria = cogerparametro("categoria");
 
+		echo "Nombre: ".$nombre."<br>";
+		echo "Descripcion: ".$descripcion."<br>";
+		echo "Debut: ".$debut."<br>";
+		echo "Categoría: ".$categoria."<br>";
+
 		$consulta = "insert into grupos (nombre, descripcion, 
 			debut, id_categoria) values ('$nombre','$descripcion','$debut', 
 			'$categoria')";
-
+		echo $consulta."<br>";
 		if ($resultado = $bd->query($consulta)) {
                         echo "ok";
 			return 1;
@@ -78,7 +83,7 @@
 	function mlistadogrupos() {
 		$bd = conectarbasedatos();
 
-		$consulta = "select * from grupos";
+		$consulta = "select g.id_grupo, g.nombre 'nombre', g.descripcion, g.debut, c.nombre 'categoria', c.id_categoria 'id_categoria' from grupos g join categorias c	on g.id_categoria=c.id_categoria";
 
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
@@ -98,7 +103,8 @@
 
 		$id = cogerparametro("idgrupo");
 
-		$consulta = "select * from grupos where id_grupo = $id";
+		$consulta = "select g.id_grupo, g.nombre 'nombre', g.descripcion, g.debut, c.nombre 'categoria', c.id_categoria 'id_categoria' from grupos g join categorias c	on g.id_categoria=c.id_categoria
+			where g.id_grupo=$id";
 
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;

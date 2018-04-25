@@ -105,7 +105,6 @@
 
 		$consulta = "select g.id_grupo, g.nombre 'nombre', g.descripcion, g.debut, c.nombre 'categoria', c.id_categoria 'id_categoria' from grupos g join categorias c	on g.id_categoria=c.id_categoria
 			where g.id_grupo=$id";
-
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
 		} else  {
@@ -123,7 +122,7 @@
 	function mmodificargrupo() {
 		$bd = conectarbasedatos();
 
-		$id = cogerparametro("id_grupo");
+		$id = cogerparametro("idgrupo");
 		$nombre = cogerparametro("nombre");
 		$descripcion = cogerparametro("descripcion");
 		$debut = cogerparametro("debut");
@@ -208,8 +207,28 @@
 		$bd = conectarbasedatos();
 
 		$id = cogerparametro("idcategoria");
-
 		$consulta = "select * from categorias where id_categoria = $id";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else  {
+			return -1;
+		}		
+	}
+
+	/***********************************************
+	Función que obtiene los datos de todas las 
+	categorias
+	Devuelve:
+		Datos de la categoría
+		-1 --> Se ha producido un error
+	***********************************************/
+	function mdatoscategorias() {
+		$bd = conectarbasedatos();
+
+		$id = cogerparametro("idcategoria");
+
+		$consulta = "select * from categorias";
 
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
@@ -308,10 +327,13 @@
 
 		$id = cogerparametro("idusuario");
 		$nombreusuario = cogerparametro("nombreusuario");
-		$password = cogerparametro("passwd");
-
-		$consulta = "update usuarios set nombre_usuario = '$nombreusuario', passwd = '$password' where id_usuario = $id";
-
+		$password = cogerparametro("password");
+		if (empty($password)){
+			$consulta = "update usuarios set nombre_usuario = '$nombreusuario' where id_usuario = $id";
+		} else {
+			$consulta = "update usuarios set nombre_usuario = '$nombreusuario', password = md5('$password') where id_usuario = $id";
+		}
+		echo $consulta;
 		if ($resultado = $bd->query($consulta)) {
 			return 1;
 		} else  {

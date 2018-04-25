@@ -81,7 +81,7 @@ if ($accion == "lym") {
 			break;
 		case 9: 
 			// Mostrar categoria especifico para eliminar
-			vmostrarcategoria(mdatoscategorias(), "eliminar");
+			vmostrarcategoria(mdatoscategoria(), "eliminar");
 			break;
 		case 10: 
 			// Mostrar resultado de elminación de categoria

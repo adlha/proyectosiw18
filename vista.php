@@ -146,6 +146,10 @@
 				$aux = $trozos[0] . $cuerpo . $trozos[2];
 			} else {
 				$aux = file_get_contents("eliminargrupo.html");
+				while ($categoria = $categorias->fetch_assoc()) {
+					if ($categoria["id_categoria"]==$datos["id_categoria"])
+						$aux=str_replace('##categoria##', $categoria["nombre"], $aux);
+				}
 			}
 			
 			$aux = str_replace("##id##", $datos["id_grupo"], $aux);
@@ -202,7 +206,7 @@
 			
 			$datos = $resultado->fetch_assoc();
 
-			$aux = str_replace("##id##", $datos["id"], $aux);
+			$aux = str_replace("##id##", $datos["id_categoria"], $aux);
 			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
 
 			echo $aux;
@@ -255,9 +259,8 @@
 			}
 			
 			$datos = $resultado->fetch_assoc();
-
-			$aux = str_replace("##id##", $datos["id"], $aux);
-			$aux = str_replace("##nombreusuario##", $datos["nombreusuario"], $aux);
+			$aux = str_replace("##id##", $datos["id_usuario"], $aux);
+			$aux = str_replace("##nombreusuario##", $datos["nombre_usuario"], $aux);
 			$aux = str_replace("##password##", $datos["password"], $aux);
 
 			echo $aux;

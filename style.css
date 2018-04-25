@@ -5,7 +5,7 @@
     border: 1px solid gray;
 }
 
-.header {
+header {
     padding: 20px;
     color: white;
     background-color: black;
@@ -13,14 +13,10 @@
     text-align: center;
 }
 
-.footer {
-    background-color: #ddd;
+footer {
+    background-color: #e9e9e9;
     text-align: center;
-    padding: 20px;
-	position: absolute;
-  	right: 0;
-  	bottom: 0;
-  	left: 0;
+    padding: 10px;
 }
 
 body {
@@ -119,19 +115,46 @@ body {
     background: #e7e7e7;
 }
 
-/* Create two unequal columns that floats next to each other */
-/* Left column */
 .leftcolumn {   
     float: left;
     width: 900px;
 }
 
-/* Right column */
 .rightcolumn {
-    float: left;
+    float: right;
     width: 300px;
-    background-color: #f1f1f1;
-	padding-left: 30px;;
+}
+
+.infogroups {
+	float: left;
+	width: 300px;
+}
+
+.albumsgroups {
+	float: right;
+    width: 900px;
+}
+
+.comments {
+	float: right;
+	width: 600px;
+}
+
+.news {
+	float: left;
+	width: 600px;
+}
+
+.user {
+	float: left;
+	width: 300px;
+	padding-right: 100px;
+}
+
+.user-lists {
+	width: 350px;
+	padding-right: 10px;
+	padding-left: 20px;
 }
 
 /* Fake image */
@@ -147,6 +170,11 @@ body {
     padding: 20px;
     margin-top: 20px;
 	height: 500px;
+	margin-bottom: 20px;
+}
+
+.cardgroups {
+	height: 350px;	
 }
 
 /* Clear floats after the columns */

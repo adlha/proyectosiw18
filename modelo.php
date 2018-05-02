@@ -296,6 +296,21 @@
 		}
 	}
 
+	function mvalidaraltanovedad(){
+		$bd = conectarbasedatos();
+
+		$titular = cogerparametro("titular");
+		$
+
+		$consulta = "delete from grupos where id_grupo = $id";
+
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else  {
+			return -1;
+		}						
+	}
+
 	/***********************************************
 	Función que obtiene los datos de un usuario
 	Devuelve:
@@ -388,6 +403,8 @@
 		} else {
 			return -1;
 		}
+
+
 	}
 
 ?>

@@ -38,7 +38,7 @@ if ($accion == "alta") {
 			break;
 		case 7:
 			// Mostrar el formulario de alta de novedad
-			vmostraraltanovedad();
+			vmostraraltanovedad(mlistadogrupos());
 		case 8:
 			// Validar el alta de usuario
 			vmostrarresultadoalta(mvalidaraltanovedad(), "novedad");

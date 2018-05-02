@@ -36,8 +36,20 @@
 	function vmostraraltausuario() {
 		echo file_get_contents("altausuario.html");
 	}
-	function vmostraraltanovedad() {
-		echo file_get_contents("altanovedad.html");
+	function vmostraraltanovedad($resultado) {
+		$plantilla=file_get_contents("altanovedad.html");
+		$trozos = explode("##option##", $plantilla);
+
+			$aux = "";
+			$cuerpo = "";
+			while ($datos = $resultado->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux = str_replace("##idgrupo##", $datos["id_grupo"], $aux);
+				$aux = str_replace("##nombregrupo##", $datos["nombre"], $aux);
+				$cuerpo .= $aux;
+			}
+
+			echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
 	/***********************************************

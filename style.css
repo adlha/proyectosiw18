@@ -29,7 +29,6 @@ body {
   border-radius: 4px;
   margin: 5px 0;
   opacity: 0.85;
-  display: inline-block;
   font-size: 17px;
   line-height: 20px;
   text-decoration: none; /* remove underline from anchors */
@@ -110,7 +109,7 @@ input[type=submit]:hover {
 }
 
 .topnav .link:active {
-  background-color: #2196F3;
+  background-color: black;
   color: white;
 }
 

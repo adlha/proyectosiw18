@@ -349,4 +349,33 @@
 		}
 	}
 
+
+	/***********************************************
+
+	Función que muestra el resultado del registro.
+	Si se ha registrado correctamente, se vuelve 
+	a la página principal con el usuario loggeado.
+	Si ha habido un error, se vuelve a la página
+	principal y se indica que ha habido un error.
+	Recibe:
+		Resultado del registro
+	***********************************************/
+	function vmostrarresultadoregistro($resultado) {
+		vmostrarmenu();
+	}
+
+	/***********************************************
+
+	Función que muestra el resultado del logout.
+	Si se ha registrado correctamente, se vuelve 
+	a la página principal con el usuario no loggeado.
+	Si ha habido un error, se vuelve a la página
+	principal y se indica que ha habido un error.
+	Recibe:
+		Resultado del logout
+	***********************************************/
+	function vmostrarresultadoregistro($resultado) {
+		vmostrarmenu();
+	}
+
 ?>

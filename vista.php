@@ -9,22 +9,45 @@
 		echo $cadena;
 	}
 
-	function vmostrarmenu() {
-		$cadena = file_get_contents("index.html");
+	/***********************************************
+	Función que limpia la barra de navegación de la
+	página principal para mostrar el botón de login
+	solo si el usuario no se ha loggeado y las opciones
+	de usuario registrado solo si se ha loggeado
+	Recibe:
+		cadena --> string del html a modificar
+	***********************************************/
+	function vnavegacion($filename) {
+		$cadena = file_get_contents($filename . ".html");
 
 		if (isset($_SESSION["nombre_usuario"])) {
 			$trozos = explode("##login##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
 			$cadena = str_replace("##usuario##", "", $cadena);
 			$cadena = str_replace("##filtro##", "", $cadena);
+			$cadena = str_replace("##comentarios##", "", $cadena);
 		} else {
 			$trozos = explode("##usuario##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
-			$trozos = explode("##filtro##", $cadena);
-			$cadena = $trozos[0] . $trozos[2];
 			$cadena = str_replace("##login##", "", $cadena);
+
+			if ($filename == "index") {
+				$trozos = explode("##filtro##", $cadena);
+				$cadena = $trozos[0] . $trozos[2];
+			}
+
+			if ($filename == "ficha_grupo") {
+				$trozos = explode("##comentarios##", $cadena);
+				$cadena = $trozos[0] . $trozos[2];
+			}
 		}
 
+		return $cadena;
+
+	}
+
+	function vmostrarmenu() {
+		$cadena = vnavegacion("index");
 		echo $cadena;
 	}
 
@@ -386,4 +409,48 @@
 		vmostrarmenu();
 	}
 
+	function vlistadocategorias($resultado) {
+		$cadena = vnavegacion("categorias");
+
+		$trozos = explode("##categoria##", $cadena);
+
+		$aux = "";
+		$cuerpo = "";
+		while ($datos = $resultado->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+			$cuerpo .= $aux;
+		}
+
+		echo $trozos[0] . $cuerpo . $trozos[2];
+	}
+
+	function vlistadogrupos($resultado) {
+		$cadena = vnavegacion("grupos");
+		
+		$trozos = explode("##grupo##", $cadena);
+
+		$aux = "";
+		$cuerpo = "";
+		while ($datos = $resultado->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+			$cuerpo .= $aux;
+		}
+
+		echo $trozos[0] . $cuerpo . $trozos[2];
+	}
+
+	function vmostrarfichagrupo($resultado) {
+		$cadena = vnavegacion("ficha_grupo");
+
+		$datos = $resultado->fetch_assoc();
+
+		$cadena = str_replace("##nombregrupo##", $datos["nombre"], $cadena);
+		$cadena = str_replace("##info##", $datos["descripcion"], $cadena);
+		$cadena = str_replace("##foto##", "", $cadena);
+
+		echo $cadena;
+
+	}
 ?>

@@ -39,7 +39,7 @@
 				break;
 			case 7:
 				// Mostrar el formulario de alta de novedad
-				vmostraraltanovedad(mlistadogrupos());
+				vmostraraltanovedad(mlistadonovedades());
 			case 8:
 				// Validar el alta de usuario
 				vmostrarresultadoalta(mvalidaraltanovedad(), "novedad");
@@ -105,6 +105,7 @@
 			case 15:
 				// Mostrar resultado eliminar usuario
 				vmostrarresultadoborrar(mborrarusuario(), "usuario");
+				break;
 		}
 	} else if ($accion == "login") {
 		vmostrarresultadologin(mlogin());
@@ -112,6 +113,19 @@
 		vmostrarresultadoregistro(mregistro());
 	} else if ($accion == "logout") {
 		vmostrarresultadologout(mlogout());
+	} else if ($accion == "listado") {
+		switch($id) {
+			case 1:
+				// Mostrar listado de las categorías
+				vlistadocategorias(mlistadocategorias());
+				break;
+
+			case 2:
+				// Mostrar listado de los grupos
+				vlistadogrupos(mlistadogrupos());
+		}
+	} else if ($accion == "grupo") {
+		vmostrarfichagrupo(mdatosgrupo());
 	}
 
 ?>

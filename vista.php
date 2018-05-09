@@ -48,7 +48,6 @@
 				$aux = str_replace("##nombregrupo##", $datos["nombre"], $aux);
 				$cuerpo .= $aux;
 			}
-
 			echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 

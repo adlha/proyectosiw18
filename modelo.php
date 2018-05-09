@@ -12,9 +12,15 @@
 			$valor = $_GET[$nombre];
 		} 
 		if (isset($_POST[$nombre])) {
-			$valor = $_GET[$nombre];
+			$valor = $_POST[$nombre];
 		}
-
+		$count = count($valor);
+		if ($count>1){
+			for ($i = 0; $i < $count; $i++) {
+				$valores[$i]=$valor[$i];
+			}
+			return $valores;
+		}
 		return $valor;
 	}
         
@@ -299,16 +305,33 @@
 	function mvalidaraltanovedad(){
 		$bd = conectarbasedatos();
 
+		$correcto=true;
 		$titular = cogerparametro("titular");
-		$
-
-		$consulta = "delete from grupos where id_grupo = $id";
-
+		$cuerpo = cogerparametro("cuerpo");
+		$grupos = cogerparametro("grupo");
+		
+		$path=str_replace(" ","_",$titular).".txt";
+		
+		file_put_contents("/var/www/html/trabajofinal/novedades/".$path, $cuerpo);
+		$fecha = date("Y-n-d H:i:s"); 
+		$consulta="insert into novedades (titulo, cuerpo, fecha_pub, fecha_ed) values ('$titular', '$path', '$fecha', '$fecha')";
 		if ($resultado = $bd->query($consulta)) {
-			return 1;
+			$consulta="select id_novedad from novedades where titulo='$titular'";
+			$ids = $bd->query($consulta);
+			$id_novedad = $ids->fetch_assoc()["id_novedad"];
+			print_r($grupos);
+			foreach($grupos as  $grupo){
+				$consulta="insert into novedadesgrupos values ($id_novedad, $grupo)";
+				echo $consulta;
+				$correcto=$bd->query($consulta);
+			}
+			if ($correcto)
+				return 1;
+			else
+				return -1;
 		} else  {
 			return -1;
-		}						
+		}				
 	}
 
 	/***********************************************

@@ -1,4 +1,5 @@
 <?php
+	session_start();
 
 	require_once("modelo.php");
 	require_once("vista.php");
@@ -6,7 +7,7 @@
 	$accion = cogerparametro("accion");
 	$id = cogerparametro("id");
 
-	if ((strlen($accion) == 0) || (strlen($id) == 0)) {
+	if ((strlen($accion) == 0) && (strlen($id) == 0)) {
 		vmostrarmenu();
 	}
 
@@ -112,7 +113,5 @@
 	} else if ($accion == "logout") {
 		vmostrarresultadologout(mlogout());
 	}
-}
-
 
 ?>

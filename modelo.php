@@ -1,7 +1,7 @@
 <?php
 
 	function conectarbasedatos() {
-		$mysql = mysqli_connect("localhost","root","","siw");
+		$mysql = mysqli_connect("localhost","root","","db_grupo15");
 		//$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
 		return $mysql;
 	}
@@ -14,13 +14,13 @@
 		if (isset($_POST[$nombre])) {
 			$valor = $_POST[$nombre];
 		}
-		$count = count($valor);
+		/*$count = count($valor);
 		if ($count>1){
 			for ($i = 0; $i < $count; $i++) {
 				$valores[$i]=$valor[$i];
 			}
 			return $valores;
-		}
+		}*/
 		return $valor;
 	}
         
@@ -410,19 +410,17 @@
 		$bd = conectarbasedatos();
 
 		$nombreusuario = cogerparametro("nombreusuario");
-		$password = cogerparametro("passwd");
+		$password = md5(cogerparametro("passwd"));
 		
 
-		$consulta = "select id from usuarios where (nombre_usuario='$nombreusuario' and password='$password')";
-
+		$consulta = "select id_usuario from usuarios where (nombre_usuario='$nombreusuario' and password='$password')";
 		$resultado = $bd->query($consulta);
-		
+
 		if ($resultado->num_rows>0) {
-                        session_start();
-                        $tupla=$resultado.fetch_assoc();
-                        $_SESSION["id_usuario"]=$tupla["id_usuario"];
-                        $_SESSION["nombre_usuario"]=$nombreusuario;
-                        return 1;
+            $tupla=$resultado->fetch_assoc();
+            $_SESSION["id_usuario"]=$tupla["id_usuario"];
+            $_SESSION["nombre_usuario"]=$nombreusuario;
+            return 1;
 		} else {
 			return -1;
 		}
@@ -445,10 +443,7 @@
 
 		$resultado = $bd->query($consulta);
 		
-		if ($resultado->num_rows>0) {
-		    session_start();
-		    $tupla=$resultado.fetch_assoc();
-		    $_SESSION["id_usuario"]=$tupla["id_usuario"];
+		if ($resultado) {
 		    $_SESSION["nombre_usuario"]=$nombreusuario;
         	return 1;
 		} else {
@@ -466,7 +461,6 @@
 		$_SESSION = array();
 		$resultado = session_destroy();
 		return $resultado;
-		// header("Location: /");
 	}
 
 ?>

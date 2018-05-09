@@ -10,18 +10,18 @@
 	}
 
 	function vmostrarmenu() {
-		if (isset($_SESSION["id_usuario"]) {
-			$cadena = file_get_contents("index.html");
+		$cadena = file_get_contents("index.html");
+
+		if (isset($_SESSION["nombre_usuario"])) {
 			$trozos = explode("##login##", $cadena);
-			$cadena = trozos[0] . trozos[2];
+			$cadena = $trozos[0] . $trozos[2];
 			$cadena = str_replace("##usuario##", "", $cadena);
 			$cadena = str_replace("##filtro##", "", $cadena);
 		} else {
-			$cadena = file_get_contents("index.html");
 			$trozos = explode("##usuario##", $cadena);
-			$cadena = trozos[0] . trozos[2];
+			$cadena = $trozos[0] . $trozos[2];
 			$trozos = explode("##filtro##", $cadena);
-			$cadena = trozos[0] . trozos[2];
+			$cadena = $trozos[0] . $trozos[2];
 			$cadena = str_replace("##login##", "", $cadena);
 		}
 
@@ -374,7 +374,15 @@
 	Recibe:
 		Resultado del logout
 	***********************************************/
-	function vmostrarresultadoregistro($resultado) {
+	function vmostrarresultadologout($resultado) {
+		if ($resultado == 1) {
+			header('Location: '.$uri.'/proyectosiw18');
+		} else {
+			vmostrarmenu();
+		}
+	}
+
+	function vmostrarresultadologin($resultado) {
 		vmostrarmenu();
 	}
 

@@ -1,7 +1,7 @@
 <?php
 
 	function mostrarmensaje($titulo, $mensaje1, $mensaje2, $mensaje3) {
-		$cadena = file_get_contents("mensaje.html");
+		$cadena = file_get_contents("error.html");
 		$cadena = str_replace("##Titulo##", $titulo, $cadena);
 		$cadena = str_replace("##mensaje1##", $mensaje1, $cadena);
 		$cadena = str_replace("##mensaje2##", $mensaje2, $cadena);
@@ -10,7 +10,22 @@
 	}
 
 	function vmostrarmenu() {
-		echo file_get_contents("home.html");
+		if (isset($_SESSION["id_usuario"]) {
+			$cadena = file_get_contents("index.html");
+			$trozos = explode("##login##", $cadena);
+			$cadena = trozos[0] . trozos[2];
+			$cadena = str_replace("##usuario##", "", $cadena);
+			$cadena = str_replace("##filtro##", "", $cadena);
+		} else {
+			$cadena = file_get_contents("index.html");
+			$trozos = explode("##usuario##", $cadena);
+			$cadena = trozos[0] . trozos[2];
+			$trozos = explode("##filtro##", $cadena);
+			$cadena = trozos[0] . trozos[2];
+			$cadena = str_replace("##login##", "", $cadena);
+		}
+
+		echo $cadena;
 	}
 
 	function vmostraraltagrupo($resultado) {

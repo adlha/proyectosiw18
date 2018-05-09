@@ -19,13 +19,15 @@
 	</div>
 
 	<div class="container">
-	  	<form class="login-form" action="/action_page.php" method="post">
+	  	<form class="login-form" action="index.php" method="post">
 		    <div class="row">
 			    <div class="col">
 			        <input type="text" name="username" placeholder="Username" required>
 			        <input type="password" name="passwd" placeholder="Password" required>
 			        <input type="submit" value="Login">
-			        <a href="#" class="register">Registrarse</a>
+			        
+			        <input type="hidden" name="accion" value="registro">
+			        <a href="register.html" class="register">Registrarse</a>
 			    </div>
 			</div>
 	 	</form>

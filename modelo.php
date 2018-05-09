@@ -426,8 +426,47 @@
 		} else {
 			return -1;
 		}
+	}
 
+	/***********************************************
+	Función que registra a un usuario
+	Devuelve:
+	1 --> Se ha dado de alta correctamente
+	-1 --> No se ha podido dar de alta al usuario
+	***********************************************/
+	function mregistro() {
+		$bd = conectarbasedatos();
 
+		$nombreusuario = cogerparametro("nombreusuario");
+		$password = md5(cogerparametro("passwd"));
+		
+		$consulta = "insert into usuarios (nombre_usuario, password, 
+		foto_perfil) values ('$nombreusuario','$password', '')";
+
+		$resultado = $bd->query($consulta);
+		
+		if ($resultado->num_rows>0) {
+		    session_start();
+		    $tupla=$resultado.fetch_assoc();
+		    $_SESSION["id_usuario"]=$tupla["id_usuario"];
+		    $_SESSION["nombre_usuario"]=$nombreusuario;
+        	return 1;
+		} else {
+			return -1;
+		}
+	}
+	
+	/***********************************************
+	Función que desloggea a un usuario
+	Devuelve:
+	1 --> Se ha desloggeado correctamente
+	-1 --> No se ha podido desloggear al usuario
+	***********************************************/
+	function mlogout() {
+		$_SESSION = array();
+		$resultado = session_destroy();
+		return $resultado;
+		// header("Location: /");
 	}
 
 ?>

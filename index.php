@@ -126,6 +126,13 @@
 		}
 	} else if ($accion == "grupo") {
 		vmostrarfichagrupo(mdatosgrupo());
+	} else if ($accion == "follow") {
+		switch($id) {
+			case 1:
+				// Seguir a un grupo
+				mseguirgrupo();
+				break;
+		}
 	}
 
 ?>

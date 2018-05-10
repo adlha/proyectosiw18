@@ -21,7 +21,7 @@ body {
   background: #f1f1f1;
 }
 
-/* style inputs and link buttons */
+
 .login-form input {
   width: 300px;
   padding: 12px;
@@ -31,10 +31,10 @@ body {
   opacity: 0.85;
   font-size: 17px;
   line-height: 20px;
-  text-decoration: none; /* remove underline from anchors */
+  text-decoration: none;
 }
 
-/* style the submit button */
+
 input[type=submit] {
   width: 325px;
   background-color: #666;
@@ -278,7 +278,19 @@ input[type=submit]:hover {
   width: 100%;
 }
 
-
+.follow-button {
+  color: black;
+  font-size: 10pt;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: black;
+  border-radius: 3px;
+  width: 85px;
+  height: 30px;
+  margin-top: 150px;
+  display: inline;
+  cursor: pointer;
+}
 
 
 

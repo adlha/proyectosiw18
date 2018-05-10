@@ -4,6 +4,8 @@
 	<meta charset="UTF-8">
 	<title>MML</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="functions.js"></script>
+	<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
 </head>
 
 <body>
@@ -33,6 +35,26 @@
 		  		<h2>##nombregrupo##</h2>
 		  		##foto##
 				<p>##info##</p>
+				##followform##
+				<form id="followform">
+					<input type="hidden" name="idusuario" value="##idusuario##">
+					<input type="hidden" name="idgrupo" value="##idgrupo##">
+					<input type="hidden" name="accion" value="follow">
+					<input type="hidden" name="id" value="1">
+ 
+					<button onclick="follow();" id="followbutton" class="follow-button" type="submit">+ Seguir</button>
+ 				</form><br />
+ 				##followform##
+ 				##valoracion##
+ 				<select>
+ 					<option value="null">-</option>
+				  	<option value="1">1</option>
+				  	<option value="2">2</option>
+				  	<option value="3">3</option>
+				  	<option value="4">4</option>
+				  	<option value="5">5</option>
+				</select>
+ 				##valoracion##
 			</div>
 		</div>
 		<div class="albumsgroups">

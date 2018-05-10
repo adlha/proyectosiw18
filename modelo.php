@@ -444,7 +444,11 @@
 		$resultado = $bd->query($consulta);
 		
 		if ($resultado) {
-		    $_SESSION["nombre_usuario"]=$nombreusuario;
+			$consulta = "select id_usuario from usuarios where nombre_usuario = '$nombreusuario'";
+			$resultado = $bd->query($consulta);
+			$datos = $resultado->fetch_assoc();
+		    $_SESSION["nombre_usuario"] = $nombreusuario;
+		    $_SESSION["id_usuario"] = $datos["id_usuario"];
         	return 1;
 		} else {
 			return -1;
@@ -461,6 +465,22 @@
 		$_SESSION = array();
 		$resultado = session_destroy();
 		return $resultado;
+	}
+
+	function mseguirgrupo() {
+		$bd = conectarbasedatos();
+
+		$id_usuario = cogerparametro("idusuario");
+		$id_grupo = cogerparametro("idgrupo");
+
+		$consulta = "insert into lista_seguidos values ($id_usuario, $id_grupo, null)";
+		$resultado = $bd->query($consulta);
+
+		if ($resultado) {
+        	return 1;
+		} else {
+			return -1;
+		} 
 	}
 
 ?>

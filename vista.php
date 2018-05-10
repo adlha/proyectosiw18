@@ -20,7 +20,7 @@
 	function vnavegacion($filename) {
 		$cadena = file_get_contents($filename . ".html");
 
-		if (isset($_SESSION["nombre_usuario"])) {
+		if (isset($_SESSION["id_usuario"])) {
 			$trozos = explode("##login##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
 			$cadena = str_replace("##usuario##", "", $cadena);
@@ -30,16 +30,6 @@
 			$trozos = explode("##usuario##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
 			$cadena = str_replace("##login##", "", $cadena);
-
-			if ($filename == "index") {
-				$trozos = explode("##filtro##", $cadena);
-				$cadena = $trozos[0] . $trozos[2];
-			}
-
-			if ($filename == "ficha_grupo") {
-				$trozos = explode("##comentarios##", $cadena);
-				$cadena = $trozos[0] . $trozos[2];
-			}
 		}
 
 		return $cadena;
@@ -48,6 +38,12 @@
 
 	function vmostrarmenu() {
 		$cadena = vnavegacion("index");
+		if (!isset($_SESSION["id_usuario"])) {
+			$trozos = explode("##filtro##", $cadena);
+			$cadena = $trozos[0] . $trozos[2];
+		} else {
+			$cadena = str_replace("##filtro##", "", $cadena);
+		}
 		echo $cadena;
 	}
 
@@ -435,6 +431,7 @@
 		while ($datos = $resultado->fetch_assoc()) {
 			$aux = $trozos[1];
 			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+			$aux = str_replace("##idgrupo##", $datos["id_grupo"], $aux);
 			$cuerpo .= $aux;
 		}
 
@@ -450,7 +447,19 @@
 		$cadena = str_replace("##info##", $datos["descripcion"], $cadena);
 		$cadena = str_replace("##foto##", "", $cadena);
 
-		echo $cadena;
 
+		if (isset($_SESSION["id_usuario"])) {
+			$cadena = str_replace("##idusuario##", $_SESSION["id_usuario"], $cadena);
+			$cadena = str_replace("##idgrupo##", $datos["id_grupo"], $cadena);
+			$cadena = str_replace("##valoracion##", "", $cadena);
+			$cadena = str_replace("##followform##", "", $cadena);
+		} else {
+			$trozos = explode("##followform##", $cadena);
+			$cadena = $trozos[0] . $trozos[2];
+			$trozos = explode("##valoracion##", $cadena);
+			$cadena = $trozos[0] . $trozos[2];
+		}
+
+		echo $cadena;
 	}
 ?>

@@ -12,16 +12,16 @@
 	</header>
 	
 	<div class="topnav">
-		<a class="link" href="index.html">Home</a>
-	  	<a class="link" href="categorias.html">Categorías</a>
-	  	<a class="link" href="grupos.html">Grupos</a>
-		<a class="link" href="#novedades">Novedades</a>
+		<a class="link" href="index.php">Home</a>
+	  	<a class="link" href="index.php?accion=listado&id=1">Categorías</a>
+	  	<a class="link" href="index.php?accion=listado&id=2">Grupos</a>
+		<a class="link" href="index.php?accion=listado&id=3">Novedades</a>
 		##login##
 		<a class="login link" href="login.html">Log In</a>
 		##login##
 		##usuario##
 		<a href="#"><img class="avatar" src="icons/profile.png" alt="Avatar"></a>
-		<a href="#"><img class="settings" src="icons/logout.png" alt="Log out"></a>
+		<a href="index.php?accion=logout"><img class="settings" src="icons/logout.png" alt="Log out"></a>
 		<a href="#"><img class="settings" src="icons/settings.png" alt="Settings"></a>
 		<a href="#"><img class="settings" src="icons/envelope.png" alt="Mensajes"></a>
 		##usuario##
@@ -30,11 +30,10 @@
 	<div class="row">
 		<div class="novedad">
 			<div class="card">
-		  		<h2>TITLE HEADING</h2>
-		  		<h5>Title description, Dec 7, 2017</h5>
+		  		<h2>##titular##</h2>
+		  		<h3 class="h3-date">Publicado ##fechapub##. Última modificación ##fechaed##.</h3>
 		  		<div class="fakeimg" style="height:200px;">Image</div>
-		  		<p>Subtitulo</p>
-		  		<p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor 				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+		  		<p>##cuerpo##</p>
     		</div>
 		</div>
 		

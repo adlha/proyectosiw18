@@ -312,7 +312,8 @@
 		
 		$path=str_replace(" ","_",$titular).".txt";
 		
-		file_put_contents("/var/www/html/trabajofinal/novedades/".$path, $cuerpo);
+		//file_put_contents("/var/www/html/trabajofinal/novedades/".$path, $cuerpo);
+		file_put_contents("/opt/lampp/htdocs/proyectosiw18/novedades/".$path, $cuerpo);
 		$fecha = date("Y-n-d H:i:s"); 
 		$consulta="insert into novedades (titulo, cuerpo, fecha_pub, fecha_ed) values ('$titular', '$path', '$fecha', '$fecha')";
 		if ($resultado = $bd->query($consulta)) {
@@ -333,6 +334,31 @@
 			return -1;
 		}				
 	}
+
+	function mlistadonovedades() {
+		$bd = conectarbasedatos();
+
+		$consulta = "select * from novedades order by fecha_ed desc";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else  {
+			return -1;
+		}
+	}
+
+	function mdatosnovedad() {
+		$bd = conectarbasedatos();
+		$id = cogerparametro("idnovedad");
+		$consulta = "select * from novedades where id_novedad = $id";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+
 
 	/***********************************************
 	Función que obtiene los datos de un usuario
@@ -481,6 +507,33 @@
 		} else {
 			return -1;
 		} 
+	}
+
+	function mgruposcategoria() {
+		$bd = conectarbasedatos();
+
+		$id_categoria = cogerparametro("idcategoria");
+
+		$consulta = "select * from grupos where id_categoria = $id_categoria";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+
+	function mnovedadesgrupo() {
+		$bd = conectarbasedatos();
+		$id_grupo = cogerparametro("idgrupo");
+
+		$consulta = "select * from novedades where id_novedad in (select id_novedad from novedadesgrupos where id_grupo = $id_grupo)";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
 	}
 
 ?>

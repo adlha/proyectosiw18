@@ -21,6 +21,17 @@ body {
   background: #f1f1f1;
 }
 
+h3 {
+  font-size: 16px;
+}
+
+.h3-date {
+  font-size: 12px;
+}
+
+.h2-index {
+  margin-left: 20px;
+}
 
 .login-form input {
   width: 300px;
@@ -50,6 +61,7 @@ input[type=submit]:hover {
   font-size: 17px;
   line-height: 20px;
   text-decoration: none;
+  margin-left: 20px;
 }
 
 

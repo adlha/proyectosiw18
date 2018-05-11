@@ -9,6 +9,7 @@
 <body>
 	<header>
 		<h1>My Music List</h1>
+		<p style="font-style: italic;">aqui hay que poner algo</p>
 	</header>
 	
 	<div class="topnav">
@@ -28,20 +29,23 @@
 	</div>
 	
 	<div class="row">
-		##filtro##
-		<form class="filtro" action="">
-			<input type="radio" checked="checked" name="filtro" value="1"> Todos
-			<input type="radio" name="filtro" value="2"> Siguiendo
-		</form>
-		##filtro##
 		<div class="leftcolumn">
+			<h2 class="h2-index">Últimas novedades</h2>
+			##filtro##
+				<form class="filtro" action="">
+					<input type="radio" checked="checked" name="filtro" value="1"> Todos
+					<input type="radio" name="filtro" value="2"> Siguiendo
+				</form>
+			##filtro##
+			##novedad##
 			<div class="card">
-		  		<h2>TITLE HEADING</h2>
-		  		<h5>Title description, Dec 7, 2017</h5>
+		  		<h2>##titular##</h2>
+		  		<h3 class="h3-date">Publicado ##fechapub##. Última modificación ##fechaed##.</h3>
 		  		<div class="fakeimg" style="height:200px;">Image</div>
-		  		<p>Some text..</p>
+		  		<p>Some text...</p>
 		  		<p>Sunt in culpa qui officia deserunt mollit anim id est laborum consectetur adipiscing elit, sed do eiusmod tempor 				incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
     		</div>
+    		##novedad##
 		</div>
 		<div class="rightcolumn">
     		<div class="card">

@@ -8,7 +8,11 @@
 	$id = cogerparametro("id");
 
 	if ((strlen($accion) == 0) && (strlen($id) == 0)) {
-		vmostrarmenu();
+		if (isset($_SESSION['nombre_usuario']) && $_SESSION['nombre_usuario'] == "admin") {
+			vmostrarhomeadmin();
+		} else {
+			vmostrarmenu(mlistadonovedades());
+		}
 	}
 
 	if ($accion == "alta") {
@@ -39,10 +43,12 @@
 				break;
 			case 7:
 				// Mostrar el formulario de alta de novedad
-				vmostraraltanovedad(mlistadonovedades());
+				vmostraraltanovedad(mlistadogrupos());
+				break;
 			case 8:
 				// Validar el alta de usuario
 				vmostrarresultadoalta(mvalidaraltanovedad(), "novedad");
+				break;
 		}
 	} else if ($accion == "lym") {
 		switch($id) {
@@ -108,11 +114,11 @@
 				break;
 		}
 	} else if ($accion == "login") {
-		vmostrarresultadologin(mlogin());
+		vmostrarresultadologin(mlogin(), mlistadonovedades());
 	} else if ($accion == "registro") {
-		vmostrarresultadoregistro(mregistro());
+		vmostrarresultadoregistro(mregistro(), mlistadonovedades());
 	} else if ($accion == "logout") {
-		vmostrarresultadologout(mlogout());
+		vmostrarresultadologout(mlogout(), mlistadonovedades());
 	} else if ($accion == "listado") {
 		switch($id) {
 			case 1:
@@ -123,9 +129,18 @@
 			case 2:
 				// Mostrar listado de los grupos
 				vlistadogrupos(mlistadogrupos());
+				break;
+			case 3:
+				// Mostrar listado de las novedades
+				vlistadonovedades(mlistadonovedades());
+				break;
 		}
 	} else if ($accion == "grupo") {
-		vmostrarfichagrupo(mdatosgrupo());
+		vmostrarfichagrupo(mdatosgrupo(), mnovedadesgrupo());
+	} else if ($accion == "novedad") {
+		vnovedad(mdatosnovedad());
+	} else if ($accion == "categoria") {
+		vmostrargruposcategoria(mgruposcategoria(), mdatoscategoria());
 	} else if ($accion == "follow") {
 		switch($id) {
 			case 1:

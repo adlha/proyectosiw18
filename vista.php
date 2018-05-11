@@ -15,7 +15,7 @@
 	solo si el usuario no se ha loggeado y las opciones
 	de usuario registrado solo si se ha loggeado
 	Recibe:
-		cadena --> string del html a modificar
+		filename --> nombre del fichero html a modificar
 	***********************************************/
 	function vnavegacion($filename) {
 		$cadena = file_get_contents($filename . ".html");
@@ -24,8 +24,6 @@
 			$trozos = explode("##login##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
 			$cadena = str_replace("##usuario##", "", $cadena);
-			$cadena = str_replace("##filtro##", "", $cadena);
-			$cadena = str_replace("##comentarios##", "", $cadena);
 		} else {
 			$trozos = explode("##usuario##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
@@ -36,7 +34,13 @@
 
 	}
 
-	function vmostrarmenu() {
+	/***********************************************
+	Función que muestra la página principal
+	Recibe:
+		resultado --> resultado de la consulta a la
+			base de datos para listar las novedades
+	***********************************************/
+	function vmostrarmenu($resultado) {
 		$cadena = vnavegacion("index");
 		if (!isset($_SESSION["id_usuario"])) {
 			$trozos = explode("##filtro##", $cadena);
@@ -44,6 +48,24 @@
 		} else {
 			$cadena = str_replace("##filtro##", "", $cadena);
 		}
+
+		$trozos = explode("##novedad##", $cadena);
+
+		$aux = "";
+		$cuerpo = "";
+		while ($datos = $resultado->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##titular##", $datos["titulo"], $aux);
+			$aux = str_replace("##fechapub##", $datos["fecha_pub"], $aux);
+			$aux = str_replace("##fechaed##", $datos["fecha_ed"], $aux);
+			$cuerpo .= $aux;
+		}
+
+		echo $trozos[0] . $cuerpo . $trozos[2];
+	}
+
+	function vmostrarhomeadmin() {
+		$cadena = file_get_contents("home.html");
 		echo $cadena;
 	}
 
@@ -51,16 +73,16 @@
 		$plantilla = file_get_contents("altagrupo.html");
 		$trozos = explode("##option##", $plantilla);
 
-			$aux = "";
-			$cuerpo = "";
-			while ($datos = $resultado->fetch_assoc()) {
-				$aux = $trozos[1];
-				$aux = str_replace("##idcategoria##", $datos["id_categoria"], $aux);
-				$aux = str_replace("##nombrecategoria##", $datos["nombre"], $aux);
-				$cuerpo .= $aux;
-			}
+		$aux = "";
+		$cuerpo = "";
+		while ($datos = $resultado->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##idcategoria##", $datos["id_categoria"], $aux);
+			$aux = str_replace("##nombrecategoria##", $datos["nombre"], $aux);
+			$cuerpo .= $aux;
+		}
 
-			echo $trozos[0] . $cuerpo . $trozos[2];
+		echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
 	function vmostraraltacategoria() {
@@ -70,19 +92,21 @@
 	function vmostraraltausuario() {
 		echo file_get_contents("altausuario.html");
 	}
+
 	function vmostraraltanovedad($resultado) {
 		$plantilla=file_get_contents("altanovedad.html");
 		$trozos = explode("##option##", $plantilla);
 
-			$aux = "";
-			$cuerpo = "";
-			while ($datos = $resultado->fetch_assoc()) {
-				$aux = $trozos[1];
-				$aux = str_replace("##idgrupo##", $datos["id_grupo"], $aux);
-				$aux = str_replace("##nombregrupo##", $datos["nombre"], $aux);
-				$cuerpo .= $aux;
-			}
-			echo $trozos[0] . $cuerpo . $trozos[2];
+		$aux = "";
+		$cuerpo = "";
+		while ($datos = $resultado->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##idgrupo##", $datos["id_grupo"], $aux);
+			$aux = str_replace("##nombregrupo##", $datos["nombre"], $aux);
+			$cuerpo .= $aux;
+		}
+
+		echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
 	/***********************************************
@@ -393,16 +417,20 @@
 	Recibe:
 		Resultado del logout
 	***********************************************/
-	function vmostrarresultadologout($resultado) {
+	function vmostrarresultadologout($resultado, $novedades) {
 		if ($resultado == 1) {
-			header('Location: '.$uri.'/proyectosiw18');
+			header("Location: ".$uri."/proyectosiw18");
 		} else {
-			vmostrarmenu();
+			vmostrarmenu($novedades);
 		}
 	}
 
-	function vmostrarresultadologin($resultado) {
-		vmostrarmenu();
+	function vmostrarresultadologin($resultado, $novedades) {
+		if ($resultado == 1 && $_SESSION["nombre_usuario"] == "admin") {
+			vmostrarhomeadmin();
+		} else {
+			vmostrarmenu($novedades);
+		}
 	}
 
 	function vlistadocategorias($resultado) {
@@ -415,6 +443,7 @@
 		while ($datos = $resultado->fetch_assoc()) {
 			$aux = $trozos[1];
 			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+			$aux = str_replace("##idcategoria##", $datos["id_categoria"], $aux);
 			$cuerpo .= $aux;
 		}
 
@@ -423,6 +452,7 @@
 
 	function vlistadogrupos($resultado) {
 		$cadena = vnavegacion("grupos");
+		$cadena = str_replace("##titulo##", "Todos los grupos", $cadena);
 		
 		$trozos = explode("##grupo##", $cadena);
 
@@ -438,28 +468,95 @@
 		echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
-	function vmostrarfichagrupo($resultado) {
+	function vmostrarfichagrupo($resultado, $novedades) {
 		$cadena = vnavegacion("ficha_grupo");
 
-		$datos = $resultado->fetch_assoc();
+		$trozos = explode("##novedad##", $cadena);
+		$aux = "";
+		$cuerpo = "";
+		while ($datos = $novedades->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##titular##", $datos["titulo"], $aux);
+			$aux = str_replace("##fechapub##", $datos["fecha_pub"], $aux);
+			$aux = str_replace("##idnovedad##", $datos["id_novedad"], $aux);
+			$cuerpo .= $aux;
+		}
+		$cadena = $trozos[0] . $cuerpo . $trozos[2];
 
+		$datos = $resultado->fetch_assoc();
 		$cadena = str_replace("##nombregrupo##", $datos["nombre"], $cadena);
 		$cadena = str_replace("##info##", $datos["descripcion"], $cadena);
 		$cadena = str_replace("##foto##", "", $cadena);
-
 
 		if (isset($_SESSION["id_usuario"])) {
 			$cadena = str_replace("##idusuario##", $_SESSION["id_usuario"], $cadena);
 			$cadena = str_replace("##idgrupo##", $datos["id_grupo"], $cadena);
 			$cadena = str_replace("##valoracion##", "", $cadena);
 			$cadena = str_replace("##followform##", "", $cadena);
+			$cadena = str_replace("##comentarios##", "", $cadena);
 		} else {
 			$trozos = explode("##followform##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
 			$trozos = explode("##valoracion##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
+			$trozos = explode("##comentarios##", $cadena);
+			$cadena = $trozos[0] . $trozos[2];
 		}
 
 		echo $cadena;
 	}
+
+	function vlistadonovedades($resultado) {
+		$cadena = vnavegacion("novedades");
+		
+		$trozos = explode("##novedad##", $cadena);
+
+		$aux = "";
+		$cuerpo = "";
+		while ($datos = $resultado->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##titular##", $datos["titulo"], $aux);
+			$aux = str_replace("##idnovedad##", $datos["id_novedad"], $aux);
+			$aux = str_replace("##fechapub##", $datos["fecha_pub"], $aux);
+			$cuerpo .= $aux;
+		}
+
+		echo $trozos[0] . $cuerpo . $trozos[2];
+	}
+
+	function vnovedad($resultado) {
+		$cadena = vnavegacion("novedad");
+		$datos = $resultado->fetch_assoc();
+		$cuerpo = file_get_contents("novedades/".str_replace(" ", "_", $datos["titulo"]).".txt");
+
+		$cadena = str_replace("##titular##", $datos["titulo"], $cadena);
+		$cadena = str_replace("##fechapub##", $datos["fecha_pub"], $cadena);
+		$cadena = str_replace("##fechaed##", $datos["fecha_ed"], $cadena);
+		$cadena = str_replace("##cuerpo##", $cuerpo, $cadena);
+
+		echo $cadena;
+	}
+
+	function vmostrargruposcategoria($resultado, $categoria) {
+		$cadena = vnavegacion("grupos");
+
+		$datos_cat = $categoria->fetch_assoc();
+
+		$cadena = str_replace("##titulo##", $datos_cat["nombre"], $cadena);
+		$trozos = explode("##grupo##", $cadena);
+		$aux = "";
+		$cuerpo = "";
+
+		while ($datos = $resultado->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+			$aux = str_replace("##idgrupo##", $datos["id_grupo"], $aux);
+			$cuerpo .= $aux;
+		}
+
+		echo $trozos[0] . $cuerpo . $trozos[2];
+	}
+
+
+
 ?>

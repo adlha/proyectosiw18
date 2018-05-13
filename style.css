@@ -25,6 +25,31 @@ h3 {
   font-size: 16px;
 }
 
+textarea {
+  width: 500px;
+  height: 80px;
+  resize: none;
+  margin-top: 180px;
+  display: inline-block;
+}
+
+.comment-button {
+  height: 30px;
+  width: 50px;
+  vertical-align: middle;
+  margin-bottom: 15px;
+}
+
+.h4-comments {
+  font-size: 12px;
+  display: inline;
+}
+
+.p-comments {
+  font-size: 12px;
+  display: inline;
+}
+
 .h3-date {
   font-size: 12px;
 }

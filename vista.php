@@ -24,6 +24,7 @@
 			$trozos = explode("##login##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
 			$cadena = str_replace("##usuario##", "", $cadena);
+			$cadena = str_replace("##idusuario##", $_SESSION["id_usuario"], $cadena);
 		} else {
 			$trozos = explode("##usuario##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
@@ -539,9 +540,7 @@
 
 	function vmostrargruposcategoria($resultado, $categoria) {
 		$cadena = vnavegacion("grupos");
-
 		$datos_cat = $categoria->fetch_assoc();
-
 		$cadena = str_replace("##titulo##", $datos_cat["nombre"], $cadena);
 		$trozos = explode("##grupo##", $cadena);
 		$aux = "";
@@ -557,6 +556,22 @@
 		echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
+	function vmostrarpaginaperfil($resultado, $grupos) {
+		$cadena = vnavegacion("pagina_perfil");
+		$datos_usuario = $resultado->fetch_assoc();
+		$cadena = str_replace("##nombreusuario##", $datos_usuario["nombre_usuario"], $cadena);
+		$trozos = explode("##grupo##", $cadena);
+		$aux = "";
+		$cuerpo = "";
 
+		while ($datos = $grupos->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##nombregrupo##", $datos["nombre"], $aux);
+			$aux = str_replace("##idgrupo##", $datos["id_grupo"], $aux);
+			$cuerpo .= $aux;
+		}
+
+		echo $trozos[0] . $cuerpo . $trozos[2];
+	}
 
 ?>

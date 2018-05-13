@@ -24,7 +24,7 @@
 		return $valor;
 	}
         
-        /***********************************************
+    /***********************************************
 	Función que da de alta un usuario
 	Devuelve:
 	1 --> Se ha dado de alta correctamente
@@ -528,6 +528,18 @@
 		$id_grupo = cogerparametro("idgrupo");
 
 		$consulta = "select * from novedades where id_novedad in (select id_novedad from novedadesgrupos where id_grupo = $id_grupo)";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+
+	function mgruposfollowing() {
+		$bd = conectarbasedatos();
+		$id_usuario = cogerparametro("idusuario");
+		$consulta = "select * from grupos where id_grupo in (select id_grupo from lista_seguidos where id_usuario = $id_usuario)";
 
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;

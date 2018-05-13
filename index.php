@@ -141,6 +141,8 @@
 		vnovedad(mdatosnovedad());
 	} else if ($accion == "categoria") {
 		vmostrargruposcategoria(mgruposcategoria(), mdatoscategoria());
+	} else if ($accion == "perfil") {
+		vmostrarpaginaperfil(mdatosusuario(), mgruposfollowing());
 	} else if ($accion == "follow") {
 		switch($id) {
 			case 1:

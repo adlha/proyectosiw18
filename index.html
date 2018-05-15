@@ -4,6 +4,8 @@
 	<meta charset="UTF-8">
 	<title>MML</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="functions.js"></script>
 </head>
 
 <body>
@@ -23,8 +25,8 @@
 		##usuario##
 		<a href="index.php?accion=perfil&idusuario=##idusuario##"><img class="avatar" src="icons/profile.png" alt="Avatar"></a>
 		<a href="index.php?accion=logout"><img class="settings" src="icons/logout.png" alt="Log out"></a>
-		<a href="index.php?accion=settings"><img class="settings" src="icons/settings.png" alt="Settings"></a>
-		<a href="index.php?accion=mensajes"><img class="settings" src="icons/envelope.png" alt="Mensajes"></a>
+		<a href="index.php?accion=settings&id=1&idusuario=##idusuario##"><img class="settings" src="icons/settings.png" alt="Settings"></a>
+		<a href="index.php?accion=mensajes&idusuario=##idusuario##"><img class="settings" src="icons/envelope.png" alt="Mensajes"></a>
 		##usuario##
 	</div>
 	
@@ -51,10 +53,11 @@
     		<div class="card">
       			<h2>Buscador</h2>
       			<div class="search-container">
-    				<form action="index.php">
-		  				<input type="text" placeholder="Buscar..." name="search">
-		  				<button type="submit"><img src="icons/search.png"></button>
-    				</form>
+		  			<input id="letra" type="text" placeholder="Buscar..." name="search" onkeyup="buscar(this.value)">
+		  			<div id="listado"></div>
+		  			<br />
+		  			<input type="radio" checked="checked" name="tipo" value="1"> Grupos<br />
+					<input type="radio" name="tipo" value="2"> Usuarios<br />
   				</div>
     		</div>
 	   </div>

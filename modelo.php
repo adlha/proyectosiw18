@@ -548,4 +548,99 @@
 		}
 	}
 
+	function msiguiendo() {
+		if (!isset($_SESSION["id_usuario"])) {
+			return -1;
+		} else {
+			$bd = conectarbasedatos();
+			$id_usuario = $_SESSION["id_usuario"];
+			$id_grupo = cogerparametro("idgrupo");
+
+			$consulta = "select * from lista_seguidos where id_usuario = $id_usuario and id_grupo = $id_grupo";
+			if ($resultado = $bd->query($consulta)) {
+				if ($resultado->num_rows == 0)
+					return 0;
+				else 
+					return 1;
+			} else {
+				return -1;
+			}
+		}
+	}
+
+	function mcomentarios() {
+		if (!isset($_SESSION["id_usuario"])) {
+			return -1;
+		} else {
+			$bd = conectarbasedatos();
+			$id_grupo = cogerparametro("idgrupo");
+			$consulta = "select * from comentarios_grupo where id_grupo = $id_grupo";
+			if ($resultado = $bd->query($consulta)) {
+				return $resultado;
+			} else {
+				return -1;
+			}
+		}
+	}
+
+	function mnuevocomentario() {
+		$bd = conectarbasedatos();
+		$id_usuario = cogerparametro("idusuario");
+		$id_grupo = cogerparametro("idgrupo");
+		$texto = cogerparametro("comment");
+		$fecha = date("Y-n-d H:i:s"); 
+
+		$consulta = "insert into comentarios_grupo values ($id_grupo, $id_usuario, '$texto', 1, '$fecha')";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+
+	function mconfiguracionusuario() {
+		$bd = conectarbasedatos();
+		$id = $_SESSION["id_usuario"];
+		$nombreusuario = cogerparametro("nombreusuario");
+		$password_actual = md5(cogerparametro("password_actual"));
+
+		// Comprobar antes que nada que la contraseña se ha introducido correctamente
+		$consulta = "select id_usuario from usuarios where (id_usuario=$id and password='$password_actual')";
+		$resultado = $bd->query($consulta);
+		if (! $resultado) {
+			return -1;
+		}
+		$datos = $resultado->fetch_assoc();
+		if ($datos["id_usuario"] != $id)
+			return 0;
+
+		// Si la contraseña se ha introducido correctamente, continuar
+		$password = cogerparametro("password_nueva");
+		if (empty($password)){
+			$consulta = "update usuarios set nombre_usuario = '$nombreusuario' where id_usuario = $id";
+		} else {
+			$consulta = "update usuarios set nombre_usuario = '$nombreusuario', password = md5('$password') where id_usuario = $id";
+		}
+
+		if ($resultado = $bd->query($consulta)) {
+			$_SESSION["nombre_usuario"] = $nombreusuario;
+			return 1;
+		} else  {
+			return -1;
+		}				
+	}
+
+	function mbuscar() {
+		$bd = conectarbasedatos();
+		$letra = cogerparametro("letra");
+		$consulta = "select * from grupos where nombre like '$letra%' limit 10";
+		
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+
 ?>

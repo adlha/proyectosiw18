@@ -469,20 +469,8 @@
 		echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
-	function vmostrarfichagrupo($resultado, $novedades) {
+	function vmostrarfichagrupo($resultado, $novedades, $siguiendo, $comentarios) {
 		$cadena = vnavegacion("ficha_grupo");
-
-		$trozos = explode("##novedad##", $cadena);
-		$aux = "";
-		$cuerpo = "";
-		while ($datos = $novedades->fetch_assoc()) {
-			$aux = $trozos[1];
-			$aux = str_replace("##titular##", $datos["titulo"], $aux);
-			$aux = str_replace("##fechapub##", $datos["fecha_pub"], $aux);
-			$aux = str_replace("##idnovedad##", $datos["id_novedad"], $aux);
-			$cuerpo .= $aux;
-		}
-		$cadena = $trozos[0] . $cuerpo . $trozos[2];
 
 		$datos = $resultado->fetch_assoc();
 		$cadena = str_replace("##nombregrupo##", $datos["nombre"], $cadena);
@@ -495,14 +483,41 @@
 			$cadena = str_replace("##valoracion##", "", $cadena);
 			$cadena = str_replace("##followform##", "", $cadena);
 			$cadena = str_replace("##comentarios##", "", $cadena);
+			if ($siguiendo == 1)
+				$cadena = str_replace("##siguiendo##", "Siguiendo", $cadena);
+			else
+				$cadena = str_replace("##siguiendo##", "+ Seguir", $cadena);
+
+			$trozos = explode("##comment##", $cadena);
+			$aux = "";
+			$cuerpo = "";
+			while ($datos_c = $comentarios->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux = str_replace("##nombreusuario##", $datos_c["id_usuario"], $aux);
+				$aux = str_replace("##fecha##", $datos_c["fecha"], $aux);
+				$aux = str_replace("##texto##", $datos_c["texto"], $aux);
+				$cuerpo .= $aux;
+			}
+			$cadena = $trozos[0] . $cuerpo . $trozos[2];
 		} else {
 			$trozos = explode("##followform##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
 			$trozos = explode("##valoracion##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
 			$trozos = explode("##comentarios##", $cadena);
-			$cadena = $trozos[0] . $trozos[2];
+			$cadena = $trozos[0] . "<p>Necesitas estar registrado para ver y dejar comentarios</p>" . $trozos[2];
 		}
+
+		$trozos = explode("##novedad##", $cadena);
+		$cuerpo = "";
+		while ($datos = $novedades->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##titular##", $datos["titulo"], $aux);
+			$aux = str_replace("##fechapub##", $datos["fecha_pub"], $aux);
+			$aux = str_replace("##idnovedad##", $datos["id_novedad"], $aux);
+			$cuerpo .= $aux;
+		}
+		$cadena = $trozos[0] . $cuerpo . $trozos[2];
 
 		echo $cadena;
 	}
@@ -574,4 +589,32 @@
 		echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
+	function vmostrarpaginaconfiguracion() {
+		$cadena = vnavegacion("configuracion_usuario");
+		$cadena = str_replace("##nombreusuario##", $_SESSION["nombre_usuario"], $cadena);
+		$cadena = str_replace("##mensaje##", "", $cadena);
+		echo $cadena;
+	}
+
+	function vmostrarresultadoconfiguracion($resultado) {
+		$cadena = vnavegacion("configuracion_usuario");
+		$cadena = str_replace("##nombreusuario##", $_SESSION["nombre_usuario"], $cadena);
+		if ($resultado == -1) {
+			$cadena = str_replace("##mensaje##", "<p>Ha ocurrido un error</p>", $cadena);
+		} else if ($resultado == 0) {
+			$cadena = str_replace("##mensaje##", "<p>Contraseña incorrecta</p>", $cadena);
+		} else {
+			$cadena = str_replace("##mensaje##", "<p>Configuración modificada correctamente</p>", $cadena);
+		}
+		echo $cadena;
+	}
+
+	function vmostrarresultadosbuscador($resultado) {
+		$cuerpo = "";
+		while ($datos = $resultado->fetch_assoc()) {
+			$cuerpo .= "<a href=index.php?accion=grupo&id=1&idgrupo=". 
+				$datos["id_grupo"] . ">". $datos["nombre"] . "</a><br/>";
+		}		
+		echo $cuerpo;
+	}
 ?>

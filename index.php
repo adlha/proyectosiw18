@@ -136,20 +136,40 @@
 				break;
 		}
 	} else if ($accion == "grupo") {
-		vmostrarfichagrupo(mdatosgrupo(), mnovedadesgrupo());
+		switch($id) {
+			case 1:
+				// Mostrar la ficha de un grupo
+				vmostrarfichagrupo(mdatosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
+				break;
+			case 2:
+				// Seguir a un grupo
+				mseguirgrupo();
+				break;
+			case 3:
+				// Dejar un comentario para un grupo
+				mnuevocomentario();
+				vmostrarfichagrupo(mdatosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
+				break;
+		}
 	} else if ($accion == "novedad") {
 		vnovedad(mdatosnovedad());
 	} else if ($accion == "categoria") {
 		vmostrargruposcategoria(mgruposcategoria(), mdatoscategoria());
 	} else if ($accion == "perfil") {
 		vmostrarpaginaperfil(mdatosusuario(), mgruposfollowing());
-	} else if ($accion == "follow") {
+	} else if ($accion == "settings") {
 		switch($id) {
 			case 1:
-				// Seguir a un grupo
-				mseguirgrupo();
+				// Mostrar página de configuración
+				vmostrarpaginaconfiguracion();
+				break;
+			case 2:
+				// Mostrar resultado de configuración
+				vmostrarresultadoconfiguracion(mconfiguracionusuario());
 				break;
 		}
+	} else if ($accion == "buscar") {
+		vmostrarresultadosbuscador(mbuscar());
 	}
 
 ?>

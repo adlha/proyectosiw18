@@ -167,12 +167,17 @@
 		switch($id) {
 			case 1:
 				// Mostrar la ficha de un grupo
-				vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
+				$resultado = msiguiendo();
+				if ($resultado == 0) {
+					vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), $resultado, 0, mcomentarios());
+				} else {
+					vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), $resultado, mvervaloracion(), mcomentarios());
+				}
+				
 				break;
 			case 2:
 				// Seguir a un grupo
 				$resultado = msiguiendo();
-				echo $resultado;
 				if ($resultado == 0) {
 					mseguirgrupo();
 				} else {

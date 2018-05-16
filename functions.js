@@ -8,11 +8,10 @@ function follow() {
     cache: false,
     data: $('#followform').serialize(),
     success: function (data) {
-      alert(data);
-      if (data == '0')
-        $('#followbutton').text('+ Seguir');
-      else
+      if (data == '1')
         $('#followbutton').text('Siguiendo');
+      else if (data == '0')
+        $('#followbutton').text('+ Seguir');
       }
     });
 }

@@ -638,8 +638,6 @@
 		}
 	}
 
-	// Si no sigue al grupo -> 0
-	// Si sigue al grupo -> valoracion (num >= 1)
 	function msiguiendo() {
 		if (!isset($_SESSION["id_usuario"])) {
 			return -1;
@@ -650,12 +648,10 @@
 
 			$consulta = "select * from listaseguidos where id_usuario = $id_usuario and id_grupo = $id_grupo";
 			if ($resultado = $bd->query($consulta)) {
-				if ($resultado->num_rows == 0) {
+				if ($resultado->num_rows == 0) 
 					return 0;
-				} else {
-					$datos = $resultado->fetch_assoc();
-					return intval($datos["valoracion"]);
-				}
+				else 
+					return 1;
 			} else {
 				return -1;
 			}
@@ -759,6 +755,19 @@
 		$consulta = "update listaseguidos set valoracion = $valoracion where id_grupo = $id_grupo and id_usuario = $id_usuario";
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+
+	function mvervaloracion() {
+		$bd = conectarbasedatos();
+		$id_grupo = cogerparametro("idgrupo");
+		$id_usuario = $_SESSION["id_usuario"];
+
+		$consulta = "select valoracion from listaseguidos where id_grupo = $id_grupo and id_usuario = $id_usuario";
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado->fetch_assoc()["valoracion"];
 		} else {
 			return -1;
 		}

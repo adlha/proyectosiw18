@@ -521,7 +521,7 @@
 		echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
-	function vmostrarfichagrupo($resultado, $discos, $novedades, $siguiendo, $comentarios) {
+	function vmostrarfichagrupo($resultado, $discos, $novedades, $siguiendo, $valoracion, $comentarios) {
 		$cadena = vnavegacion("ficha_grupo");
 
 		$datos = $resultado->fetch_assoc();
@@ -544,12 +544,13 @@
 			$cadena = str_replace("##idusuario##", $_SESSION["id_usuario"], $cadena);
 			$cadena = str_replace("##idgrupo##", $datos["id_grupo"], $cadena);
 			$cadena = str_replace("##valoracion##", "", $cadena);
+			$cadena = str_replace("<option value=\"$valoracion\">", "<option value=\"$valoracion\" selected>", $cadena);
 			$cadena = str_replace("##followform##", "", $cadena);
 			$cadena = str_replace("##comentarios##", "", $cadena);
-			if ($siguiendo >= 1)
-				$cadena = str_replace("##siguiendo##", "+ Seguir", $cadena);
-			else
+			if ($siguiendo == 1)
 				$cadena = str_replace("##siguiendo##", "Siguiendo", $cadena);
+			else
+				$cadena = str_replace("##siguiendo##", "+ Seguir", $cadena);
 
 			$trozos = explode("##comment##", $cadena);
 			$cuerpo = "";
@@ -681,7 +682,7 @@
 		} else {
 			while ($datos = $resultado->fetch_assoc()) {
 				$cuerpo .= "<a href=index.php?accion=perfil&idusuario=". 
-					$datos["id_usuario"] . ">". $datos["nombre_usuario"] . "</a><br/>";
+					$datos["id_usuario"] . ">". $datos["nombre"] . "</a><br/>";
 			}
 		}
 		echo json_encode($cuerpo);

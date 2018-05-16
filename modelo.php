@@ -1,8 +1,8 @@
 <?php
 
 	function conectarbasedatos() {
-		$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
-		//$mysql = mysqli_connect("localhost","root","","db_grupo15");
+		//$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
+		$mysql = mysqli_connect("localhost","root","","db_grupo15");
 		return $mysql;
 	}
 
@@ -62,6 +62,22 @@
 		$debut = cogerparametro("debut");
 		$categoria = cogerparametro("categoria");
 
+		var_dump($_FILES);
+		if (! empty($_FILES)) {
+		    $imagePath = isset($_FILES["fotos[0]"]["name"]) ? $_FILES["fotos[0]"]["name"] : "Undefined";
+		    $targetPath = "imagenes/";
+		    $imagePath = $targetPath . $imagePath;
+		    $tempFile = $_FILES['fotos[0]']['tmp_name'];
+		    
+		    $targetFile = $targetPath . $_FILES['fotos[0]']['name'];
+		    
+		    if (move_uploaded_file($tempFile, $targetFile)) {
+		        echo "true";
+		    } else {
+		        echo "false";
+		    }
+		}
+
 		echo "Nombre: ".$nombre."<br>";
 		echo "Descripcion: ".$descripcion."<br>";
 		echo "Debut: ".$debut."<br>";
@@ -72,10 +88,10 @@
 			'$categoria')";
 		echo $consulta."<br>";
 		if ($resultado = $bd->query($consulta)) {
-                        echo "ok";
+            echo "ok";
 			return 1;
 		} else {
-                        echo "not ok";
+            echo "not ok";
 			return -1;
 		}
 	}

@@ -473,8 +473,8 @@
 	***********************************************/
 	function vmostrarresultadologout($resultado, $novedades) {
 		if ($resultado == 1) {
-			header("Location: ".$uri."/trabajofinal");
-			//header("Location: ".$uri."/proyectosiw18");
+			//header("Location: ".$uri."/trabajofinal");
+			header("Location: ".$uri."/proyectosiw18");
 		} else {
 			vmostrarmenu($novedades);
 		}

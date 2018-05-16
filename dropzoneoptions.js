@@ -1,5 +1,5 @@
 Dropzone.options.mydropzone= {
-    url: 'index.php?accion="subirimagen"',
+    url: 'index.php?accion=subirimagen',
     autoProcessQueue: false,
     uploadMultiple: true,
     parallelUploads: 5,

@@ -45,14 +45,18 @@
  				</form><br />
  				##followform##
  				##valoracion##
- 				<select>
- 					<option value="null">-</option>
-				  	<option value="1">1</option>
-				  	<option value="2">2</option>
-				  	<option value="3">3</option>
-				  	<option value="4">4</option>
-				  	<option value="5">5</option>
-				</select>
+ 				<p>Deja tu valoración</p>
+ 				<form id="formvalorar">
+ 					<input id="idgrupovalorar" type="hidden" name="idgrupo" value="##idgrupo##">
+	 				<select id="valoracion" onchange="valorargrupo();">
+	 					<option value="null">-</option>
+					  	<option value="1">1</option>
+					  	<option value="2">2</option>
+					  	<option value="3">3</option>
+					  	<option value="4">4</option>
+					  	<option value="5">5</option>
+					</select>
+				</form>
  				##valoracion##
 			</div>
 		</div>

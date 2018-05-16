@@ -160,7 +160,7 @@
 				break;
 			case 3:
 				// Mostrar listado de las novedades
-				vlistadonovedades(mlistadonovedades("siguiendo"));
+				vlistadonovedades(mlistadonovedades("todos"));
 				break;
 		}
 	} else if ($accion == "grupo") {
@@ -172,6 +172,7 @@
 			case 2:
 				// Seguir a un grupo
 				$resultado = msiguiendo();
+				echo $resultado;
 				if ($resultado == 0) {
 					mseguirgrupo();
 				} else {
@@ -182,6 +183,10 @@
 				// Dejar un comentario para un grupo
 				mnuevocomentario();
 				vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
+				break;
+			case 4:
+				// Dejar valoración de un grupo
+				echo mvaloraciongrupo();
 				break;
 		}
 	} else if ($accion == "novedad") {
@@ -202,7 +207,16 @@
 				break;
 		}
 	} else if ($accion == "buscar") {
-		vmostrarresultadosbuscador(mbuscar());
+		switch($id) {
+			case 1:
+				// Mostrar resultados de búsqueda de grupos
+				vmostrarresultadosbuscador(mbuscargrupos(), "grupos");
+				break;
+			case 2:
+				// Mostrar resultados de búsqueda de usuarios
+				vmostrarresultadosbuscador(mbuscarusuarios(), "usuarios");
+				break;
+		}
 	}
 
 ?>

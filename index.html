@@ -53,11 +53,13 @@
     		<div class="card">
       			<h2>Buscador</h2>
       			<div class="search-container">
-		  			<input id="letra" type="text" placeholder="Buscar..." name="search" onkeyup="buscar(this.value)">
+		  			<input id="letra" type="text" placeholder="Buscar..." name="search" onkeyup="buscar()">
 		  			<div id="listado"></div>
 		  			<br />
-		  			<input type="radio" checked="checked" name="tipo" value="1"> Grupos<br />
-					<input type="radio" name="tipo" value="2"> Usuarios<br />
+		  			<select onchange="limpiarbuscador(); buscar();" name="filtrobuscador" id="filtrobuscador">
+						<option value="1">Grupos</option>
+						<option value="2">Usuarios</option>
+					</select>
   				</div>
     		</div>
 	   </div>

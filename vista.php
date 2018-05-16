@@ -546,10 +546,10 @@
 			$cadena = str_replace("##valoracion##", "", $cadena);
 			$cadena = str_replace("##followform##", "", $cadena);
 			$cadena = str_replace("##comentarios##", "", $cadena);
-			if ($siguiendo == 1)
-				$cadena = str_replace("##siguiendo##", "Siguiendo", $cadena);
-			else
+			if ($siguiendo >= 1)
 				$cadena = str_replace("##siguiendo##", "+ Seguir", $cadena);
+			else
+				$cadena = str_replace("##siguiendo##", "Siguiendo", $cadena);
 
 			$trozos = explode("##comment##", $cadena);
 			$cuerpo = "";
@@ -671,12 +671,19 @@
 		echo $cadena;
 	}
 
-	function vmostrarresultadosbuscador($resultado) {
+	function vmostrarresultadosbuscador($resultado, $tipo) {
 		$cuerpo = "";
-		while ($datos = $resultado->fetch_assoc()) {
-			$cuerpo .= "<a href=index.php?accion=grupo&id=1&idgrupo=". 
-				$datos["id_grupo"] . ">". $datos["nombre"] . "</a><br/>";
-		}		
-		echo $cuerpo;
+		if ($tipo == "grupos") {
+			while ($datos = $resultado->fetch_assoc()) {
+				$cuerpo .= "<a href=index.php?accion=grupo&id=1&idgrupo=". 
+					$datos["id_grupo"] . ">". $datos["nombre"] . "</a><br/>";
+			}		
+		} else {
+			while ($datos = $resultado->fetch_assoc()) {
+				$cuerpo .= "<a href=index.php?accion=perfil&idusuario=". 
+					$datos["id_usuario"] . ">". $datos["nombre_usuario"] . "</a><br/>";
+			}
+		}
+		echo json_encode($cuerpo);
 	}
 ?>

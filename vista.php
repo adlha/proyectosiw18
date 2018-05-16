@@ -532,10 +532,10 @@
 		$trozos = explode("##disco##", $cadena);
 		$aux = "";
 		$cuerpo = "";
-		while ($datos = $discos->fetch_assoc()) {
+		while ($datos_discos = $discos->fetch_assoc()) {
 			$aux = $trozos[1];
-			$aux = str_replace("##nombredisco##", $datos["nombre"], $aux);
-			$aux = str_replace("##fechadisco##", $datos["fecha"], $aux);
+			$aux = str_replace("##nombredisco##", $datos_discos["nombre"], $aux);
+			$aux = str_replace("##fechadisco##", $datos_discos["fecha"], $aux);
 			$cuerpo .= $aux;
 		}
 		$cadena = $trozos[0] . $cuerpo . $trozos[2];

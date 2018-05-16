@@ -175,8 +175,11 @@
 				break;
 			case 3:
 				// Dejar un comentario para un grupo
-				mnuevocomentario();
-				vmostrarfichagrupo(mdatosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
+				if (mnuevocomentario())
+					vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
+				else {
+					echo "error";
+				}
 				break;
 		}
 	} else if ($accion == "novedad") {

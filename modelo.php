@@ -1,7 +1,8 @@
 <?php
 
 	function conectarbasedatos() {
-		$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
+		//$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
+		$mysql = mysqli_connect("localhost","root","","db_grupo15");
 		return $mysql;
 	}
 
@@ -649,7 +650,7 @@
 		} else {
 			$bd = conectarbasedatos();
 			$id_grupo = cogerparametro("idgrupo");
-			$consulta = "select * from comentariosgrupo where id_grupo = $id_grupo";
+			$consulta = "select * from comentariosgrupos where id_grupo = $id_grupo";
 			if ($resultado = $bd->query($consulta)) {
 				return $resultado;
 			} else {
@@ -665,7 +666,7 @@
 		$texto = cogerparametro("comment");
 		$fecha = date("Y-n-d H:i:s"); 
 
-		$consulta = "insert into comentariosgrupo (id_grupo, id_usuario, texto, apropiado, fecha) 
+		$consulta = "insert into comentariosgrupos (id_grupo, id_usuario, texto, apropiado, fecha) 
 			values ($id_grupo, $id_usuario, '$texto', 1, '$fecha')";
 
 		if ($resultado = $bd->query($consulta)) {

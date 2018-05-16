@@ -25,6 +25,7 @@
 			$cadena = $trozos[0] . $trozos[2];
 			$cadena = str_replace("##usuario##", "", $cadena);
 			$cadena = str_replace("##idusuario##", $_SESSION["id_usuario"], $cadena);
+			$cadena = str_replace("##fotoperfil##", $_SESSION["foto_perfil"], $cadena);
 		} else {
 			$trozos = explode("##usuario##", $cadena);
 			$cadena = $trozos[0] . $trozos[2];
@@ -473,6 +474,7 @@
 	function vmostrarresultadologout($resultado, $novedades) {
 		if ($resultado == 1) {
 			header("Location: ".$uri."/trabajofinal");
+			//header("Location: ".$uri."/proyectosiw18");
 		} else {
 			vmostrarmenu($novedades);
 		}
@@ -523,66 +525,71 @@
 
 	function vmostrarfichagrupo($resultado, $discos, $novedades, $siguiendo, $valoracion, $comentarios) {
 		$cadena = vnavegacion("ficha_grupo");
-
-		$datos = $resultado->fetch_assoc();
-		$cadena = str_replace("##nombregrupo##", $datos["nombre"], $cadena);
-		$cadena = str_replace("##info##", $datos["descripcion"], $cadena);
-		$cadena = str_replace("##foto##", "", $cadena);
-		
-		$trozos = explode("##disco##", $cadena);
-		$aux = "";
-		$cuerpo = "";
-		while ($datos_discos = $discos->fetch_assoc()) {
-			$aux = $trozos[1];
-			$aux = str_replace("##nombredisco##", $datos_discos["nombre"], $aux);
-			$aux = str_replace("##fechadisco##", $datos_discos["fecha"], $aux);
-			$cuerpo .= $aux;
-		}
-		$cadena = $trozos[0] . $cuerpo . $trozos[2];
-
-		if (isset($_SESSION["id_usuario"])) {
-			$cadena = str_replace("##idusuario##", $_SESSION["id_usuario"], $cadena);
-			$cadena = str_replace("##idgrupo##", $datos["id_grupo"], $cadena);
-			$cadena = str_replace("##valoracion##", "", $cadena);
-			$cadena = str_replace("<option value=\"$valoracion\">", "<option value=\"$valoracion\" selected>", $cadena);
-			$cadena = str_replace("##followform##", "", $cadena);
-			$cadena = str_replace("##comentarios##", "", $cadena);
-			if ($siguiendo == 1)
-				$cadena = str_replace("##siguiendo##", "Siguiendo", $cadena);
-			else
-				$cadena = str_replace("##siguiendo##", "+ Seguir", $cadena);
-
-			$trozos = explode("##comment##", $cadena);
+		if ($resultado->num_rows > 0) {
+			$datos = $resultado->fetch_assoc();
+			$cadena = str_replace("##fichagrupo##", "", $cadena);
+			$cadena = str_replace("##nombregrupo##", $datos["nombre"], $cadena);
+			$cadena = str_replace("##info##", $datos["descripcion"], $cadena);
+			$cadena = str_replace("##foto##", "", $cadena);
+			
+			$trozos = explode("##disco##", $cadena);
+			$aux = "";
 			$cuerpo = "";
-			while ($datos = $comentarios->fetch_assoc()) {
+			while ($datos_discos = $discos->fetch_assoc()) {
 				$aux = $trozos[1];
-				$aux = str_replace("##nombreusuario##", $datos["id_usuario"], $aux);
-				$aux = str_replace("##fecha##", $datos["fecha"], $aux);
-				$aux = str_replace("##texto##", $datos["texto"], $aux);
+				$aux = str_replace("##nombredisco##", $datos_discos["nombre"], $aux);
+				$aux = str_replace("##fechadisco##", $datos_discos["fecha"], $aux);
 				$cuerpo .= $aux;
 			}
 			$cadena = $trozos[0] . $cuerpo . $trozos[2];
+
+			if (isset($_SESSION["id_usuario"])) {
+				$cadena = str_replace("##idusuario##", $_SESSION["id_usuario"], $cadena);
+				$cadena = str_replace("##idgrupo##", $datos["id_grupo"], $cadena);
+				$cadena = str_replace("##valoracion##", "", $cadena);
+				$cadena = str_replace("<option value=\"$valoracion\">", "<option value=\"$valoracion\" selected>", $cadena);
+				$cadena = str_replace("##followform##", "", $cadena);
+				$cadena = str_replace("##comentarios##", "", $cadena);
+				if ($siguiendo == 1)
+					$cadena = str_replace("##siguiendo##", "Siguiendo", $cadena);
+				else
+					$cadena = str_replace("##siguiendo##", "+ Seguir", $cadena);
+
+				$trozos = explode("##comment##", $cadena);
+				$cuerpo = "";
+				while ($datos = $comentarios->fetch_assoc()) {
+					$aux = $trozos[1];
+					$aux = str_replace("##nombreusuario##", $datos["id_usuario"], $aux);
+					$aux = str_replace("##fecha##", $datos["fecha"], $aux);
+					$aux = str_replace("##texto##", $datos["texto"], $aux);
+					$cuerpo .= $aux;
+				}
+				$cadena = $trozos[0] . $cuerpo . $trozos[2];
+			} else {
+				$trozos = explode("##followform##", $cadena);
+				$cadena = $trozos[0] . $trozos[2];
+				$trozos = explode("##valoracion##", $cadena);
+				$cadena = $trozos[0] . $trozos[2];
+				$trozos = explode("##comentarios##", $cadena);
+				$cadena = $trozos[0] . "<p>Necesitas estar registrado para ver y dejar comentarios</p>" . $trozos[2];
+			}
+
+			$trozos = explode("##novedad##", $cadena);
+			$cuerpo = "";
+			while ($datos = $novedades->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux = str_replace("##titular##", $datos["titulo"], $aux);
+				$aux = str_replace("##fechapub##", $datos["fecha_pub"], $aux);
+				$aux = str_replace("##idnovedad##", $datos["id_novedad"], $aux);
+				$cuerpo .= $aux;
+			}
+			$cadena = $trozos[0] . $cuerpo . $trozos[2];
+
+			echo $cadena;
 		} else {
-			$trozos = explode("##followform##", $cadena);
-			$cadena = $trozos[0] . $trozos[2];
-			$trozos = explode("##valoracion##", $cadena);
-			$cadena = $trozos[0] . $trozos[2];
-			$trozos = explode("##comentarios##", $cadena);
-			$cadena = $trozos[0] . "<p>Necesitas estar registrado para ver y dejar comentarios</p>" . $trozos[2];
+			$trozos = explode("##fichagrupo##", $cadena);
+			echo $trozos[0] . "<p>Este grupo no existe</p>" . $trozos[2];
 		}
-
-		$trozos = explode("##novedad##", $cadena);
-		$cuerpo = "";
-		while ($datos = $novedades->fetch_assoc()) {
-			$aux = $trozos[1];
-			$aux = str_replace("##titular##", $datos["titulo"], $aux);
-			$aux = str_replace("##fechapub##", $datos["fecha_pub"], $aux);
-			$aux = str_replace("##idnovedad##", $datos["id_novedad"], $aux);
-			$cuerpo .= $aux;
-		}
-		$cadena = $trozos[0] . $cuerpo . $trozos[2];
-
-		echo $cadena;
 	}
 
 	function vlistadonovedades($resultado) {
@@ -636,32 +643,46 @@
 
 	function vmostrarpaginaperfil($resultado, $grupos) {
 		$cadena = vnavegacion("pagina_perfil");
-		$datos_usuario = $resultado->fetch_assoc();
-		$cadena = str_replace("##nombreusuario##", $datos_usuario["nombre_usuario"], $cadena);
-		$trozos = explode("##grupo##", $cadena);
-		$aux = "";
-		$cuerpo = "";
+		if ($resultado->num_rows > 0) {
+			$datos_usuario = $resultado->fetch_assoc();
+			$cadena = str_replace("##paginaperfil##", "", $cadena);
+			$cadena = str_replace("##nombreusuario##", $datos_usuario["nombre_usuario"], $cadena);
+			$cadena = str_replace("##fotousuario##", $datos_usuario["foto_perfil"], $cadena);
+			$trozos = explode("##grupo##", $cadena);
+			$aux = "";
+			$cuerpo = "";
 
-		while ($datos = $grupos->fetch_assoc()) {
-			$aux = $trozos[1];
-			$aux = str_replace("##nombregrupo##", $datos["nombre"], $aux);
-			$aux = str_replace("##idgrupo##", $datos["id_grupo"], $aux);
-			$cuerpo .= $aux;
+			while ($datos = $grupos->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux = str_replace("##nombregrupo##", $datos["nombre"], $aux);
+				$aux = str_replace("##idgrupo##", $datos["id_grupo"], $aux);
+				$cuerpo .= $aux;
+			}
+
+			echo $trozos[0] . $cuerpo . $trozos[2];
+		} else {
+			$trozos = explode("##paginaperfil##", $cadena);
+			echo $trozos[0] . "<p>Este usuario no existe</p>" . $trozos[2];
 		}
-
-		echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
 	function vmostrarpaginaconfiguracion() {
 		$cadena = vnavegacion("configuracion_usuario");
-		$cadena = str_replace("##nombreusuario##", $_SESSION["nombre_usuario"], $cadena);
-		$cadena = str_replace("##mensaje##", "", $cadena);
+		if ($_SESSION["id_usuario"] == cogerparametro("idusuario")) {
+			$cadena = str_replace("##nombreusuario##", $_SESSION["nombre_usuario"], $cadena);
+			$cadena = str_replace("##mensaje##", "", $cadena);
+			$cadena = str_replace("##configuracion##", "", $cadena);
+		} else {
+			$trozos = explode("##configuracion##", 	$cadena);
+			$cadena = $trozos[0] . "<p>Acceso denegado</p>" . $trozos[2];
+		}
 		echo $cadena;
 	}
 
 	function vmostrarresultadoconfiguracion($resultado) {
 		$cadena = vnavegacion("configuracion_usuario");
 		$cadena = str_replace("##nombreusuario##", $_SESSION["nombre_usuario"], $cadena);
+		$cadena = str_replace("##configuracion##", "", $cadena);
 		if ($resultado == -1) {
 			$cadena = str_replace("##mensaje##", "<p>Ha ocurrido un error</p>", $cadena);
 		} else if ($resultado == 0) {
@@ -682,7 +703,7 @@
 		} else {
 			while ($datos = $resultado->fetch_assoc()) {
 				$cuerpo .= "<a href=index.php?accion=perfil&idusuario=". 
-					$datos["id_usuario"] . ">". $datos["nombre"] . "</a><br/>";
+					$datos["id_usuario"] . ">". $datos["nombre_usuario"] . "</a><br/>";
 			}
 		}
 		echo json_encode($cuerpo);

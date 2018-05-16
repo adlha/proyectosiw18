@@ -1,8 +1,8 @@
 <?php
 
 	function conectarbasedatos() {
-		//$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
-		$mysql = mysqli_connect("localhost","root","","db_grupo15");
+		$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
+		//$mysql = mysqli_connect("localhost","root","","db_grupo15");
 		return $mysql;
 	}
 
@@ -39,7 +39,7 @@
 		
 
 		$consulta = "insert into usuarios (nombre_usuario, password, 
-			email, foto_perfil) values ('$nombreusuario','$password','$email', '')";
+			email, foto_perfil) values ('$nombreusuario','$password','$email', 'icons/profile.png')";
 
 		if ($resultado = $bd->query($consulta)) {
 			return 1;
@@ -514,13 +514,15 @@
 		$password = md5(cogerparametro("passwd"));
 		
 
-		$consulta = "select id_usuario from usuarios where (nombre_usuario='$nombreusuario' and password='$password')";
+		$consulta = "select id_usuario, foto_perfil from usuarios where 
+			(nombre_usuario='$nombreusuario' and password='$password')";
 		$resultado = $bd->query($consulta);
 
 		if ($resultado->num_rows>0) {
             $tupla=$resultado->fetch_assoc();
             $_SESSION["id_usuario"]=$tupla["id_usuario"];
             $_SESSION["nombre_usuario"]=$nombreusuario;
+            $_SESSION["foto_perfil"]=$tupla["foto_perfil"];
             return 1;
 		} else {
 			return -1;
@@ -540,7 +542,7 @@
 		$password = md5(cogerparametro("passwd"));
 		
 		$consulta = "insert into usuarios (nombre_usuario, password, 
-		foto_perfil) values ('$nombreusuario','$password', '')";
+		foto_perfil) values ('$nombreusuario','$password', 'icons/profile.png')";
 
 		$resultado = $bd->query($consulta);
 		
@@ -709,17 +711,34 @@
 		// Si la contraseña se ha introducido correctamente, continuar
 		$password = cogerparametro("password_nueva");
 		if (empty($password)){
-			$consulta = "update usuarios set nombre_usuario = '$nombreusuario' where id_usuario = $id";
+			$password = $password_actual;
 		} else {
-			$consulta = "update usuarios set nombre_usuario = '$nombreusuario', password = md5('$password') where id_usuario = $id";
+			$password = md5($password);
 		}
 
-		if ($resultado = $bd->query($consulta)) {
-			$_SESSION["nombre_usuario"] = $nombreusuario;
-			return 1;
-		} else  {
-			return -1;
-		}				
+		if ($_FILES["fotoperfil"]["size"] == 0) {
+			$consulta = "update usuarios set nombre_usuario = '$nombreusuario', password = '$password' 
+				where id_usuario = $id";
+			if ($resultado = $bd->query($consulta)) {
+				$_SESSION["nombre_usuario"] = $nombreusuario;
+				return 1;
+			} else {
+				return -1;
+			}
+		} else {
+			$target_dir = "imagenes/perfil/";
+			$target_file = $target_dir . uniqid() . time();
+			$consulta = "update usuarios set nombre_usuario = '$nombreusuario', password = '$password', 
+				foto_perfil = '$target_file' where id_usuario = $id";
+			if ($resultado = $bd->query($consulta)) {
+				$res_subida = move_uploaded_file($_FILES['fotoperfil']['tmp_name'], $target_file);
+				$_SESSION["nombre_usuario"] = $nombreusuario;
+				$_SESSION["foto_perfil"] = $target_file;
+				return 1;
+			} else  {
+				return -1;
+			}				
+		}
 	}
 
 	function mbuscargrupos() {

@@ -6,12 +6,12 @@
 
 	$accion = cogerparametro("accion");
 	$id = cogerparametro("id");
-
+	$filtro=cogerparametro("filtro");
 	if ((strlen($accion) == 0) && (strlen($id) == 0)) {
 		if (isset($_SESSION['nombre_usuario']) && $_SESSION['nombre_usuario'] == "admin") {
 			vmostrarhomeadmin();
 		} else {
-			vmostrarmenu(mlistadonovedades());
+			vmostrarmenu(mlistadonovedades("todos"));
 		}
 	}
 
@@ -114,11 +114,11 @@
 				break;
 		}
 	} else if ($accion == "login") {
-		vmostrarresultadologin(mlogin(), mlistadonovedades());
+		vmostrarresultadologin(mlogin(), mlistadonovedades("todos"));
 	} else if ($accion == "registro") {
-		vmostrarresultadoregistro(mregistro(), mlistadonovedades());
+		vmostrarresultadoregistro(mregistro(), mlistadonovedades("todos"));
 	} else if ($accion == "logout") {
-		vmostrarresultadologout(mlogout(), mlistadonovedades());
+		vmostrarresultadologout(mlogout(), mlistadonovedades("todos"));
 	} else if ($accion == "listado") {
 		switch($id) {
 			case 1:
@@ -132,7 +132,7 @@
 				break;
 			case 3:
 				// Mostrar listado de las novedades
-				vlistadonovedades(mlistadonovedades());
+				vlistadonovedades(mlistadonovedades("siguiendo"));
 				break;
 		}
 	} else if ($accion == "grupo") {

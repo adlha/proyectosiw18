@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 {box-sizing: border-box;}
 
 header {
@@ -334,3 +335,329 @@ input[type=submit]:hover {
 
 
 
+=======
+{box-sizing: border-box;}
+
+header {
+  padding: 20px;
+  color: white;
+  background-color: black;
+  clear: left;
+  text-align: center;
+}
+
+footer {
+  background-color: #e9e9e9;
+  text-align: center;
+  padding: 10px;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  padding: 10px;
+  background: #f1f1f1;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+.h3-date {
+  font-size: 12px;
+}
+
+.h2-index {
+  margin-left: 20px;
+}
+
+.login-form input {
+  width: 300px;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  margin: 5px 0;
+  opacity: 0.85;
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+}
+
+
+input[type=submit] {
+  width: 325px;
+  background-color: #666;
+  color: white;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: black;
+}
+
+.filtro input {
+  font-size: 17px;
+  line-height: 20px;
+  text-decoration: none;
+  margin-left: 20px;
+}
+
+
+.register {
+  width: 300px;
+  padding: 12px;
+  border: none;
+  border-radius: 4px;
+  margin: 5px 0;
+  opacity: 0.85;
+  display: inline-block;
+  font-size: 17px;
+  line-height: 20px;
+  background-color: #666;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.register:hover {
+  background-color: black;
+}
+
+/* style the container */
+.container {
+  position: relative;
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px 0 30px 0;
+} 
+
+/* bottom container */
+.bottom-container {
+  text-align: center;
+  background-color: #666;
+  border-radius: 0px 0px 4px 4px;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #e9e9e9;
+}
+
+.topnav .link {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.topnav .link:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav .link:active {
+  background-color: black;
+  color: white;
+}
+
+.topnav .search-container {
+  float: none;
+  margin: 0 1.5%;
+}
+
+.topnav input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+}
+
+.topnav .search-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #e9e9e9;
+  font-size: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+.topnav .search-container button:hover {
+  background: #ccc;
+}
+
+.topnav .avatar {
+	background-color: white;
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	margin: 0;
+	float: right;
+}
+
+.topnav .settings {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	margin-right: 5px;
+	margin-top: 25px;
+	float: right;
+}
+
+.topnav .login {
+  border: 2px solid black;
+  background-color: white;
+  color: black;
+  padding: 14px 28px;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  float: right;
+  font-size: 15px;
+}
+
+.login:hover {
+  background: #e7e7e7;
+}
+
+.leftcolumn {   
+  float: left;
+  width: 900px;
+}
+
+.rightcolumn {
+  float: right;
+  width: 300px;
+}
+
+.infogroups {
+	float: left;
+	width: 300px;
+}
+
+.albumsgroups {
+	float: right;
+  width: 900px;
+}
+
+.comments {
+	float: right;
+	width: 600px;
+}
+
+.news {
+	float: left;
+	width: 600px;
+}
+
+.user {
+	float: left;
+	width: 300px;
+	padding-right: 100px;
+}
+
+.user-lists {
+	width: 350px;
+	padding-right: 10px;
+	padding-left: 20px;
+}
+
+/* Fake image */
+.fakeimg {
+  background-color: #aaa;
+  width: auto;
+  padding: 20px;
+}
+
+/* Add a card effect for articles */
+.card {
+  background-color: white;
+  padding: 20px;
+  margin-top: 20px;
+  height: 500px;
+	margin-bottom: 20px;
+}
+
+.cardgroups {
+	height: 350px;	
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.col {
+  margin: auto;
+  width: 50%;
+  margin-top: 6px;
+  padding: 70px 0;
+  text-align: center;
+}
+
+.config form {
+  text-align: left;
+  border-style: solid;
+  border-width: 2px;
+}
+
+.config form input {
+  float: left;
+  width: 75%;
+  margin: 10px;
+}
+
+.config form label {
+  float: left;
+  width: 25%;
+  margin: 10px;
+  padding: 12px 12px 12px 0;
+  display: inline-block;
+}
+
+.config form input[type=submit] {
+  margin: 0;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.follow-button {
+  color: black;
+  font-size: 10pt;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: black;
+  border-radius: 3px;
+  width: 85px;
+  height: 30px;
+  margin-top: 150px;
+  display: inline;
+  cursor: pointer;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+>>>>>>> Stashed changes

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -105,3 +106,96 @@
 	</footer>
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MML</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="functions.js"></script>
+	<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+	<header>
+		<h1>My Music List</h1>
+	</header>
+	
+	<div class="topnav">
+		<a class="link" href="index.php">Home</a>
+	  	<a class="link" href="index.php?accion=listado&id=1">Categorías</a>
+	  	<a class="link" href="index.php?accion=listado&id=2">Grupos</a>
+		<a class="link" href="index.php?accion=listado&id=3">Novedades</a>
+		##login##
+		<a class="login link" href="login.html">Log In</a>
+		##login##
+		##usuario##
+		<a href="#"><img class="avatar" src="icons/profile.png" alt="Avatar"></a>
+		<a href="index.php?accion=logout"><img class="settings" src="icons/logout.png" alt="Log out"></a>
+		<a href="#"><img class="settings" src="icons/settings.png" alt="Settings"></a>
+		<a href="#"><img class="settings" src="icons/envelope.png" alt="Mensajes"></a>
+		##usuario##
+	</div>
+
+	<div class="row">		
+		<div class="infogroups">
+			<div class="card">
+		  		<h2>##nombregrupo##</h2>
+		  		##foto##
+				<p>##info##</p>
+				##followform##
+				<form id="followform">
+					<input type="hidden" name="idusuario" value="##idusuario##">
+					<input type="hidden" name="idgrupo" value="##idgrupo##">
+					<input type="hidden" name="accion" value="follow">
+					<input type="hidden" name="id" value="1">
+ 
+					<button onclick="follow();" id="followbutton" class="follow-button" type="submit">+ Seguir</button>
+ 				</form><br />
+ 				##followform##
+ 				##valoracion##
+ 				<select>
+ 					<option value="null">-</option>
+				  	<option value="1">1</option>
+				  	<option value="2">2</option>
+				  	<option value="3">3</option>
+				  	<option value="4">4</option>
+				  	<option value="5">5</option>
+				</select>
+ 				##valoracion##
+			</div>
+		</div>
+		<div class="albumsgroups">
+			<div class="card">
+				<p>Aquí irían los albums etc</p>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		##comentarios##
+		<div class="comments">
+			<div class="card cardgroups">
+				<p>Comentarios</p>
+			</div>
+		</div>
+		##comentarios##
+		<div class="news">
+			<div class="card cardgroups">
+				<h3>Novedades</h3>
+				<ul>
+					##novedad##
+					<li>[##fechapub##] — <a href="index.php?accion=novedad&idnovedad=##idnovedad##">##titular##</a></li>
+					##novedad##
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<footer>
+		<h2>Footer</h2>
+		<div>Icons made by <a href="https://www.flaticon.com/authors/lucy-g" title="Lucy G">Lucy G</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+	</footer>
+</body>
+</html>
+>>>>>>> Stashed changes

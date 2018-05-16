@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Alta grupo</title>
+	<link href='./dropzone.css' type='text/css' rel='stylesheet'>
+	<script src='./dropzone.js' type='text/javascript'></script>
+	<script type="text/javascript" src="dropzoneoptions.js"></script>
 </head>
 <body>
 	<form action="index.php" method="post">
@@ -15,7 +18,8 @@
                     <option value="##idcategoria##">##nombrecategoria##</option>
                     ##option##
                     </select><br>
-		
+		<div class="dropzone" id="mydropzone">
+		</div> 
 		<input type="hidden" name="accion" value="alta">
 		<input type="hidden" name="id" value="2">
 

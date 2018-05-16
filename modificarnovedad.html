@@ -3,6 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Modificar novedad</title>
+	<link href='./dropzone.css' type='text/css' rel='stylesheet'>
+	<script src='./dropzone.js' type='text/javascript'></script>
+	<script type="text/javascript" src="dropzoneoptions.js"></script>
 </head>
 <body>
 	<form action="index.php" method="post">
@@ -14,12 +17,9 @@ value="##cuerpo##"><br>
 
 		Grupos :<br>
                     ##option##
-                    <input type="checkbox" name="vehicle" value="##idgrupo##">##nombregrupo##<br>
+                    <input type="checkbox" name="grupo[]" value="##idgrupo##">##nombregrupo##<br>
                     ##option##
-		
-		
-
-		
+		<div class="dropzone" id="mydropzone"></div> 
 		<input type="hidden" name="accion" value="lym">
 		<input type="hidden" name="id" value="3">
 

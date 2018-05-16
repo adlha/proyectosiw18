@@ -1,8 +1,7 @@
 <?php
 
 	function conectarbasedatos() {
-		$mysql = mysqli_connect("localhost","root","","db_grupo15");
-		//$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
+		$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
 		return $mysql;
 	}
 
@@ -335,11 +334,15 @@
 		}				
 	}
 
-	function mlistadonovedades() {
+	function mlistadonovedades($filtro) {
 		$bd = conectarbasedatos();
 
-		$consulta = "select * from novedades order by fecha_ed desc";
-
+		if (isset($_SESSION["id_usuario"]) && $filtro=="siguiendo"){
+			$usuario=$_SESSION["id_usuario"];
+			$consulta = "select titulo, cuerpo, fecha_pub, fecha_ed from novedades n, novedadesgrupos ng, listaseguidos ls where n.id_novedad=ng.id_novedad and ng.id_grupo=ls.id_grupo and ls.id_usuario='$usuario'";
+		} else {
+			$consulta = "select * from novedades order by fecha_ed desc";
+		}
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
 		} else  {
@@ -536,6 +539,7 @@
 		}
 	}
 
+<<<<<<< Updated upstream
 	function mgruposfollowing() {
 		$bd = conectarbasedatos();
 		$id_usuario = cogerparametro("idusuario");
@@ -640,6 +644,25 @@
 			return $resultado;
 		} else {
 			return -1;
+=======
+	function msubirimagenes(){
+		if(!empty($_FILES)){
+			//connect with the database
+			conectarbasedatos();
+			if($mysqli->connect_errno){
+				echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
+			}
+		
+			$targetDir = "uploads/";
+			$fileName = $_FILES['file']['name'];
+			$targetFile = $targetDir.$fileName;
+		
+			if(move_uploaded_file($_FILES['file']['tmp_name'],$targetFile)){
+				//insert file information into db table
+				$conn->query("INSERT INTO files (file_name, uploaded) VALUES('".$fileName."','".date("Y-m-d H:i:s")."')");
+			}
+		
+>>>>>>> Stashed changes
 		}
 	}
 

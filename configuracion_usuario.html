@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -67,3 +68,66 @@
 	
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MML</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript" src="functions.js"></script> 
+</head>
+
+<body>
+	<header>
+		<h1>My Music List</h1>
+	</header>
+	
+	<div class="topnav">
+		<a class="link" href="index.html">Home</a>
+	  	<a class="link" href="categorias.html">Categorías</a>
+	  	<a class="link" href="grupos.html">Grupos</a>
+		<a class="link" href="#novedades">Novedades</a>
+		##usuario##
+		<a href="#"><img class="avatar" src="icons/profile.png" alt="Avatar"></a>
+		<a href="#"><img class="settings" src="icons/logout.png" alt="Log out"></a>
+		<a href="#"><img class="settings" src="icons/settings.png" alt="Configuracion"></a>
+		<a href="#"><img class="settings" src="icons/envelope.png" alt="Mensajes"></a>
+		##usuario##
+	</div>
+	
+	<div class="container">
+		<div class="row">
+			<div class="col config">
+				<form action="index.php" method="post" enctype="multipart/form-data">
+					<div class="row">
+						<label for="nombreusuario">Nombre de usuario </label>
+						<input type="text" name="nombreusuario" id="nombreusuario" value="##nombreusuario##">
+					</div>
+					<div class="row">
+						<label for="password">Contraseña </label>
+						<input type="password" id="password" name="password">
+					</div>
+					<div class="row">
+						<label for="fotoperfil">Foto de perfil </label>
+						<input type="file" name="fotoperfil" id="fotoperfil">
+					</div>
+					
+					<input type="hidden" name="accion" value="lym">
+					<input type="hidden" name="id" value="13">
+					<input type="hidden" name="idusuario" value="##id##">
+
+					<input type="submit" value="Cambiar">
+				</form>
+			</div>
+		</div>
+	</div>
+	
+	<footer>
+		<h2>Footer</h2>
+		<div>Icons made by <a href="https://www.flaticon.com/authors/lucy-g" title="Lucy G">Lucy G</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+	</footer>
+	
+</body>
+</html>
+>>>>>>> Stashed changes

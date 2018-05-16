@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Listado discos</title>
+</head>
+<body>
+	<table border="1">
+		<tr>
+			<th>ID disco</th>
+			<th>Nombre grupo</th>
+			<th>Nombre</th>
+			<th>Año</th>
+		</tr>
+		##fila##
+		<tr>
+			<td>##id##</td>
+			<td>##nombregrupo##</td>
+			<td>##nombre##</td>
+			<td>##fecha##</td>
+			<td><a href="index.php?accion=lym&id=17&iddisco=##id##&idgrupo=##idgrupo##">Editar</a></td>
+			<td><a href="index.php?accion=lym&id=19&iddisco=##id##&idgrupo=##idgrupo##">Eliminar</a></td>
+		</tr>
+		##fila##
+	</table>
+	<br />
+	<a href="index.php?accion=alta&id=9&idgrupo=##idgrupo##">Añadir disco</a><br />
+	<a href="index.php?accion=lym&id=1&idgrupo=##idgrupo##">Volver</a>
+</body>
+</html>

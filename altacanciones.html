@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Alta canciones</title>
+</head>
+<body>
+	<form action="index.php" method="post">
+
+		Nombre : <input type="text" name="nombre"><br>
+		Año : <input type="text" name="fecha"><br>
+		Grupo :  <select name="grupo">
+                    ##option##
+                    <option value="##idgrupo##">##nombregrupo##</option>
+                    ##option##
+                    </select><br>
+		<div class="dropzone" id="mydropzone">
+		</div> 
+		<input type="hidden" name="accion" value="alta">
+		<input type="hidden" name="id" value="16">
+
+		<input type="submit" value="Enviar">
+	</form>
+	<a href="home.html">Volver</a>
+</body>
+</html>

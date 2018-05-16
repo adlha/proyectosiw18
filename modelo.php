@@ -311,8 +311,8 @@
 		
 		$path=str_replace(" ","_",$titular).".txt";
 		
-		//file_put_contents("/var/www/html/trabajofinal/novedades/".$path, $cuerpo);
-		file_put_contents("/opt/lampp/htdocs/proyectosiw18/novedades/".$path, $cuerpo);
+		file_put_contents("/var/www/html/trabajofinal/novedades/".$path, $cuerpo);
+		//file_put_contents("/opt/lampp/htdocs/proyectosiw18/novedades/".$path, $cuerpo);
 		$fecha = date("Y-n-d H:i:s"); 
 		$consulta="insert into novedades (titulo, cuerpo, fecha_pub, fecha_ed) values ('$titular', '$path', '$fecha', '$fecha')";
 		if ($resultado = $bd->query($consulta)) {
@@ -427,6 +427,77 @@
 			return -1;
 		}						
 	}
+	
+	function mvalidaraltadisco() {
+		$bd = conectarbasedatos();
+		$idgrupo = cogerparametro("idgrupo");
+		$nombre = cogerparametro("nombre");
+		$fecha = cogerparametro("fecha");
+		
+		$consulta = "insert into albums (id_grupo, nombre, fecha, portada) values ($idgrupo, '$nombre', '$fecha', '')";
+		echo $consulta;
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else {
+			return -1;
+		}
+		
+	}
+	
+	function mdiscosgrupo() {
+		$bd = conectarbasedatos();
+		$idgrupo = cogerparametro("idgrupo");
+		
+		$consulta = "select * from albums where id_grupo = $idgrupo";
+		
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+	
+	function mdatosdisco() {
+		$bd = conectarbasedatos();
+		$idalbum = cogerparametro("iddisco");
+		
+		$consulta = "select * from albums where id_album = $idalbum";
+		
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
+		} else {
+			return -1;
+		}
+	}
+	
+	function mmodificardisco() {
+		$bd = conectarbasedatos();
+
+		$id = cogerparametro("iddisco");
+		$nombre = cogerparametro("nombre");
+		$fecha = cogerparametro("fecha");
+		$consulta = "update albums set nombre = '$nombre', fecha = '$fecha' where id_album = $id";
+		echo $consulta;
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else  {
+			return -1;
+		}			
+	}
+	
+	function mborrardisco() {
+		$bd = conectarbasedatos();
+
+		$id = cogerparametro("iddisco");
+
+		$consulta = "delete from albums where id_album = $id";
+
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else  {
+			return -1;
+		}
+	}
 
 	/***********************************************
 	Función que comprueba si una solicitud de login
@@ -502,7 +573,7 @@
 		$id_usuario = cogerparametro("idusuario");
 		$id_grupo = cogerparametro("idgrupo");
 
-		$consulta = "insert into lista_seguidos values ($id_usuario, $id_grupo, null)";
+		$consulta = "insert into listaseguidos values ($id_usuario, $id_grupo, null)";
 		$resultado = $bd->query($consulta);
 
 		if ($resultado) {
@@ -539,11 +610,11 @@
 		}
 	}
 
-<<<<<<< Updated upstream
+
 	function mgruposfollowing() {
 		$bd = conectarbasedatos();
 		$id_usuario = cogerparametro("idusuario");
-		$consulta = "select * from grupos where id_grupo in (select id_grupo from lista_seguidos where id_usuario = $id_usuario)";
+		$consulta = "select * from grupos where id_grupo in (select id_grupo from listaseguidos where id_usuario = $id_usuario)";
 
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
@@ -578,7 +649,7 @@
 		} else {
 			$bd = conectarbasedatos();
 			$id_grupo = cogerparametro("idgrupo");
-			$consulta = "select * from comentarios_grupo where id_grupo = $id_grupo";
+			$consulta = "select * from comentariosgrupo where id_grupo = $id_grupo";
 			if ($resultado = $bd->query($consulta)) {
 				return $resultado;
 			} else {
@@ -594,7 +665,8 @@
 		$texto = cogerparametro("comment");
 		$fecha = date("Y-n-d H:i:s"); 
 
-		$consulta = "insert into comentarios_grupo values ($id_grupo, $id_usuario, '$texto', 1, '$fecha')";
+		$consulta = "insert into comentariosgrupo (id_grupo, id_usuario, texto, apropiado, fecha) 
+			values ($id_grupo, $id_usuario, '$texto', 1, '$fecha')";
 
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
@@ -644,26 +716,25 @@
 			return $resultado;
 		} else {
 			return -1;
-=======
-	function msubirimagenes(){
-		if(!empty($_FILES)){
-			//connect with the database
-			conectarbasedatos();
-			if($mysqli->connect_errno){
-				echo "Failed to connect to MySQL: (" . $mysqli->connect_errno . ") " . $mysqli->connect_error;
-			}
-		
-			$targetDir = "uploads/";
-			$fileName = $_FILES['file']['name'];
-			$targetFile = $targetDir.$fileName;
-		
-			if(move_uploaded_file($_FILES['file']['tmp_name'],$targetFile)){
-				//insert file information into db table
-				$conn->query("INSERT INTO files (file_name, uploaded) VALUES('".$fileName."','".date("Y-m-d H:i:s")."')");
-			}
-		
->>>>>>> Stashed changes
 		}
+	}
+
+	function msubirimagenes(){
+		$ds = DIRECTORY_SEPARATOR;
+ 
+			$storeFolder = 'imagenes';
+			 
+			if (!empty($_FILES)) {
+				 
+				$tempFile = $_FILES['file']['tmp_name'];           
+				  
+				$targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;
+				 
+				$targetFile =  $targetPath. $_FILES['file']['name'];
+			 
+				move_uploaded_file($tempFile,$targetFile);
+				 
+			}
 	}
 
 ?>

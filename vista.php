@@ -85,6 +85,14 @@
 
 		echo $trozos[0] . $cuerpo . $trozos[2];
 	}
+	
+	function vmostraraltadisco($resultado) {
+		$cadena = file_get_contents("altadiscos.html");
+		$datos = $resultado->fetch_assoc();
+		$cadena = str_replace("##idgrupo##", $datos["id_grupo"], $cadena);
+		$cadena = str_replace("##nombregrupo##", $datos["nombre"], $cadena);
+		echo $cadena;
+	}
 
 	function vmostraraltacategoria() {
 		echo file_get_contents("altacategoria.html");
@@ -346,7 +354,7 @@
 	***********************************************/
 	function vmostrarlistadonovedades($resultado){
 		if ($resultado == -1){
-			mostrarmensaje("Mostrar usuario", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
+			mostrarmensaje("Mostrar listado novedades", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		}else{
 			$cadena = file_get_contents("listadonovedades.html");	
 			$trozos = explode("##fila##", $cadena);
@@ -355,7 +363,7 @@
 			$cuerpo = "";
 			while ($datos = $resultado->fetch_assoc()) {
 				$aux = $trozos[1];
-				$aux = str_replace("##titular##", $datos["titul0"], $aux);
+				$aux = str_replace("##titular##", $datos["titulo"], $aux);
 				$aux = str_replace("##link##", $datos["cuerpo"], $aux);
 				$cuerpo .= $aux;
 			}
@@ -363,7 +371,51 @@
 			echo $trozos[0] . $cuerpo . $trozos[2];
 		}
 	}	
+	
+	function vmostrarlistadodiscos($resultado, $datosgrupo) {
+		if ($resultado == -1){
+			mostrarmensaje("Mostrar discos", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
+		}else{
+			$datos_g = $datosgrupo->fetch_assoc();
+			$cadena = file_get_contents("listadodiscos.html");
+			$cadena = str_replace("##idgrupo##", $datos_g["id_grupo"], $cadena);
+			$trozos = explode("##fila##", $cadena);
 
+			$aux = "";
+			$cuerpo = "";
+			while ($datos = $resultado->fetch_assoc()) {
+				$aux = $trozos[1];
+				$aux = str_replace("##nombregrupo##", $datos_g["nombre"], $aux);
+				$aux = str_replace("##id##", $datos["id_album"], $aux);
+				$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+				$aux = str_replace("##fecha##", $datos["fecha"], $aux);
+				$cuerpo .= $aux;
+			}
+
+			echo $trozos[0] . $cuerpo . $trozos[2];
+		}
+	}
+	
+	function vmostrardisco($resultado, $idgrupo, $tipo) {
+		if ($resultado == -1) {
+			mostrarmensaje("Modificar disco", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
+		} else {
+			if ($tipo == "modificar") {
+				$aux = file_get_contents("modificardisco.html");	
+			} else {
+				$aux = file_get_contents("eliminardisco.html");
+			}
+			
+			$datos = $resultado->fetch_assoc();
+
+			$aux = str_replace("##iddisco##", $datos["id_album"], $aux);
+			$aux = str_replace("##nombre##", $datos["nombre"], $aux);
+			$aux = str_replace("##fecha##", $datos["fecha"], $aux);
+			$aux = str_replace("##idgrupo##", $idgrupo, $aux);
+			echo $aux;
+		}
+	}
+	
 	/***********************************************
 
 	Función que muestra los datos de una novedad para 
@@ -420,7 +472,7 @@
 	***********************************************/
 	function vmostrarresultadologout($resultado, $novedades) {
 		if ($resultado == 1) {
-			header("Location: ".$uri."/proyectosiw18");
+			header("Location: ".$uri."/trabajofinal");
 		} else {
 			vmostrarmenu($novedades);
 		}
@@ -469,13 +521,24 @@
 		echo $trozos[0] . $cuerpo . $trozos[2];
 	}
 
-	function vmostrarfichagrupo($resultado, $novedades, $siguiendo, $comentarios) {
+	function vmostrarfichagrupo($resultado, $discos, $novedades, $siguiendo, $comentarios) {
 		$cadena = vnavegacion("ficha_grupo");
 
 		$datos = $resultado->fetch_assoc();
 		$cadena = str_replace("##nombregrupo##", $datos["nombre"], $cadena);
 		$cadena = str_replace("##info##", $datos["descripcion"], $cadena);
 		$cadena = str_replace("##foto##", "", $cadena);
+		
+		$trozos = explode("##disco##", $cadena);
+		$aux = "";
+		$cuerpo = "";
+		while ($datos = $discos->fetch_assoc()) {
+			$aux = $trozos[1];
+			$aux = str_replace("##nombredisco##", $datos["nombre"], $aux);
+			$aux = str_replace("##fechadisco##", $datos["fecha"], $aux);
+			$cuerpo .= $aux;
+		}
+		$cadena = $trozos[0] . $cuerpo . $trozos[2];
 
 		if (isset($_SESSION["id_usuario"])) {
 			$cadena = str_replace("##idusuario##", $_SESSION["id_usuario"], $cadena);
@@ -489,13 +552,12 @@
 				$cadena = str_replace("##siguiendo##", "+ Seguir", $cadena);
 
 			$trozos = explode("##comment##", $cadena);
-			$aux = "";
 			$cuerpo = "";
-			while ($datos_c = $comentarios->fetch_assoc()) {
+			while ($datos = $comentarios->fetch_assoc()) {
 				$aux = $trozos[1];
-				$aux = str_replace("##nombreusuario##", $datos_c["id_usuario"], $aux);
-				$aux = str_replace("##fecha##", $datos_c["fecha"], $aux);
-				$aux = str_replace("##texto##", $datos_c["texto"], $aux);
+				$aux = str_replace("##nombreusuario##", $datos["id_usuario"], $aux);
+				$aux = str_replace("##fecha##", $datos["fecha"], $aux);
+				$aux = str_replace("##texto##", $datos["texto"], $aux);
 				$cuerpo .= $aux;
 			}
 			$cadena = $trozos[0] . $cuerpo . $trozos[2];

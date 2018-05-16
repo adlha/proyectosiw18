@@ -49,6 +49,14 @@
 				// Validar el alta de usuario
 				vmostrarresultadoalta(mvalidaraltanovedad(), "novedad");
 				break;
+			case 9:
+				// Mostrar el formulario de alta de disco
+				vmostraraltadisco(mdatosgrupo());
+				break;
+			case 10:
+				// Validar el alta de disco
+				vmostrarresultadoalta(mvalidaraltadisco(), "disco");
+				break;
 		}
 	} else if ($accion == "lym") {
 		switch($id) {
@@ -112,6 +120,26 @@
 				// Mostrar resultado eliminar usuario
 				vmostrarresultadoborrar(mborrarusuario(), "usuario");
 				break;
+			case 16:
+				// Mostrar listado de discos de un grupo
+				vmostrarlistadodiscos(mdiscosgrupo(), mdatosgrupo());
+				break;
+			case 17:
+				// Mostrar disco específico para modificar
+				vmostrardisco(mdatosdisco(), cogerparametro("idgrupo"), "modificar");
+				break;
+			case 18: 
+				// Mostrar resultado de modificación de disco
+				vmostrarresultadomodificar(mmodificardisco(), "disco");
+				break;
+			case 19: 
+				// Mostrar disco especifico para eliminar
+				vmostrardisco(mdatosdisco(), cogerparametro("idgrupo"), "eliminar");
+				break;
+			case 20: 
+				// Mostrar resultado de elminación de disco
+				vmostrarresultadoborrar(mborrardisco(), "disco");
+				break;
 		}
 	} else if ($accion == "login") {
 		vmostrarresultadologin(mlogin(), mlistadonovedades("todos"));
@@ -139,7 +167,7 @@
 		switch($id) {
 			case 1:
 				// Mostrar la ficha de un grupo
-				vmostrarfichagrupo(mdatosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
+				vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
 				break;
 			case 2:
 				// Seguir a un grupo

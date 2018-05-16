@@ -1,8 +1,8 @@
 <?php
 
 	function conectarbasedatos() {
-		$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
-		//$mysql = mysqli_connect("localhost","root","","db_grupo15");
+		//$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
+		$mysql = mysqli_connect("localhost","root","","db_grupo15");
 		return $mysql;
 	}
 
@@ -578,9 +578,23 @@
 		$resultado = $bd->query($consulta);
 
 		if ($resultado) {
-        	return 1;
+        	echo 1;
 		} else {
-			return -1;
+			echo -1;
+		} 
+	}
+
+	function mdejardeseguirgrupo() {
+		$bd = conectarbasedatos();
+		$id_usuario = cogerparametro("idusuario");
+		$id_grupo = cogerparametro("idgrupo");
+
+		$consulta = "delete from listaseguidos where id_grupo = $id_grupo and id_usuario = $id_usuario";
+		$resultado = $bd->query($consulta);
+		if ($resultado) {
+        	echo 0;
+		} else {
+			echo -1;
 		} 
 	}
 
@@ -632,7 +646,7 @@
 			$id_usuario = $_SESSION["id_usuario"];
 			$id_grupo = cogerparametro("idgrupo");
 
-			$consulta = "select * from lista_seguidos where id_usuario = $id_usuario and id_grupo = $id_grupo";
+			$consulta = "select * from listaseguidos where id_usuario = $id_usuario and id_grupo = $id_grupo";
 			if ($resultado = $bd->query($consulta)) {
 				if ($resultado->num_rows == 0)
 					return 0;

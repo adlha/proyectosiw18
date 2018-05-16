@@ -171,15 +171,17 @@
 				break;
 			case 2:
 				// Seguir a un grupo
-				mseguirgrupo();
+				$resultado = msiguiendo();
+				if ($resultado == 0) {
+					mseguirgrupo();
+				} else {
+					mdejardeseguirgrupo();
+				}
 				break;
 			case 3:
 				// Dejar un comentario para un grupo
-				if (mnuevocomentario())
-					vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
-				else {
-					echo "error";
-				}
+				mnuevocomentario();
+				vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
 				break;
 		}
 	} else if ($accion == "novedad") {

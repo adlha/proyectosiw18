@@ -1,16 +1,18 @@
 function follow() {
-    $('#followform').submit(function (e) {
-
-              $.ajax({
-                type: 'POST',
-                url: 'index.php',
-                data: $('#followform').serialize(),
-                success: function (data) {
-                  $('#followbutton').text('Siguiendo');
-                }
-              });
-          e.preventDefault();
-        });
+  $('#followform').on('submit', function (e) {
+    e.preventDefault();
+  });
+  $.ajax({
+    type: 'POST',
+    url: 'index.php',
+    data: $('#followform').serialize(),
+    success: function (data) {
+      if (data == '1')
+        $('#followbutton').text('Siguiendo');
+      else if (data == '0')
+        $('#followbutton').text('+ Seguir');
+      }
+    });
 }
 
 function buscar(letra) {

@@ -1,8 +1,8 @@
 <?php
 
 	function conectarbasedatos() {
-		//$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
-		$mysql = mysqli_connect("localhost","root","","db_grupo15");
+		$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
+		//$mysql = mysqli_connect("localhost","root","","db_grupo15");
 		return $mysql;
 	}
 

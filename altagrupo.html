@@ -6,10 +6,10 @@
 	<link href='dropzone.css' type='text/css' rel='stylesheet'>
 	<script src='dropzone.js' type='text/javascript'></script>
 	<script type="text/javascript" src="dropzoneoptions.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-	<form action="index.php" method="post">
-
+	<form id="altagrupoform">
 		Nombre : <input type="text" name="nombre"><br>
 		Descripción : <input type="text" name="descripcion"><br>
 		Año de debut : <input type="text" name="debut"><br>
@@ -18,14 +18,13 @@
                     <option value="##idcategoria##">##nombrecategoria##</option>
                     ##option##
                     </select><br>
-
-        <div id="mydropzone" class="dropzone"></div>
-
 		<input type="hidden" name="accion" value="alta">
 		<input type="hidden" name="id" value="2">
-
-		<input id="submit-all" type="submit" value="Enviar">
 	</form>
+
+	<div class="dropzone" id="my-awesome-dropzone"></div><br />
+	<button id="submit-all">Enviar</button><br />
+
 	<a href="home.html">Volver</a>
 </body>
 </html>

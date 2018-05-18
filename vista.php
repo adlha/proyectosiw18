@@ -126,12 +126,12 @@
 		-1 --> No se ha podido dar de alta
 	***********************************************/
 	function vmostrarresultadoalta($resultado, $tipo) {
-		if ($resultado == 1) {
-			//Alta correcta
-			mostrarmensaje("Alta de $tipo", "Se ha dado de alta correctamente.", "", "");
-		} else {
+		if ($resultado == -1) {
 			//Alta erronea
 			mostrarmensaje("Alta de $tipo", "Se ha producido un error.", "Vuelva a intentarlo.", "Si el problema persiste póngase en contacto con el administrador.");
+		} else {
+			//Alta correcta
+			mostrarmensaje("Alta de $tipo", "Se ha dado de alta correctamente.", "", "");
 		}
 
 	}
@@ -175,7 +175,7 @@
 		-1 --> Se ha producido un error
 	***********************************************/
 	function vmostrarlistadogrupos($resultado) {
-		if ($resultado == -1) {
+		if (! $resultado) {
 			mostrarmensaje("Listado de grupos", "Se ha producido un error en el listado", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
 			$cadena = file_get_contents("listadogrupos.html");	
@@ -205,7 +205,7 @@
 		-1 --> Se ha producido un error
 	***********************************************/
 	function vmostrargrupo($resultado, $categorias, $tipo) {
-		if ($resultado == -1) {
+		if (!$resultado) {
 			mostrarmensaje("Modificar grupo", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
 			$datos = $resultado->fetch_assoc();
@@ -247,7 +247,7 @@
 		-1 --> Se ha producido un error
 	***********************************************/
 	function vmostrarlistadocategorias($resultado) {
-		if ($resultado == -1) {
+		if (!$resultado) {
 			mostrarmensaje("Listado de categorias", "Se ha producido un error en el listado", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
 			$cadena = file_get_contents("listadocategorias.html");	
@@ -274,7 +274,7 @@
 		-1 --> Se ha producido un error
 	***********************************************/
 	function vmostrarcategoria($resultado, $tipo) {
-		if ($resultado == -1) {
+		if (!$resultado) {
 			mostrarmensaje("Modificar categoría", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
 			if ($tipo == "modificar") {
@@ -300,7 +300,7 @@
 		-1 --> Se ha producido un error
 	***********************************************/
 	function vmostrarlistadousuarios($resultado) {
-		if ($resultado == -1) {
+		if (!$resultado) {
 			mostrarmensaje("Listado de usuarios", "Se ha producido un error en el listado", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
 			$cadena = file_get_contents("listadousuarios.html");	
@@ -328,7 +328,7 @@
 		-1 --> Se ha producido un error
 	***********************************************/
 	function vmostrarusuario($resultado, $tipo) {
-		if ($resultado == -1) {
+		if (!$resultado) {
 			mostrarmensaje("Modificar usuario", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
 			if ($tipo == "modificar") {
@@ -354,7 +354,7 @@
 		-1 --> Se ha producido un error
 	***********************************************/
 	function vmostrarlistadonovedades($resultado){
-		if ($resultado == -1){
+		if (!$resultado){
 			mostrarmensaje("Mostrar listado novedades", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		}else{
 			$cadena = file_get_contents("listadonovedades.html");	
@@ -374,7 +374,7 @@
 	}	
 	
 	function vmostrarlistadodiscos($resultado, $datosgrupo) {
-		if ($resultado == -1){
+		if (!$resultado){
 			mostrarmensaje("Mostrar discos", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		}else{
 			$datos_g = $datosgrupo->fetch_assoc();
@@ -398,7 +398,7 @@
 	}
 	
 	function vmostrardisco($resultado, $idgrupo, $tipo) {
-		if ($resultado == -1) {
+		if (!$resultado) {
 			mostrarmensaje("Modificar disco", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
 			if ($tipo == "modificar") {
@@ -427,7 +427,7 @@
 		-1 --> Se ha producido un error
 	***********************************************/
 	function vmostrarnovedad($resultado, $tipo) {
-		if ($resultado == -1) {
+		if (!$resultado) {
 			mostrarmensaje("Modificar novedad", "Se ha producido un error en el proceso", "Vuelva a intentarlo", "Póngase en contacto con el administrador");
 		} else {
 			if ($tipo == "modificar") {
@@ -457,8 +457,8 @@
 	Recibe:
 		Resultado del registro
 	***********************************************/
-	function vmostrarresultadoregistro($resultado) {
-		vmostrarmenu();
+	function vmostrarresultadoregistro($resultado, $novedades) {
+		vmostrarmenu($novedades);
 	}
 
 	/***********************************************
@@ -473,8 +473,8 @@
 	***********************************************/
 	function vmostrarresultadologout($resultado, $novedades) {
 		if ($resultado == 1) {
-			//header("Location: ".$uri."/trabajofinal");
-			header("Location: ".$uri."/proyectosiw18");
+			header("Location: ".$uri."/trabajofinal");
+			//header("Location: ".$uri."/proyectosiw18");
 		} else {
 			vmostrarmenu($novedades);
 		}
@@ -590,6 +590,27 @@
 			$trozos = explode("##fichagrupo##", $cadena);
 			echo $trozos[0] . "<p>Este grupo no existe</p>" . $trozos[2];
 		}
+	}
+
+	function vobtenerfichagrupopdf($resultado, $discos, $novedades, $siguiendo, $comentarios){
+		$datos = $resultado->fetch_assoc();
+		$contenido=$datos["nombre"] . "\n\n" . $datos["descripcion"] . "\n\n" ;
+		if ($discos->num_rows>0){
+			$contenido=$contenido."Discos:\n\n";
+			while ($datos = $discos->fetch_assoc()) {
+				$contenido=$contenido . "\t\t\t" . $datos["nombre"] . " (" . $datos["fecha"] . ")\n\n";
+			}
+		} else {
+			$contenido=$contenido."Sin discos\n\n";
+		}
+		$pdf = new FPDF();
+		$pdf->AddPage();
+		$pdf->SetFont('Arial','B',16);
+		$pdf->Write(5, $contenido."Galeria:\n\n");
+		$pdf->Image("imagenes/perrito1.jpg");
+		ob_start(); 
+		$pdf->Output();
+
 	}
 
 	function vlistadonovedades($resultado) {

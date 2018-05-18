@@ -52,10 +52,17 @@ function valorargrupo() {
 }
 
 function cambiar_filtro(nuevo_filtro){
-  alert(nuevo_filtro);
   $.ajax({
-      type: 'POST',
-      url: 'index.php',
-      data: {filtro : nuevo_filtro}
+    type: 'POST',
+    url: 'index.php',
+    data: {filtro : nuevo_filtro},
+    cache: false,
+    success: function(html){
+      var lineaoriginal='<input onchange="cambiar_filtro('+nuevo_filtro+');"';
+      var nuevalinea='<input onchange="cambiar_filtro('+nuevo_filtro+');" checked="checked"';
+      html=html.replace(lineaoriginal,nuevalinea);
+      document.documentElement.innerHTML=html;
+    }
   });
 }
+

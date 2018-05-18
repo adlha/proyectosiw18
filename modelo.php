@@ -1,8 +1,8 @@
 <?php
 
 	function conectarbasedatos() {
-		//$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
-		$mysql = mysqli_connect("localhost","root","","db_grupo15");
+		$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
+		//$mysql = mysqli_connect("localhost","root","","db_grupo15");
 		return $mysql;
 	}
 
@@ -35,11 +35,10 @@
 
 		$nombreusuario = cogerparametro("nombreusuario");
 		$password = md5(cogerparametro("passwd"));
-		$email = cogerparametro("email");
 		
 
-		$consulta = "insert into usuarios (nombre_usuario, password, 
-			email, foto_perfil) values ('$nombreusuario','$password','$email', 'icons/profile.png')";
+		$consulta = "insert into usuarios (nombre_usuario, password, foto_perfil) 
+			values ('$nombreusuario','$password','icons/profile.png')";
 
 		if ($resultado = $bd->query($consulta)) {
 			return 1;
@@ -62,37 +61,20 @@
 		$debut = cogerparametro("debut");
 		$categoria = cogerparametro("categoria");
 
-		var_dump($_FILES);
-		if (! empty($_FILES)) {
-		    $imagePath = isset($_FILES["fotos[0]"]["name"]) ? $_FILES["fotos[0]"]["name"] : "Undefined";
-		    $targetPath = "imagenes/";
-		    $imagePath = $targetPath . $imagePath;
-		    $tempFile = $_FILES['fotos[0]']['tmp_name'];
-		    
-		    $targetFile = $targetPath . $_FILES['fotos[0]']['name'];
-		    
-		    if (move_uploaded_file($tempFile, $targetFile)) {
-		        echo "true";
-		    } else {
-		        echo "false";
-		    }
-		}
-
-		echo "Nombre: ".$nombre."<br>";
-		echo "Descripcion: ".$descripcion."<br>";
-		echo "Debut: ".$debut."<br>";
-		echo "Categoría: ".$categoria."<br>";
-
 		$consulta = "insert into grupos (nombre, descripcion, 
-			debut, id_categoria) values ('$nombre','$descripcion','$debut', 
+			debut, id_categoria) values ('$nombre','$descripcion', '$debut', 
 			'$categoria')";
-		echo $consulta."<br>";
+
 		if ($resultado = $bd->query($consulta)) {
-            echo "ok";
-			return 1;
+            $consulta = "select id_grupo from grupos where nombre = '$nombre'";
+            if ($resultado = $bd->query($consulta)) {
+            	$datos = $resultado->fetch_assoc();
+            	echo $datos["id_grupo"];
+			} else {
+				echo -1;
+			};
 		} else {
-            echo "not ok";
-			return -1;
+			echo -1;
 		}
 	}
 
@@ -561,11 +543,11 @@
 		foto_perfil) values ('$nombreusuario','$password', 'icons/profile.png')";
 
 		$resultado = $bd->query($consulta);
-		
 		if ($resultado) {
-			$consulta = "select id_usuario from usuarios where nombre_usuario = '$nombreusuario'";
+			$consulta = "select * from usuarios where nombre_usuario = '$nombreusuario'";
 			$resultado = $bd->query($consulta);
 			$datos = $resultado->fetch_assoc();
+			$_SESSION["foto_perfil"] = $datos["foto_perfil"];
 		    $_SESSION["nombre_usuario"] = $nombreusuario;
 		    $_SESSION["id_usuario"] = $datos["id_usuario"];
         	return 1;
@@ -808,22 +790,21 @@
 		}
 	}
 
-	function msubirimagenes(){
-		$ds = DIRECTORY_SEPARATOR;
- 
-			$storeFolder = 'imagenes';
-			 
-			if (!empty($_FILES)) {
-				 
-				$tempFile = $_FILES['file']['tmp_name'];           
-				  
-				$targetPath = dirname( __FILE__ ) . $ds. $storeFolder . $ds;
-				 
-				$targetFile =  $targetPath. $_FILES['file']['name'];
-			 
-				move_uploaded_file($tempFile,$targetFile);
-				 
-			}
+	function msubirimagenesgrupo() {
+		$bd = conectarbasedatos();
+		$id_grupo = cogerparametro("id_grupo");
+
+		$target_dir = "imagenes/";
+		$target_file = $target_dir . uniqid() . time() . uniqid();
+		$res_subida = move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
+		
+		$consulta = "insert into fotosgrupos values ($id_grupo, '$target_file')";
+		if ($resultado = $bd->query($consulta)) {
+			return 1;
+		} else {
+			return -1;
+		}
+
 	}
 
 ?>

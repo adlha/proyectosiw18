@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Prueba</title>
+	<link href='dropzone.css' type='text/css' rel='stylesheet'>
+	<script src='dropzone.js' type='text/javascript'></script>
+	<script type="text/javascript" src="pruebadropzoneoptions.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+	<form action="index.php" method="post" id="altagrupoform">
+
+		Nombre : <input type="text" name="nombre"><br>
+		Descripción : <input type="text" name="descripcion"><br>
+		Año de debut : <input type="text" name="debut"><br>
+		Categoría :  <select name="categoria">
+                    ##option##
+                    <option value="1">##nombrecategoria##</option>
+                    ##option##
+                    </select><br>
+		<input type="hidden" name="accion" value="alta">
+		<input type="hidden" name="id" value="2">
+	</form>
+
+	<div class="dropzone" id="my-awesome-dropzone"></div>
+	<button type="submit" id="submit-all">Go</button>
+
+	<a href="home.html">Volver</a>
+</body>
+</html>

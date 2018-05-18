@@ -1,35 +1,46 @@
-Dropzone.options.mydropzone= {
-    url: 'index.php?accion=subirimagen',
-    autoProcessQueue: false,
-    uploadMultiple: true,
-    parallelUploads: 5,
-    maxFiles: 5,
-    maxFilesize: 1,
-    acceptedFiles: 'image/*',
-    dictDefaultMessage: "Selecciona/Arrastra las imágenes que desees añadir",
-    addRemoveLinks: true,
-    init: function() {
-        dzClosure = this; // Makes sure that 'this' is understood inside the functions below.
+Dropzone.options.myAwesomeDropzone = {
+  paramName: "file", // The name that will be used to transfer the file
+  url: "index.php?accion=subirimagenes",
+  parallelUploads: 5,
+  maxFiles: 5,
+  maxFilesize: 2, // MB
+  autoProcessQueue: false,
+  acceptedFiles: "image/*",
+  init: function () {
+  	var myDropzone = this;
 
-        // for Dropzone to process the queue (instead of default form behavior):
-        document.getElementById("submit-all").addEventListener("click", function(e) {
-            // Make sure that the form isn't actually being sent.
-            e.preventDefault();
-            e.stopPropagation();
-            dzClosure.processQueue();
-        });
+  	document.getElementById("submit-all").addEventListener("click", function (e) {
+  		e.preventDefault();
+    	$.ajax({
+		    type: 'POST',
+		    url: 'index.php',
+		    cache: false,
+		    data: $('#altagrupoform').serialize(),
+		    success: function (data) {
+		    	if (data == "-1") {
+		    		window.location.href = "index.php?accion=alta&id=11&resultado=" + data;
+		    	} else {
+		    		if (myDropzone.getQueuedFiles().length > 0) {
+		    			myDropzone.on("sending", function(file, xhr, formData) {
+	  						// Will send the filesize along with the file as POST data.
+							formData.append("id_grupo", data);
+						});
+						myDropzone.on("queuecomplete", function(file) {
+							window.location.href = "index.php?accion=alta&id=11&resultado=" + data;
+						});
+			    		myDropzone.processQueue();
+		    		} else {
+		    			window.location.href = "index.php?accion=alta&id=11&resultado=" + data;
+		    		}
+		    	}
+		    }
+    	});
+  	});
 
-        //send all the form data along with the files:
-        this.on("sendingmultiple", function(data, xhr, formData) {
-            formData.append("", jQuery("#").val());
-            
-        });
-    }
-	/**jQuery(document).ready(function() {
-
-	  $("div#mydropzone").dropzone({
-	    url: "/file/post"
-	  });
-
-	});*/
-}
+  	myDropzone.on("addedfile", function(file) {
+	  	file.previewElement.addEventListener("click", function() {
+	    	myDropzone.removeFile(file);
+  		});
+	});
+  },
+};

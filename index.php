@@ -1,8 +1,10 @@
 <?php
+	ob_start();
 	session_start();
 
 	require_once("modelo.php");
 	require_once("vista.php");
+	require_once("FPDF/fpdf.php");
 
 	$accion = cogerparametro("accion");
 	$id = cogerparametro("id");
@@ -23,7 +25,7 @@
 				break;
 			case 2: 
 				//validar el alta de grupo
-				vmostrarresultadoalta(mvalidaraltagrupo(), "grupo");
+				mvalidaraltagrupo();
 				break;
 			case 3:
 				// Mostrar el formulario de alta de categoría
@@ -57,6 +59,9 @@
 				// Validar el alta de disco
 				vmostrarresultadoalta(mvalidaraltadisco(), "disco");
 				break;
+			case 11:
+				// Mostrar resultado de alta grupo
+				vmostrarresultadoalta(cogerparametro("resultado"), "grupo");
 		}
 	} else if ($accion == "lym") {
 		switch($id) {
@@ -168,7 +173,7 @@
 			case 1:
 				// Mostrar la ficha de un grupo
 				$resultado = msiguiendo();
-				if ($resultado == 0) {
+				if ($resultado < 1) {
 					vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), $resultado, 0, mcomentarios());
 				} else {
 					vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), $resultado, mvervaloracion(), mcomentarios());
@@ -187,7 +192,12 @@
 			case 3:
 				// Dejar un comentario para un grupo
 				mnuevocomentario();
-				vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
+				$resultado = msiguiendo();
+				if ($resultado < 1) {
+					vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), $resultado, 0, mcomentarios());
+				} else {
+					vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), $resultado, mvervaloracion(), mcomentarios());
+				}
 				break;
 			case 4:
 				// Dejar valoración de un grupo
@@ -222,6 +232,11 @@
 				vmostrarresultadosbuscador(mbuscarusuarios(), "usuarios");
 				break;
 		}
+	} else if ($accion == "subirimagenes") {
+		msubirimagenesgrupo();
+	} else if ($accion == "topdf"){
+		vobtenerfichagrupopdf(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), msiguiendo(), mcomentarios());
 	}
 
+	ob_end_flush();
 ?>

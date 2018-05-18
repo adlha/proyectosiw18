@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>MML</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<link rel="stylesheet" type="text/css" href="pruebas.css">
+	<script type="text/javascript" src="functions.js"></script>
+	<script type="text/javascript" src="prueba.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+	<header>
+		<h1>My Music List</h1>
+	</header>
+	<button class="gallery-button" onclick="mostrarGaleria();" id="mostrargaleria">Ver galería</button>
+	<button class="gallery-button hidden" onclick="cerrarGaleria();" id="cerrargaleria">Cerrar galería</button>
+	<div id="galeria">
+	##galeria##
+		<div class="container">
+			<div id="myModal" class="modal">
+				<!-- The Close Button -->
+				<span class="close">&times;</span>
+
+				<!-- Modal Content (The Image) -->
+				<img class="modal-content" id="imgmodal">
+
+				<!-- Modal Caption (Image Text) -->
+				<div id="caption"></div>
+
+				<a class="prev" onclick="plusZoom(-1)">&#10094;</a>
+	  			<a class="next" onclick="plusZoom(1)">&#10095;</a>
+			</div>
+
+			##slide##
+			<div class="mySlides">
+				<div class="numbertext">##numimagen## / ##totalimagenes##</div>
+				  <img class="cursor img-g" id="img##numimagen##" onclick="currentZoom(##numimagen##)" src="##imgsrc##">
+			</div>
+			##slide##	
+		</div>
+
+		<!-- Next and previous buttons -->
+		<a class="prev" style="color: black;" onclick="plusSlides(-1)">&#10094;</a>
+		<a class="next" style="color: black;" onclick="plusSlides(1)">&#10095;</a>
+
+		<!-- Image text -->
+		<div class="caption-container">
+			<p id="caption"></p>
+		</div>
+
+	  	<!-- Thumbnail images -->
+	  	<div class="row">
+	  		##thumbnail##
+	    	<div class="column">
+	     		<img class="demo cursor" src="##imgsrc##" onclick="currentSlide(##numimagen##)" alt="The Woods">
+	    	</div>
+	    	##thumbnail##
+	  	</div>
+	##galeria##
+	</div>
+	<footer>
+		<h2>Footer</h2>
+			<div>Icons made by <a href="https://www.flaticon.com/authors/lucy-g" title="Lucy G">Lucy G</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+	</footer>
+</body>
+</html>

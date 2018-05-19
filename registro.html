@@ -12,10 +12,10 @@
 	
 	<div class="topnav">
 		<a class="link" href="index.php">Home</a>
-	  	<a class="link" href="categorias.html">Categorías</a>
-	  	<a class="link" href="grupos.html">Grupos</a>
-		<a class="link" href="novedades.html">Novedades</a>
-		<a class="login link" href="login.html">Log In</a>
+	  	<a class="link" href="index.php?accion=listado&id=1">Categorías</a>
+	  	<a class="link" href="index.php?accion=listado&id=2">Grupos</a>
+		<a class="link" href="index.php?accion=listado&id=3">Novedades</a>
+		<a class="login link" href="index.php?accion=login&id=1">Log In</a>
 	</div>
 
 	<div class="container">
@@ -29,6 +29,7 @@
 			        <input type="submit" value="Registrarse">
 			        
 			        <input type="hidden" name="accion" value="registro">
+			        <input type="hidden" name="id" value="2">
 			    </div>
 			</div>
 	 	</form>

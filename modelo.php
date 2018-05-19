@@ -664,7 +664,8 @@
 		} else {
 			$bd = conectarbasedatos();
 			$id_grupo = cogerparametro("idgrupo");
-			$consulta = "select * from comentariosgrupos where id_grupo = $id_grupo";
+			$consulta = "select comentariosgrupos.*, usuarios.nombre_usuario from comentariosgrupos, usuarios where 
+				comentariosgrupos.id_usuario = usuarios.id_usuario and id_grupo = $id_grupo";
 			if ($resultado = $bd->query($consulta)) {
 				return $resultado;
 			} else {

@@ -12,7 +12,6 @@ function showSlides(n) {
   var i;
   var slides = document.getElementsByClassName("mySlides");
   var dots = document.getElementsByClassName("demo");
-  var captionText = document.getElementById("caption");
   if (n > slides.length) {slideIndex = 1}
   if (n < 1) {slideIndex = slides.length}
   for (i = 0; i < slides.length; i++) {
@@ -23,7 +22,6 @@ function showSlides(n) {
   }
   slides[slideIndex-1].style.display = "block";
   dots[slideIndex-1].className += " active";
-  captionText.innerHTML = dots[slideIndex-1].alt;
 } 
 
 function zoom(n) {
@@ -35,10 +33,8 @@ function zoom(n) {
   // Get the image and insert it inside the modal - use its "alt" text as a caption
   var img = document.getElementById('img'+ zoomIndex);
   var modalImg = document.getElementById("imgmodal");
-  var captionText = document.getElementById("caption");
   modal.style.display = "block";
   modalImg.src = img.src;
-  captionText.innerHTML = img.alt;
 
   // Get the <span> element that closes the modal
   var span = document.getElementsByClassName("close")[0];
@@ -58,9 +54,12 @@ function currentZoom(n) {
 }
 
 function mostrarGaleria() {
-  $("#galeria").show();
   document.getElementById("mostrargaleria").className += " hidden";
   document.getElementById("cerrargaleria").className = document.getElementById("cerrargaleria").className.replace(" hidden", "");
+  if ($("#galeria").is(":hidden")) {
+    $("#galeria").show();
+    return;
+  }
   var param = {
     "accion": "mostrargaleria"
   };

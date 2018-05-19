@@ -1,8 +1,5 @@
 DirectoryIndex index.php
 
-Options All -Indexes
-
 <FilesMatch "\.(htaccess|html|htm|txt)$">
 Deny from all
 </FilesMatch>
-

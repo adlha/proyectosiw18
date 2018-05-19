@@ -71,6 +71,16 @@
 		echo $cadena;
 	}
 
+	function vmostrarpaginalogin() {
+		$cadena = file_get_contents("login.html");
+		echo $cadena;
+	}
+
+	function vmostrarpaginaregistro() {
+		$cadena = file_get_contents("registro.html");
+		echo $cadena;
+	}
+
 	function vmostraraltagrupo($resultado) {
 		$plantilla = file_get_contents("altagrupo.html");
 		$trozos = explode("##option##", $plantilla);
@@ -559,7 +569,7 @@
 				$cuerpo = "";
 				while ($datos = $comentarios->fetch_assoc()) {
 					$aux = $trozos[1];
-					$aux = str_replace("##nombreusuario##", $datos["id_usuario"], $aux);
+					$aux = str_replace("##nombreusuario##", $datos["nombre_usuario"], $aux);
 					$aux = str_replace("##fecha##", $datos["fecha"], $aux);
 					$aux = str_replace("##texto##", $datos["texto"], $aux);
 					$cuerpo .= $aux;
@@ -590,6 +600,34 @@
 			$trozos = explode("##fichagrupo##", $cadena);
 			echo $trozos[0] . "<p>Este grupo no existe</p>" . $trozos[2];
 		}
+	}
+
+	function vmostrargaleriagrupo() {
+		$cadena = file_get_contents("galeria.html");
+		$cadena = explode("##galeria##", $cadena)[1];
+		$numimagenes = 6;
+		
+		$trozos = explode("##slide##", $cadena);
+		$aux = "";
+		$cuerpo = "";
+		$thumbnail = explode("##thumbnail##", $trozos[2]);
+		$thumbnails = "";
+
+		for ($i = 1; $i <= $numimagenes; $i++) {
+			$imgsrc = "imagenes/prueba/prueba$i.jpg";
+			$aux = $trozos[1];
+			$aux = str_replace("##numimagen##", $i, $aux);
+			$aux = str_replace("##imgsrc##", $imgsrc, $aux);
+			$cuerpo .= $aux;
+			$aux = $thumbnail[1];
+			$aux = str_replace("##numimagen##", $i, $aux);
+			$aux = str_replace("##imgsrc##", $imgsrc, $aux);
+			$thumbnails .= $aux;
+		}
+
+		$cadena = $trozos[0] . $cuerpo . $thumbnail[0] . $thumbnails . $thumbnail[2];
+		$cadena = str_replace("##totalimagenes##", $numimagenes, $cadena);
+		echo $cadena;
 	}
 
 	function vobtenerfichagrupopdf($resultado, $discos, $novedades, $siguiendo, $comentarios){

@@ -34,6 +34,19 @@ function buscar() {
   });
 }
 
+function buscarGrupos() {
+  var letra = $('#letra').val();
+  var categoria = $('#categoria').val();
+  $.ajax({
+    url: "index.php?accion=buscar&id=3&categoria="+categoria+"&letra=" + letra,
+    cache: false,
+    success: function(html){
+      var json_parsed = $.parseJSON(html);
+      document.getElementById('listado').innerHTML=json_parsed;
+    }
+  });
+}
+
 function limpiarbuscador() {
   document.getElementById('listado').innerHTML="";
   document.getElementById('listado').style.border="0px";
@@ -48,7 +61,7 @@ function valorargrupo() {
     cache: false,
     success: function (data) {
     }
-    });
+  });
 }
 
 function cambiar_filtro(nuevo_filtro){
@@ -58,12 +71,11 @@ function cambiar_filtro(nuevo_filtro){
     data: {filtro : nuevo_filtro},
     cache: false,
     success: function(html){
-      var lineaoriginal='<input onchange="cambiar_filtro('+nuevo_filtro+');"';
-      var nuevalinea='<input onchange="cambiar_filtro('+nuevo_filtro+');" checked="checked"';
-      html=html.replace(lineaoriginal,nuevalinea);
-      document.documentElement.innerHTML=html;
+      var parser=new DOMParser();
+      var htmlDoc=parser.parseFromString(html, "text/html");
+      document.getElementById("novedades").innerHTML=htmlDoc.getElementById("novedades").innerHTML;
     }
-  });
+  });  
 }
 
 var slideIndex = 1;
@@ -102,7 +114,7 @@ function zoom(n) {
   var img = document.getElementById('img'+ zoomIndex);
   var modalImg = document.getElementById("imgmodal");
   modal.style.display = "block";
-  modalImg.src = img.src;
+  modalImg.src = img.src.replace("m_", "g_");
 
   var span = document.getElementsByClassName("close")[0];
 
@@ -113,22 +125,26 @@ function zoom(n) {
 
 function plusZoom(n) {
   zoom(zoomIndex += n);
+  plusSlides(n);
 }
 
 function currentZoom(n) {
   zoom(zoomIndex = n);
+  currentSlide(n);
 }
 
-function mostrarGaleria() {
+function mostrarGaleria(idgrupo) {
   document.getElementById("mostrargaleria").className += " hidden";
   document.getElementById("cerrargaleria").className = document.getElementById("cerrargaleria").className.replace(" hidden", "");
   if ($("#galeria").is(":hidden")) {
     $("#galeria").show();
+    currentSlide(1);
     return;
   }
   var param = {
     "accion": "grupo",
-    "id" : "5"
+    "id" : "5",
+    "idgrupo" : idgrupo,
   };
   $.ajax({
     type: 'POST',

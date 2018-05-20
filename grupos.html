@@ -4,6 +4,8 @@
 	<meta charset="UTF-8">
 	<title>MML</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	<script type="text/javascript" src="functions.js"></script>
 </head>
 
 <body>
@@ -29,10 +31,16 @@
 	<div class="container">
 		<h2 class="h2-index">##titulo##</h2>
 		<div class="row">
-			<div class="col">
+			<div class="col col-groups">
+				<div class="search-container">
+		  			<input id="letra" type="text" placeholder="Buscar..." name="search" onkeyup="buscarGrupos()">
+		  			<input id="categoria" type="hidden" name="categoria" value="##idcategoria##">
+  				</div>
+  				<ul id="listado">
 				##grupo##
-				<li><a href="index.php?accion=grupo&id=1&idgrupo=##idgrupo##">##nombre##</a></li>
+					<li><a href="index.php?accion=grupo&id=1&idgrupo=##idgrupo##">##nombre##</a></li>
 				##grupo##
+				</ul>
 			</div>
 		</div>
 	</div>

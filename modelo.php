@@ -1,4 +1,6 @@
 <?php
+	
+	require_once("resizer.php");
 
 	function conectarbasedatos() {
 		$mysql = mysqli_connect("dbserver","grupo15","ohsoebiaxe","db_grupo15");
@@ -87,7 +89,7 @@
 	function mlistadogrupos() {
 		$bd = conectarbasedatos();
 
-		$consulta = "select g.id_grupo, g.nombre 'nombre', g.descripcion, g.debut, c.nombre 'categoria', c.id_categoria 'id_categoria' from grupos g join categorias c	on g.id_categoria=c.id_categoria";
+		$consulta = "select g.id_grupo, g.nombre 'nombre', g.descripcion, g.debut, c.nombre 'categoria', c.id_categoria 'id_categoria' from grupos g join categorias c	on g.id_categoria=c.id_categoria order by g.nombre";
 
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
@@ -512,7 +514,7 @@
 		$password = md5(cogerparametro("passwd"));
 		
 
-		$consulta = "select id_usuario, foto_perfil from usuarios where 
+		$consulta = "select id_usuario, foto_perfil, admin from usuarios where 
 			(nombre_usuario='$nombreusuario' and password='$password')";
 		$resultado = $bd->query($consulta);
 
@@ -521,6 +523,7 @@
             $_SESSION["id_usuario"]=$tupla["id_usuario"];
             $_SESSION["nombre_usuario"]=$nombreusuario;
             $_SESSION["foto_perfil"]=$tupla["foto_perfil"];
+            $_SESSION["admin"]=$tupla["admin"];
             return 1;
 		} else {
 			return -1;
@@ -550,6 +553,7 @@
 			$_SESSION["foto_perfil"] = $datos["foto_perfil"];
 		    $_SESSION["nombre_usuario"] = $nombreusuario;
 		    $_SESSION["id_usuario"] = $datos["id_usuario"];
+		    $_SESSION["admin"] = 0;
         	return 1;
 		} else {
 			return -1;
@@ -603,7 +607,7 @@
 
 		$id_categoria = cogerparametro("idcategoria");
 
-		$consulta = "select * from grupos where id_categoria = $id_categoria";
+		$consulta = "select * from grupos where id_categoria = $id_categoria order by nombre";
 
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
@@ -743,8 +747,14 @@
 	function mbuscargrupos() {
 		$bd = conectarbasedatos();
 		$letra = cogerparametro("letra");
-		$consulta = "select * from grupos where nombre like '$letra%' limit 10";
-		
+		$categoria = cogerparametro("categoria");
+
+		if ($categoria > 0) {
+			$consulta = "select * from grupos where nombre like '$letra%' and id_categoria = $categoria order by nombre limit 10";
+		} else {
+			$consulta = "select * from grupos where nombre like '$letra%' order by nombre limit 10";
+		}
+
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
 		} else {
@@ -755,7 +765,7 @@
 	function mbuscarusuarios() {
 		$bd = conectarbasedatos();
 		$letra = cogerparametro("letra");
-		$consulta = "select * from usuarios where nombre_usuario like '$letra%' limit 10";
+		$consulta = "select * from usuarios where admin = 0 and nombre_usuario like '$letra%' order by nombre_usuario limit 10";
 		
 		if ($resultado = $bd->query($consulta)) {
 			return $resultado;
@@ -796,16 +806,53 @@
 		$id_grupo = cogerparametro("id_grupo");
 
 		$target_dir = "imagenes/";
-		$target_file = $target_dir . uniqid() . time() . uniqid();
-		$res_subida = move_uploaded_file($_FILES["file"]["tmp_name"], $target_file);
-		
-		$consulta = "insert into fotosgrupos values ($id_grupo, '$target_file')";
+		$filename = uniqid() . time() . uniqid();
+		$file = $target_dir . $filename;
+		$file_g = $target_dir . "g_" . $filename;
+		$file_m = $target_dir . "m_" . $filename;
+		$file_p = $target_dir . "p_" . $filename;
+		$res_subida = move_uploaded_file($_FILES["file"]["tmp_name"], $file);
+
+		redimensionar($filename, $target_dir);
+		image_thumbnail($file, $file_p, 150, 150, 1);
+
+		$consulta = "insert into fotosgrupos (id_grupo, foto_g, foto_m, foto_p) 
+			values ($id_grupo, '$file_g', '$file_m', '$file_p')";
+
 		if ($resultado = $bd->query($consulta)) {
-			return 1;
+			echo 1;
+		} else {
+			echo -1;
+		}
+	}
+
+	function meliminarcuenta(){
+		$bd = conectarbasedatos();
+
+		if (isset($_SESSION["nombre_usuario"])){
+			$usuario = $_SESSION["nombre_usuario"];
+			$consulta = "delete from usuarios where nombre_usuario='$usuario'";
+			if ($resultado = $bd->query($consulta)) {
+				$_SESSION = array();
+				$resultado = session_destroy();
+				return $resultado;
+			} else {
+				return -1;
+			}
+		}
+	}
+
+	function mgetimagenesgrupo() {
+		$bd = conectarbasedatos();
+		$id_grupo = cogerparametro("idgrupo");
+
+		$consulta = "select * from fotosgrupos where id_grupo = $id_grupo";
+
+		if ($resultado = $bd->query($consulta)) {
+			return $resultado;
 		} else {
 			return -1;
 		}
-
 	}
 
 ?>

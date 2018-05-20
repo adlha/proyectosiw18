@@ -15,7 +15,6 @@
 	<button class="gallery-button hidden" onclick="cerrarGaleria();" id="cerrargaleria">Cerrar galería</button>
 	<div id="galeria">
 	##galeria##
-		<div class="container">
 			<div id="myModal" class="modal">
 				<span class="close">&times;</span>
 
@@ -28,18 +27,17 @@
 			##slide##
 			<div class="mySlides">
 				<div class="numbertext">##numimagen## / ##totalimagenes##</div>
-				  <img class="cursor img-g" id="img##numimagen##" onclick="currentZoom(##numimagen##)" src="##imgsrc##">
+				<img class="cursor img-g" id="img##numimagen##" onclick="currentZoom(##numimagen##)" src="##imgsrc-m##">
 			</div>
 			##slide##	
-		</div>
 		<div class="arrows-container">
 			<a class="prev-m" onclick="plusSlides(-1)">&#10094;</a>
 			<a class="next-m" onclick="plusSlides(1)">&#10095;</a>
 		</div>
-	  	<div class="row">
+	  	<div class="row-gallery">
 	  		##thumbnail##
 	    	<div class="column">
-	     		<img class="demo cursor" src="##imgsrc##" onclick="currentSlide(##numimagen##)" alt="The Woods">
+	     		<img class="demo cursor" src="##imgsrc-p##" onclick="currentSlide(##numimagen##)" alt="The Woods">
 	    	</div>
 	    	##thumbnail##
 	  	</div>

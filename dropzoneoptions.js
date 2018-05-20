@@ -5,7 +5,9 @@ Dropzone.options.myAwesomeDropzone = {
   maxFiles: 5,
   maxFilesize: 2, // MB
   autoProcessQueue: false,
-  acceptedFiles: "image/*",
+  acceptedFiles: "image/jpeg",
+  success: function(file, response) {
+  },
   init: function () {
   	var myDropzone = this;
 

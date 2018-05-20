@@ -518,6 +518,7 @@
 	function vlistadogrupos($resultado) {
 		$cadena = vnavegacion("grupos");
 		$cadena = str_replace("##titulo##", "Todos los grupos", $cadena);
+		$cadena = str_replace("##idcategoria##", 0, $cadena);
 		
 		$trozos = explode("##grupo##", $cadena);
 
@@ -541,6 +542,7 @@
 			$cadena = str_replace("##nombregrupo##", $datos["nombre"], $cadena);
 			$cadena = str_replace("##info##", $datos["descripcion"], $cadena);
 			$cadena = str_replace("##foto##", "", $cadena);
+			$cadena = str_replace("##idgrupo##", $datos["id_grupo"], $cadena);
 			
 			$trozos = explode("##disco##", $cadena);
 			$aux = "";
@@ -555,7 +557,6 @@
 
 			if (isset($_SESSION["id_usuario"])) {
 				$cadena = str_replace("##idusuario##", $_SESSION["id_usuario"], $cadena);
-				$cadena = str_replace("##idgrupo##", $datos["id_grupo"], $cadena);
 				$cadena = str_replace("##valoracion##", "", $cadena);
 				$cadena = str_replace("<option value=\"$valoracion\">", "<option value=\"$valoracion\" selected>", $cadena);
 				$cadena = str_replace("##followform##", "", $cadena);
@@ -602,27 +603,34 @@
 		}
 	}
 
-	function vmostrargaleriagrupo() {
+	function vmostrargaleriagrupo($resultado) {
 		$cadena = file_get_contents("galeria.html");
 		$cadena = explode("##galeria##", $cadena)[1];
-		$numimagenes = 6;
+		$numimagenes = $resultado->num_rows;
+
+		if ($numimagenes == 0) {
+			echo "";
+			return;
+		}
 		
 		$trozos = explode("##slide##", $cadena);
 		$aux = "";
 		$cuerpo = "";
 		$thumbnail = explode("##thumbnail##", $trozos[2]);
 		$thumbnails = "";
-
-		for ($i = 1; $i <= $numimagenes; $i++) {
-			$imgsrc = "imagenes/prueba/prueba$i.jpg";
+		$i = 1;
+		while ($datos = $resultado->fetch_assoc()) {
+			$imgsrc_p = $datos["foto_p"];
+			$imgsrc_m = $datos["foto_m"];
 			$aux = $trozos[1];
 			$aux = str_replace("##numimagen##", $i, $aux);
-			$aux = str_replace("##imgsrc##", $imgsrc, $aux);
+			$aux = str_replace("##imgsrc-m##", $imgsrc_m, $aux);
 			$cuerpo .= $aux;
 			$aux = $thumbnail[1];
 			$aux = str_replace("##numimagen##", $i, $aux);
-			$aux = str_replace("##imgsrc##", $imgsrc, $aux);
+			$aux = str_replace("##imgsrc-p##", $imgsrc_p, $aux);
 			$thumbnails .= $aux;
+			$i++;
 		}
 
 		$cadena = $trozos[0] . $cuerpo . $thumbnail[0] . $thumbnails . $thumbnail[2];
@@ -686,6 +694,7 @@
 		$cadena = vnavegacion("grupos");
 		$datos_cat = $categoria->fetch_assoc();
 		$cadena = str_replace("##titulo##", $datos_cat["nombre"], $cadena);
+		$cadena = str_replace("##idcategoria##", $datos_cat["id_categoria"], $cadena);
 		$trozos = explode("##grupo##", $cadena);
 		$aux = "";
 		$cuerpo = "";
@@ -764,6 +773,15 @@
 				$cuerpo .= "<a href=index.php?accion=perfil&idusuario=". 
 					$datos["id_usuario"] . ">". $datos["nombre_usuario"] . "</a><br/>";
 			}
+		}
+		echo json_encode($cuerpo);
+	}
+
+	function vresultadosbuscadorgrupos($resultado) {
+		$cuerpo = "";
+		while ($datos = $resultado->fetch_assoc()) {
+			$cuerpo .= "<li><a href=index.php?accion=grupo&id=1&idgrupo=". 
+			$datos["id_grupo"] . ">". $datos["nombre"] . "</a></li>";
 		}
 		echo json_encode($cuerpo);
 	}

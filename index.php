@@ -7,7 +7,7 @@
 	require_once("FPDF/fpdf.php");
 
 	function isadmin() {
-		return isset($_SESSION['nombre_usuario']) && $_SESSION['nombre_usuario'] == "admin";
+		return isset($_SESSION["admin"]) && $_SESSION["admin"] == 1;
 	}
 
 	$accion = cogerparametro("accion");
@@ -17,7 +17,7 @@
 		if (isadmin()) {
 			vmostrarhomeadmin();
 		} else {
-			vmostrarmenu(mlistadonovedades("todos"));
+			vmostrarmenu(mlistadonovedades($filtro));
 		}
 	}
 
@@ -156,6 +156,15 @@
 					// Mostrar resultado de elminación de disco
 					vmostrarresultadoborrar(mborrardisco(), "disco");
 					break;
+				case 21:
+					vmostrarlistadonovedades(mlistadonovedades("todas"));
+					break;
+				case 22:
+					vmostrarresultadomodificar(mmodificarnovedad(), "novedad");
+					break;
+				case 23:
+					vmostrarresultadoborrar(mborrarnovedad(), "novedad");
+					break;
 			}
 		}
 	} else if ($accion == "login") {
@@ -222,12 +231,7 @@
 			case 3:
 				// Dejar un comentario para un grupo
 				mnuevocomentario();
-				$resultado = msiguiendo();
-				if ($resultado < 1) {
-					vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), $resultado, 0, mcomentarios());
-				} else {
-					vmostrarfichagrupo(mdatosgrupo(), mdiscosgrupo(), mnovedadesgrupo(), $resultado, mvervaloracion(), mcomentarios());
-				}
+				header("Location: ".$uri."/trabajofinal/index.php?accion=grupo&id=1&idgrupo=".cogerparametro("idgrupo"));
 				break;
 			case 4:
 				// Dejar valoración de un grupo
@@ -235,7 +239,7 @@
 				break;
 			case 5:
 				// Mostrar galería de imágenes de un grupo
-				vmostrargaleriagrupo();
+				vmostrargaleriagrupo(mgetimagenesgrupo());
 				break;
 		}
 	} else if ($accion == "novedad") {
@@ -254,6 +258,11 @@
 				// Mostrar resultado de configuración
 				vmostrarresultadoconfiguracion(mconfiguracionusuario());
 				break;
+			case 3:
+				// Eliminar cuenta de usuario
+				meliminarcuenta();
+				header("Location: ".$uri."/trabajofinal/");
+				break;
 		}
 	} else if ($accion == "buscar") {
 		switch($id) {
@@ -264,6 +273,10 @@
 			case 2:
 				// Mostrar resultados de búsqueda de usuarios
 				vmostrarresultadosbuscador(mbuscarusuarios(), "usuarios");
+				break;
+			case 3:
+				// Mostrar resultados del buscador de la página de grupos
+				vresultadosbuscadorgrupos(mbuscargrupos());
 				break;
 		}
 	} else if ($accion == "subirimagenes") {
